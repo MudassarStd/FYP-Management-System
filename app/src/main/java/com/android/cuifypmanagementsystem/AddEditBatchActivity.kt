@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -9,59 +10,99 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
 import com.android.cuifypmanagementsystem.room.Batch
+import com.android.cuifypmanagementsystem.utils.BatchActivityExtras
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 
 class AddEditBatchActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddEditBatchBinding
-    private val viewModel : BatchViewModel by lazy {
+    private lateinit var binding: ActivityAddEditBatchBinding
+    private val viewModel: BatchViewModel by lazy {
         ViewModelProvider(this)[BatchViewModel::class.java]
     }
+    private var isEditing: Boolean = false
+    private lateinit var editingBatch: Batch
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityAddEditBatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupInsets()
+
+        viewModel.getAllBatches()
+
+        isEditing = intent.hasExtra(BatchActivityExtras.EXTRA_ACTION_EDIT)
+
+        if (isEditing) {
+            editingBatch = intent.getSerializableExtra("batch") as Batch
+            populateFields(editingBatch)
+        }
+
+        binding.btnUpdate.setOnClickListener { handleBatchUpdate() }
+    }
+
+    private fun setupInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
 
-        viewModel.getAllBatches()
+    private fun populateFields(batch: Batch) {
+        binding.etBatch.setText(batch.name)
+        binding.etSemester.setText(batch.semester.toString())
+    }
 
-
-
-        binding.btnUpdate.setOnClickListener {
-            val batch = getData()
-
-            batch?.let {
-                // if batch does not exist already
-                if (viewModel.validateBatch(batch.name, batch.semester))
-                {
-                    viewModel.insert(batch)
-                    Toast.makeText(this, "Batch Added Successfully", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-                else{
-                    Toast.makeText(this, "Batch exists already", Toast.LENGTH_SHORT).show()
-                }
-
+    private fun handleBatchUpdate() {
+        val batch = getData()
+        batch?.let {
+            if (isEditing) {
+                updateBatch(it)
+            } else {
+                addBatch(it)
             }
         }
     }
 
-    private fun getData(): Batch? {
-        val batch = binding.etBatch.text.toString()
-        val semester = binding.etSemester.text.toString()
-
-        // fetch number of students registered in current batch from std tables
-        return if (batch.isNotEmpty() && semester.isNotEmpty()) {
-            Batch(0, batch, semester.toInt(), 0)
+    private fun updateBatch(batch: Batch) {
+        if (viewModel.validateBatchForEditing(batch.name, batch.semester)) {
+            viewModel.update(batch)
+            showToast("Batch updated Successfully")
+            finish()
+            startActivity(Intent(this, BatchActivity::class.java))
         } else {
-            Toast.makeText(this, "Invalid Information", Toast.LENGTH_SHORT).show()
+            showToast("Batch already exists")
+        }
+    }
+
+    private fun addBatch(batch: Batch) {
+        if (viewModel.validateBatch(batch.name, batch.semester)) {
+            viewModel.insert(batch)
+            showToast("Batch Added Successfully")
+            finish()
+        } else {
+            showToast("Batch already exists")
+        }
+    }
+
+    private fun getData(): Batch? {
+        val batchName = binding.etBatch.text.toString().uppercase()
+        val semesterStr = binding.etSemester.text.toString()
+
+        return if (batchName.isNotEmpty() && semesterStr.isNotEmpty()) {
+            val semester = semesterStr.toInt()
+            if (isEditing) {
+                Batch(editingBatch.id, batchName, semester, editingBatch.registeredStudents)
+            } else {
+                Batch(0, batchName, semester, 0)
+            }
+        } else {
+            showToast("Invalid Information")
             null
         }
     }
 
-
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

@@ -10,6 +10,10 @@ class BatchRepository(app : Context) {
     {
         db.insert(batch)
     }
+    suspend fun update(batch : Batch)
+    {
+        db.update(batch)
+    }
     suspend fun delete(batch : Batch)
     {
         db.delete(batch)
@@ -18,5 +22,9 @@ class BatchRepository(app : Context) {
         return db.getAllBatches()
     }
 
+    suspend fun getBatchById(id : Int) : Batch
+    {
+        return db.getBatchById(id)
+    }
 
 }

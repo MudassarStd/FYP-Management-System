@@ -20,7 +20,7 @@ import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 class BatchActivity : AppCompatActivity() , OnAction {
     private lateinit var binding : ActivityBatchBinding
     private val batchAdapter: BatchAdapter by lazy {
-        BatchAdapter(emptyList())
+        BatchAdapter(emptyList(), this)
     }
     private val viewModel : BatchViewModel by lazy {
         ViewModelProvider(this)[BatchViewModel::class.java]

@@ -2,6 +2,7 @@ package com.android.cuifypmanagementsystem.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Batch(
@@ -10,7 +11,7 @@ data class Batch(
     val name : String,
     val semester : Int,
     val registeredStudents : Int
-)
+) : Serializable
 
 @Entity
 data class Admin(

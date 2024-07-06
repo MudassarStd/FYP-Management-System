@@ -12,15 +12,29 @@ import kotlinx.coroutines.launch
 class BatchViewModel(app : Application) : AndroidViewModel(app) {
     private val repo : BatchRepository by lazy { BatchRepository(app) }
 
+
+
     private var listBatches : List<Batch> = listOf()
     private val _batches = MutableLiveData<List<Batch>>()
     val batches : LiveData<List<Batch>> get() = _batches
+
+    // handling batch by Id
+    private val _batch = MutableLiveData<Batch>()
+    val batch: LiveData<Batch> get() = _batch
 
 
     fun insert(batch : Batch)
     {
         viewModelScope.launch {
             repo.insert(batch)
+        }
+    }
+
+
+    fun update(batch : Batch)
+    {
+        viewModelScope.launch {
+            repo.update(batch)
         }
     }
     fun delete(batch : Batch)
@@ -38,10 +52,19 @@ class BatchViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
+    fun getBatchById(id : Int){
+        viewModelScope.launch {
+            _batch.postValue(repo.getBatchById(id))
+        }
+    }
 
     // return false if batch already exists
     fun validateBatch(batchName: String, semester: Int): Boolean {
         return !listBatches.any { it.name == batchName || it.semester == semester }
+    }
+
+    fun validateBatchForEditing(batchName: String, semester: Int): Boolean {
+        return !listBatches.any { it.name == batchName && it.semester == semester }
     }
 
 

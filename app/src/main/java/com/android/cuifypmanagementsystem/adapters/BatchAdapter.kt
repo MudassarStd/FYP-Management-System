@@ -1,5 +1,8 @@
 package com.android.cuifypmanagementsystem.adapters
 
+import android.content.Context
+import android.content.Intent
+import android.telecom.Call.Details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.android.cuifypmanagementsystem.BatchDetailsActivity
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.room.Batch
 
@@ -14,7 +18,7 @@ import com.android.cuifypmanagementsystem.room.Batch
 interface OnAction{
     fun onDeleted(batch : Batch)
 }
-class BatchAdapter(var batches : List<Batch>)  : RecyclerView.Adapter<BatchAdapter.BatchViewHolder>() {
+class BatchAdapter(var batches : List<Batch>, val context : Context)  : RecyclerView.Adapter<BatchAdapter.BatchViewHolder>() {
 
     private lateinit var interfaceListener: OnAction
 
@@ -48,7 +52,9 @@ class BatchAdapter(var batches : List<Batch>)  : RecyclerView.Adapter<BatchAdapt
         val semester = itemView.findViewById<TextView>(R.id.tvBatchSemester)
         init {
             itemView.setOnClickListener {
-
+                val intent = Intent(context, BatchDetailsActivity::class.java)
+                intent.putExtra("batchId", batches[adapterPosition].id)
+                context.startActivity(intent)
             }
 
             itemView.setOnLongClickListener {

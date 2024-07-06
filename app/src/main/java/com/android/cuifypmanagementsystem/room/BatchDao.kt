@@ -17,4 +17,6 @@ interface BatchDao {
     suspend fun update(batch : Batch)
     @Query("select * from Batch order by semester asc")
     suspend fun getAllBatches() : List<Batch>
+    @Query("select * from Batch where id = :id ")
+    suspend fun getBatchById(id : Int) : Batch
 }
