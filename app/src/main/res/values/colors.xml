@@ -4,8 +4,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primaryColor">#263ED5</color>
+    <color name="primaryColorVariant">#4056E1</color>
     <color name="yellowish">#DCC14E</color>
     <color name="red">#FB2F2F</color>
+    <color name="cardViewBG">#F0F0F0</color>
 
 
 
