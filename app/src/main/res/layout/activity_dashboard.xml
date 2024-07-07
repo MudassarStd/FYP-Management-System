@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dashboard">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="0dp"
+            >
+            <TextView
+                android:id="@+id/tvdashboarf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dashboard"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:layout_marginTop="30dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/main_layout"
+                app:layout_constraintEnd_toEndOf="@+id/main_layout"
+                app:layout_constraintTop_toTopOf="@+id/main_layout"
+                />
+
+            <GridLayout
+                android:id="@+id/gridVeiw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:columnCount="2"
+                android:padding="16dp"
+                android:rowCount="1"
+                app:layout_constraintEnd_toEndOf="@id/tvdashboarf"
+                app:layout_constraintStart_toStartOf="@id/tvdashboarf"
+                app:layout_constraintTop_toBottomOf="@id/tvdashboarf"
+                >
+
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rounded_corners_white_background"
+                    android:backgroundTint="@color/primary_light_color"
+                    android:orientation="vertical">
+                    <!-- Icon -->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user_icon"
+                        />
+
+                    <!-- Text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="10 No of Students"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rounded_corners_white_background"
+                    android:backgroundTint="@color/primary_light_color"
+                    android:orientation="vertical">
+                    <!-- Icon -->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user_icon"
+                        />
+
+                    <!-- Text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="30 No of Teachers"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rounded_corners_white_background"
+                    android:backgroundTint="@color/primary_light_color"
+                    android:orientation="vertical">
+                    <!-- Icon -->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user_icon"
+                        />
+
+                    <!-- Text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="10 No of Groups"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rounded_corners_white_background"
+                    android:backgroundTint="@color/primary_light_color"
+                    android:orientation="vertical">
+                    <!-- Icon -->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user_icon"
+                        />
+
+                    <!-- Text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="10 No of Departments"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+            </GridLayout>
+            <LinearLayout
+                android:id="@+id/announcementSec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:elevation="20dp"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintStart_toStartOf="@id/main_layout"
+                app:layout_constraintEnd_toEndOf="@id/main_layout"
+                app:layout_constraintTop_toBottomOf="@id/gridVeiw"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Announcements"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="16dp"
+                    />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:elevation="20dp"
+                        android:background="@drawable/rounded_corners_white_background"
+                        android:padding="20dp"
+                        />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
