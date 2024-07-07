@@ -4,10 +4,17 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primaryColor">#263ED5</color>
+
     <color name="primaryColorVariant">#4056E1</color>
     <color name="yellowish">#DCC14E</color>
     <color name="red">#FB2F2F</color>
     <color name="cardViewBG">#F0F0F0</color>
+
+
+    <color name="primary_light_color">#C10024FF</color>
+    <color name="boxesbackground_color">#D2C3C6D6</color>
+    <color name="light_gray_color">#415B5656</color>
+    <color name="gray_color">#AE5B5656</color>
 
 
 
