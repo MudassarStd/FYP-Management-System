@@ -20,9 +20,20 @@
             android:exported="false" />
         <activity
             android:name=".Dashboard"
+            />
+        <activity
+        android:name=".BatchDetailsActivity"
+        android:exported="false" />
+
+        <activity
+            android:name=".AddEditBatchActivity"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BatchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
