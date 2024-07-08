@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.ActivityBatchDetailsBinding
-import com.android.cuifypmanagementsystem.room.Batch
+import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.BatchActivityExtras
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 

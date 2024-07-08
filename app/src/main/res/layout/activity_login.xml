@@ -20,83 +20,83 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="30dp"
-            >
+            android:paddingBottom="30dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginTop="0dp"
+                android:background="@drawable/login_upper_half"
                 android:paddingVertical="20dp"
-                android:background="@drawable/loginUpperHalf"
-                android:src="@drawable/loginPic"
+                android:src="@drawable/login_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="-100dp"
                 android:layout_marginBottom="30dp"
                 android:text=""
-                android:layout_marginHorizontal="20dp"
                 android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/edtemail"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <EditText
                 android:id="@+id/edtemail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="52dp"
                 android:layout_marginHorizontal="20dp"
-                android:hint="Email"
-                android:focusedByDefault="false"
-                android:paddingStart="20dp"
-                android:elevation="2dp"
+                android:layout_marginTop="52dp"
                 android:background="@drawable/rounded_corners_white_background"
+                android:elevation="2dp"
+                android:focusedByDefault="false"
+                android:hint="Email"
+                android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <EditText
                 android:id="@+id/edtpassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/rounded_corners_white_background"
-                android:hint="Password"
+                android:backgroundTint="@color/white"
                 android:elevation="2dp"
                 android:focusedByDefault="false"
-                android:layout_marginHorizontal="20dp"
+                android:hint="Password"
                 android:paddingStart="20dp"
-                android:backgroundTint="@color/white"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintStart_toStartOf="@+id/edtemail"
                 app:layout_constraintEnd_toEndOf="@+id/edtemail"
+                app:layout_constraintStart_toStartOf="@+id/edtemail"
                 app:layout_constraintTop_toBottomOf="@+id/edtemail" />
 
             <Button
                 android:id="@+id/loginbtn"
-                android:layout_width="140dp"
-                android:layout_height="49dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="40dp"
-                android:backgroundTint="@color/primaryColor"
-                android:background="@drawable/rounded_corners_white_background"
-                android:text="LOGIN"
                 android:layout_marginBottom="30dp"
+                android:backgroundTint="@color/primaryColor"
+                android:text="Login"
                 android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="@+id/edtpassword"
+                app:cornerRadius="10dp"
+                android:background="@drawable/rounded_corners_white_background"
                 app:layout_constraintEnd_toEndOf="@+id/edtpassword"
+                app:layout_constraintStart_toStartOf="@+id/edtpassword"
                 app:layout_constraintTop_toBottomOf="@+id/edtpassword" />
 
             <TextView
@@ -107,17 +107,20 @@
                 android:text="Don't have an account ?"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/loginbtn"
+                app:layout_constraintStart_toStartOf="@+id/loginbtn"
                 app:layout_constraintTop_toBottomOf="@+id/loginbtn" />
+
             <Button
                 android:id="@+id/signupbtn"
-                android:layout_width="140dp"
-                android:layout_height="49dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="SignUp"
+                android:layout_marginHorizontal="20dp"
                 android:background="@drawable/rounded_corners_white_background"
-                app:layout_constraintEnd_toEndOf="@+id/textView"
-                app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toStartOf="@id/textView"
+                android:text="Register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

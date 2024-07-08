@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.cuifypmanagementsystem.room.Batch
-import com.android.cuifypmanagementsystem.viewmodel.repository.BatchRepository
+import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.repository.BatchRepository
 import kotlinx.coroutines.launch
 
 class BatchViewModel(app : Application) : AndroidViewModel(app) {

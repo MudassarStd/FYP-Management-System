@@ -2,17 +2,14 @@ package com.android.cuifypmanagementsystem.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.telecom.Call.Details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.BatchDetailsActivity
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.Batch
+import com.android.cuifypmanagementsystem.room.datamodels.Batch
 
 
 interface OnAction{
