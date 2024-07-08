@@ -35,7 +35,6 @@ class BatchAdapter(var batches : List<Batch>, val context : Context)  : Recycler
     override fun onBindViewHolder(holder: BatchViewHolder, position: Int) {
         holder.name.text = batches[position].name
         holder.semester.text = batches[position].semester.toString()
-
     }
 
     override fun getItemCount() = batches.size

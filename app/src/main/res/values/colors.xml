@@ -4,18 +4,12 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primaryColor">#263ED5</color>
-<<<<<<< HEAD
+
     <color name="primary_light_color">#C10024FF</color>
     <color name="yellowish">#DCC14E</color>
     <color name="red">#FB2F2F</color>
     <color name="boxesbackground_color">#D2C3C6D6</color>
     <color name="light_gray_color">#415B5656</color>
     <color name="gray_color">#AE5B5656</color>
-=======
-    <color name="yellowish">#DCC14E</color>
-    <color name="red">#FB2F2F</color>
 
-
-
->>>>>>> 07f7edb4219b69da4566681bdea15f1e34dbf327
 </resources>
