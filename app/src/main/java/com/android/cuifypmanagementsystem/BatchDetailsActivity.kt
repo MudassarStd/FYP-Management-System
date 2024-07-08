@@ -2,6 +2,7 @@ package com.android.cuifypmanagementsystem
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -55,12 +56,20 @@ class BatchDetailsActivity : AppCompatActivity() {
         binding.btnStartFYPActivity.setOnClickListener{
             Toast.makeText(this, "Waiting for Teachers List", Toast.LENGTH_SHORT).show()
         }
+
+        binding.cvBatch.setOnClickListener{
+            toggleVisibility(binding.ll1, binding.ll2, binding.ll3)
+        }
     }
+
+
 
     private fun observeBatchData() {
        batchViewModel.batch.observe(this){
            binding.tvBatchName.text = it.name
-           binding.tvBatchSemester.text = it.semester.toString()
+           binding.tvBatchSemester.text = it.semester.toString()+"th Semester"
+           binding.cvBatchTitle.text = it.name
+           binding.tvStudentsRegistered.text = it.registeredStudents.toString()+" students registered"
            batch = it
        }
     }
@@ -70,6 +79,12 @@ class BatchDetailsActivity : AppCompatActivity() {
         batchViewModel.getBatchById(batchId)
     }
 
+
+    private fun toggleVisibility(vararg views: View) {
+        views.forEach { view ->
+            view.visibility = if (view.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        }
+    }
 
     private fun showDialog(batch: Batch)
     {

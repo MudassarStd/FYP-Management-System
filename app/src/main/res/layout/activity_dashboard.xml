@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:text="Dashboard"
                 android:gravity="center"
-                android:textSize="30dp"
-                android:layout_marginTop="30dp"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/main_layout"
@@ -54,6 +54,7 @@
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"
+                    android:paddingVertical="8dp"
                     android:background="@drawable/rounded_corners_white_background"
                     android:backgroundTint="@color/primary_light_color"
                     android:orientation="vertical">
@@ -81,6 +82,7 @@
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"
+                    android:paddingVertical="8dp"
                     android:background="@drawable/rounded_corners_white_background"
                     android:backgroundTint="@color/primary_light_color"
                     android:orientation="vertical">
@@ -108,6 +110,7 @@
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"
+                    android:paddingVertical="8dp"
                     android:background="@drawable/rounded_corners_white_background"
                     android:backgroundTint="@color/primary_light_color"
                     android:orientation="vertical">
@@ -135,6 +138,7 @@
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"
+                    android:paddingVertical="8dp"
                     android:background="@drawable/rounded_corners_white_background"
                     android:backgroundTint="@color/primary_light_color"
                     android:orientation="vertical">

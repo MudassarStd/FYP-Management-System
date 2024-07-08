@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
+
         <activity
             android:name=".AddTeacher"
             android:exported="false" />
@@ -21,10 +22,12 @@
         <activity
             android:name=".login"
             android:exported="false" />
-        <activity android:name=".Dashboard" />
         <activity
             android:name=".BatchDetailsActivity"
             android:exported="false" />
+        <activity
+            android:name=".Dashboard"
+            android:exported="false"/>
         <activity
             android:name=".AddEditBatchActivity"
             android:exported="false" />
@@ -40,6 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
