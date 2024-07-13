@@ -56,7 +56,7 @@
         <TableRow>
 
             <TextView
-                android:id="@+id/tv_id"
+                android:id="@+id/tvTeacherId"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -65,7 +65,7 @@
                 android:text="ID" />
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tvTeacherName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -74,7 +74,7 @@
                 android:text="Name" />
 
             <TextView
-                android:id="@+id/tv_department"
+                android:id="@+id/tvTeacherDepart"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -92,7 +92,7 @@
                 android:src="@drawable/edit_icon" />
 
             <ImageButton
-                android:id="@+id/btn_delete"
+                android:id="@+id/btnDeleteTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"

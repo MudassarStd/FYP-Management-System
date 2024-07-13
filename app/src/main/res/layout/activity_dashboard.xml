@@ -51,6 +51,7 @@
                 >
 
                 <LinearLayout
+                    android:id="@+id/ll1"
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"
@@ -79,6 +80,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll2"
                     android:layout_width="180dp"
                     android:layout_height="100dp"
                     android:layout_margin="5dp"

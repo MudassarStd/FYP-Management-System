@@ -38,7 +38,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/TVname"
+                    android:id="@+id/etTeacherName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="52dp"
@@ -52,7 +52,7 @@
                     android:textColorHint="@color/gray_color" />
 
                 <EditText
-                    android:id="@+id/edtemail"
+                    android:id="@+id/etTeacherEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="20dp"
@@ -66,7 +66,7 @@
                     android:textColorHint="@color/gray_color" />
 
                 <EditText
-                    android:id="@+id/TVdeptment"
+                    android:id="@+id/etTeacherDepart"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="24dp"
@@ -81,7 +81,7 @@
                     android:textColorHint="@color/gray_color" />
 
                 <EditText
-                    android:id="@+id/TVrole"
+                    android:id="@+id/etTeacherRole"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="24dp"
@@ -96,7 +96,7 @@
                     android:textColorHint="@color/gray_color" />
 
                 <EditText
-                    android:id="@+id/TVdesignation"
+                    android:id="@+id/etTeacherDesignation"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="24dp"
@@ -111,7 +111,7 @@
                     android:textColorHint="@color/gray_color" />
 
                 <Button
-                    android:id="@+id/loginbtn"
+                    android:id="@+id/btnAddTeacher"
                     android:layout_width="200dp"
                     android:layout_height="49dp"
                     android:layout_marginTop="40dp"

@@ -30,7 +30,6 @@ class BatchViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
-
     fun update(batch : Batch)
     {
         viewModelScope.launch {
@@ -66,7 +65,4 @@ class BatchViewModel(app : Application) : AndroidViewModel(app) {
     fun validateBatchForEditing(batchName: String, semester: Int): Boolean {
         return !listBatches.any { it.name == batchName && it.semester == semester }
     }
-
-
-
 }

@@ -2,10 +2,10 @@ package com.android.cuifypmanagementsystem.repository
 
 import android.content.Context
 import com.android.cuifypmanagementsystem.room.datamodels.Batch
-import com.android.cuifypmanagementsystem.room.TestDb
+import com.android.cuifypmanagementsystem.room.MainDatabase
 
 class BatchRepository(app : Context) {
-    private val db = TestDb.getDatabase(app).batchDao()
+    private val db = MainDatabase.getDatabase(app).batchDao()
     suspend fun insert(batch : Batch)
     {
         db.insert(batch)
