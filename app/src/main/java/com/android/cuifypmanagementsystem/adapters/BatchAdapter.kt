@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.cuifypmanagementsystem.BatchDetailsActivity
+import com.android.cuifypmanagementsystem.admin.BatchDetailsActivity
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.room.datamodels.Batch
 

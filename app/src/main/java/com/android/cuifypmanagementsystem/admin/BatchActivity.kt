@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.BatchAdapter
 import com.android.cuifypmanagementsystem.adapters.OnAction
 import com.android.cuifypmanagementsystem.databinding.ActivityBatchBinding

@@ -4,7 +4,7 @@ import android.app.Application
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
 import com.android.cuifypmanagementsystem.room.MainDatabase
 
-class MainApplication  : Application() {
+class BaseApplication  : Application() {
 
     lateinit var teacherRepository: TeacherRepository
     override fun onCreate() {

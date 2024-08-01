@@ -8,7 +8,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MainApplication"
+        android:name=".BaseApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
@@ -16,11 +16,11 @@
 
 
         <activity
-            android:name=".AddTeacher"
+            android:name=".admin.AddTeacher"
             android:exported="false"/>
 
         <activity
-            android:name=".BatchActivity"
+            android:name=".admin.BatchActivity"
             android:exported="false" />
 
         <activity
@@ -28,15 +28,15 @@
             android:exported="false" />
 
         <activity
-            android:name=".ManageTeacher"
+            android:name=".admin.ManageTeacher"
             android:exported="false"/>
 
         <activity
-            android:name=".BatchDetailsActivity"
+            android:name=".admin.BatchDetailsActivity"
             android:exported="false" />
 
         <activity
-            android:name=".AddEditBatchActivity"
+            android:name=".admin.AddEditBatchActivity"
             android:exported="false" />
 
         <activity
@@ -44,7 +44,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Dashboard"
+            android:name=".admin.AdminDashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

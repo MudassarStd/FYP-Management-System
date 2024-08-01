@@ -8,39 +8,7 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!--    -->
-    <!--        <TextView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="0.5"-->
-    <!--            android:text="ID"-->
-    <!--            android:textStyle="bold"-->
-    <!--            android:textSize="16sp"/>-->
 
-    <!--        <TextView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:text="Name"-->
-    <!--            android:textStyle="bold"-->
-    <!--            android:textSize="16sp"/>-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1.5"-->
-    <!--            android:text="Department"-->
-    <!--            android:textStyle="bold"-->
-    <!--            android:textSize="16sp"/>-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_num_of_groups"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:textStyle="bold"-->
-    <!--            android:text="Groups"-->
-    <!--            android:textSize="16sp"/>-->
 
 
     <TableLayout
@@ -64,26 +32,31 @@
                 android:padding="8dp"
                 android:text="ID" />
 
+
+
             <TextView
                 android:id="@+id/tvTeacherName"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Name" />
 
+
             <TextView
                 android:id="@+id/tvTeacherDepart"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Department" />
 
+
+
             <ImageButton
-                android:id="@+id/btn_edit"
+                android:id="@+id/btnEditTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"

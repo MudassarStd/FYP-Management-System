@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
 import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.BatchActivityExtras

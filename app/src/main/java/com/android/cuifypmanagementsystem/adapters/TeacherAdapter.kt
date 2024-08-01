@@ -1,17 +1,18 @@
 package com.android.cuifypmanagementsystem.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.cuifypmanagementsystem.BatchDetailsActivity
-import com.android.cuifypmanagementsystem.ManageTeacher
+import com.android.cuifypmanagementsystem.admin.AddTeacher
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
+import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
 
 
 interface OnTeacherEvents{
@@ -50,9 +51,18 @@ class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : Rec
         val name = itemView.findViewById<TextView>(R.id.tvTeacherName)
         val depart = itemView.findViewById<TextView>(R.id.tvTeacherDepart)
         val btnDelete = itemView.findViewById<ImageButton>(R.id.btnDeleteTeacher)
+        val btnEdit = itemView.findViewById<ImageButton>(R.id.btnEditTeacher)
         init {
             btnDelete.setOnClickListener {
                listener.onDeleteSignal(teachers[adapterPosition])
+            }
+
+            btnEdit.setOnClickListener {
+                val intent = Intent(context, AddTeacher::class.java).also{
+                    it.action = INTENT_ACTION_EDIT_TEACHER
+                    it.putExtra(ACTION_EDIT_TEACHER_OBJECT, teachers[adapterPosition])
+                }
+                context.startActivity(intent)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,10 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.cuifypmanagementsystem.BaseApplication
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
@@ -51,7 +52,7 @@ class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
 
         teacherAdapter.setOnTeacherEventInterface(this)
 
-        val teacherRepository = (application as MainApplication).teacherRepository
+        val teacherRepository = (application as BaseApplication).teacherRepository
         teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
         Log.d("TeacherCRUDTesting", "ManageTeacher:")

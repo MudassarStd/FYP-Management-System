@@ -1,15 +1,20 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.BaseApplication
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddTeacherBinding
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
+import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 
@@ -28,8 +33,21 @@ class AddTeacher : AppCompatActivity() {
             insets
         }
 
-        val teacherRepository = (application as MainApplication).teacherRepository
+        val teacherRepository = (application as BaseApplication).teacherRepository
         val teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+
+
+        // Edit Teacher Data
+        if(intent.action == INTENT_ACTION_EDIT_TEACHER)
+        {
+            binding.tvTitleAddTeachers.text = "Update Teacher"
+            toggleButtons()
+            getTeacherFromIntent()
+        }
+
+
+
+
 
         binding.btnAddTeacher.setOnClickListener {
             val teacher = getTeacherData()
@@ -44,9 +62,35 @@ class AddTeacher : AppCompatActivity() {
             }
         }
 
+
+        // UPDATED
+        binding.btnUpdateTeacher.setOnClickListener {
+            val teacher = getTeacherData()
+            teacher?.let{
+                Toast.makeText(this, teacher.depart, Toast.LENGTH_SHORT).show()
+                teacherViewModel.updateTeacher(teacher)
+                clearFields()
+                finish()
+            }
+        }
+
         teacherViewModel.teachers.observe(this){
             Log.d("TeacherCRUDTesting", "AddTeacher: teachers fetched: $it")
         }
+
+    }
+
+    // UPDATED
+    private fun toggleButtons() {
+        binding.btnAddTeacher.visibility = View.GONE
+        binding.btnUpdateTeacher.visibility = View.VISIBLE
+    }
+
+    private fun getTeacherFromIntent() {
+        val teacher = intent.getSerializableExtra(ACTION_EDIT_TEACHER_OBJECT) as Teacher
+
+        binding.etTeacherName.setText(teacher.name)
+        binding.etTeacherDepart.setText(teacher.depart)
 
     }
 

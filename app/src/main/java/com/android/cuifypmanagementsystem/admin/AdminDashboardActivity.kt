@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.android.cuifypmanagementsystem.databinding.ActivityDashboardBinding
+import com.android.cuifypmanagementsystem.R
+import com.android.cuifypmanagementsystem.databinding.ActivityAdminDashboardBinding
 
-class Dashboard : AppCompatActivity() {
-    private val binding : ActivityDashboardBinding by lazy {
-        ActivityDashboardBinding.inflate(layoutInflater)
+class AdminDashboardActivity : AppCompatActivity() {
+    private val binding : ActivityAdminDashboardBinding by lazy {
+        ActivityAdminDashboardBinding.inflate(layoutInflater)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +23,11 @@ class Dashboard : AppCompatActivity() {
             insets
         }
 
-        binding.ll1.setOnClickListener {
+        binding.section3.setOnClickListener {
             startActivity(Intent(this, ManageTeacher::class.java))
         }
 
-        binding.ll2.setOnClickListener {
+        binding.section1.setOnClickListener {
             startActivity(Intent(this, BatchActivity::class.java))
         }
     }
