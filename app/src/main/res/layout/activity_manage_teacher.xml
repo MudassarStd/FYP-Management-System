@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManageTeacher">
+    tools:context=".admin.ManageTeacher">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,10 +60,13 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <ImageButton
+                    android:id="@+id/btnGotoAddTeacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:layout_weight=".20"
+                    android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/add_icon" />
             </LinearLayout>
 
@@ -152,13 +155,14 @@
             </TableLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvManageTeachers"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/hr"
                 app:layout_constraintStart_toStartOf="@id/hr"
                 app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-                tools:listitem="@layout/teacherlist" />
+                tools:listitem="@layout/rv_item_teacher" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

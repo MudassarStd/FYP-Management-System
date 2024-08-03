@@ -1,9 +1,8 @@
-package com.android.cuifypmanagementsystem
+package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +10,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.BatchAdapter
 import com.android.cuifypmanagementsystem.adapters.OnAction
 import com.android.cuifypmanagementsystem.databinding.ActivityBatchBinding
-import com.android.cuifypmanagementsystem.room.Batch
+import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 
 class BatchActivity : AppCompatActivity() , OnAction {

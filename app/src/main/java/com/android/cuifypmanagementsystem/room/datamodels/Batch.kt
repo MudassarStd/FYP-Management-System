@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.room
+package com.android.cuifypmanagementsystem.room.datamodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

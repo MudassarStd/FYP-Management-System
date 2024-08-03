@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -46,25 +47,25 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
     // room db
-    implementation ("androidx.room:room-runtime:2.6.1")
-    annotationProcessor ("androidx.room:room-compiler:2.6.1")
-
-
-    kapt("androidx.room:room-compiler:2.6.1")
-
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation ("androidx.room:room-ktx:2.6.1")
+    implementation (libs.androidx.room.runtime)
+    annotationProcessor (libs.androidx.room.compiler)
+    kapt(libs.androidx.room.room.compiler)
+    // coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.androidx.room.ktx)
     // view model and live data
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
     // Glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation (libs.glide)
+    // Circular Image
+    implementation (libs.circleimageview)
+    // firebase
+    implementation(platform(libs.firebase.bom))
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517917125410",
+    "project_id": "cui-fyp-ms",
+    "storage_bucket": "cui-fyp-ms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517917125410:android:9df3aa68d745b5892f137b",
+        "android_client_info": {
+          "package_name": "com.android.cuifypmanagementsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7_vo2RS3DHh71Z82L2pKm_bnrIsLEEaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
