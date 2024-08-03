@@ -15,6 +15,7 @@ import com.android.cuifypmanagementsystem.databinding.ActivityAddTeacherBinding
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
 import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
+import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 
@@ -53,10 +54,23 @@ class AddTeacher : AppCompatActivity() {
             val teacher = getTeacherData()
             teacher?.let {
                 // insertion into room
-                teacherViewModel.addTeacher(teacher)
+                teacherViewModel.registerTeacher(teacher)
+
+                // observing teacher registration results
+                teacherViewModel.registrationResult.observe(this){ result ->
+                   when(result){
+                       is Result.Success -> {
+                           Toast.makeText(this, "Teacher Registered Successfully", Toast.LENGTH_SHORT).show()
+                       }
+                       is Result.Failure -> {
+                           val errorMessage = result.exception.message ?: "An unknown error occurred"
+                           Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                       }
+                   }
+                }
 
                 Log.d("TeacherCRUDTesting", "AddTeacher: teacher added successfully")
-                Toast.makeText(this, "Teacher Added Successfully", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Teacher Added Successfully", Toast.LENGTH_SHORT).show()
 
                 clearFields()
             }
@@ -110,7 +124,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(0, name, depart, role)
+            Teacher(null, name,email, depart, role, System.currentTimeMillis())
         } else {
             null
         }

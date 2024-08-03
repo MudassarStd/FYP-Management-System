@@ -6,9 +6,14 @@ import java.io.Serializable
 
 @Entity
 data class Teacher(
-    @PrimaryKey(autoGenerate = true)
-    val id : Long,
+    val firestoreId : String?,
     val name : String,
+    val email : String,
     val depart : String,
     val role : String,
+    val registrationTimeStamp : Long
 ) : Serializable
+{
+    @PrimaryKey(autoGenerate = true)
+    var id : Long = 0
+}
