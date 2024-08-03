@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.android.cuifypmanagementsystem.room.datamodels.Batch
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
 
 @Database(entities = [Batch::class, Teacher::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class MainDatabase : RoomDatabase() {
     abstract fun batchDao(): BatchDao
     abstract fun teacherDao() : TeacherDao

@@ -46,10 +46,6 @@ class AddTeacher : AppCompatActivity() {
             getTeacherFromIntent()
         }
 
-
-
-
-
         binding.btnAddTeacher.setOnClickListener {
             val teacher = getTeacherData()
             teacher?.let {
@@ -57,7 +53,7 @@ class AddTeacher : AppCompatActivity() {
                 teacherViewModel.registerTeacher(teacher)
 
                 // observing teacher registration results
-                teacherViewModel.registrationResult.observe(this){ result ->
+                teacherViewModel.teacherRegistrationResult.observe(this){ result ->
                    when(result){
                        is Result.Success -> {
                            Toast.makeText(this, "Teacher Registered Successfully", Toast.LENGTH_SHORT).show()
@@ -124,7 +120,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name,email, depart, role, System.currentTimeMillis())
+            Teacher(null, name,email, depart, role)
         } else {
             null
         }
