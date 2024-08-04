@@ -19,6 +19,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,6 +33,9 @@ android {
             )
         }
     }
+
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -68,4 +76,15 @@ dependencies {
     implementation (libs.circleimageview)
     // firebase
     implementation(platform(libs.firebase.bom))
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // mailerSend
+    implementation ("com.mailersend:java-sdk:1.0.0")
+
+    // sending email
+    implementation ("com.sun.mail:android-mail:1.6.7")
+    implementation ("com.sun.mail:android-activation:1.6.7")
+
 }
