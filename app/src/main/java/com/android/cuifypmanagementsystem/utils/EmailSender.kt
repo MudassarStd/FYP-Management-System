@@ -19,7 +19,7 @@ object EmailSender {
         name: String
     ) = withContext(Dispatchers.IO) {
         val senderEmail = "mudassarstd@gmail.com"
-        val senderPassword = "evct fhmb gibi zqme"
+        val senderPassword = "password"
         val host = "smtp.gmail.com"
 
         val properties = Properties().apply {
