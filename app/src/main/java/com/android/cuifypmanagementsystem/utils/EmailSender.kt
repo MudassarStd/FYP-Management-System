@@ -18,7 +18,7 @@ object EmailSender {
         tempPassword: String,
         name: String
     ) = withContext(Dispatchers.IO) {
-        val senderEmail = "mudassarstd@gmail.com"
+        val senderEmail = "Sender@gmail.com"
         val senderPassword = "password"
         val host = "smtp.gmail.com"
 
