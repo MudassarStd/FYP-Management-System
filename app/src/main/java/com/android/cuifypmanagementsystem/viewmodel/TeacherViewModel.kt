@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,21 +18,57 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
 
     val teachers : LiveData<List<Teacher>> get() = teacherRepository.teachers
 
+    private val _teachersFromCloud = MutableLiveData<Result<List<Teacher>>>()
+    val teachersFromCloud : LiveData<Result<List<Teacher>>> get() = _teachersFromCloud
+
 
     private var _teacherRegistrationResult = MutableLiveData<Result<Void?>>()
     val teacherRegistrationResult : LiveData<Result<Void?>> get() = _teacherRegistrationResult
 
     init {
-       viewModelScope.launch {
-           teacherRepository.getAll()
-       }
+        getAllTeachersFromCloud()
+//       viewModelScope.launch {
+//           teacherRepository.getAllFromRoom()
+//       }
     }
 
     fun registerTeacher(teacher: Teacher){
+        _teacherRegistrationResult.value = Result.Loading
         viewModelScope.launch {
            _teacherRegistrationResult.value = teacherRepository.registerTeacher(teacher)
         }
     }
+
+    private fun getAllTeachersFromCloud(){
+        _teachersFromCloud.value = Result.Loading
+        viewModelScope.launch {
+            _teachersFromCloud.value = teacherRepository.getAllTeachersFromCloud()
+        }
+    }
+
+
+            // code for manage teachers
+
+//    teacherViewModel.teachersFromCloud.observe(this){result ->
+//        when(result) {
+//            is Result.Success -> {
+//                hideProgressDialog()
+//                teacherAdapter.updateTeachers(result.data)
+//            }
+//            is Result.Failure ->{
+//                hideProgressDialog()
+//                val errorMessage = result.exception.message ?: "An unknown error occurred"
+////                    Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
+//
+//                Log.d("CloudTeacherFetchTesting", "Data fetch failed: ${result.exception.message}")
+//            }
+//            is Result.Loading -> {
+//                showProgressDialog("Loading data..", this)
+////                    Toast.makeText(this, "Loading Data", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//    }
 
 
 //    fun addTeacher(teacher: Teacher)

@@ -1,16 +1,30 @@
 package com.android.cuifypmanagementsystem.repository
 
+import EmailSender.sendRegistrationEmail
 import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.android.cuifypmanagementsystem.apiservice.MailerSendEmail
+import com.android.cuifypmanagementsystem.apiservice.MailerSendResponse
+import com.android.cuifypmanagementsystem.apiservice.MailerSendService
+import com.android.cuifypmanagementsystem.apiservice.Recipient
+import com.android.cuifypmanagementsystem.apiservice.RetrofitClient
+import com.android.cuifypmanagementsystem.apiservice.Sender
 import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class TeacherRepository(
     private val applicationContext: Context,
@@ -24,9 +38,9 @@ class TeacherRepository(
     private var _teachers = MutableLiveData<List<Teacher>>()
     val teachers : LiveData<List<Teacher>> get() = _teachers
 
-    // firebase API
+    // ---------------- firebase APIs operations ----------------
 
-    // teacher registration
+    // teacher registration using firebase auth
     suspend fun registerTeacher(teacher: Teacher): Result<Void?> {
         return try {
             val tempPassword = generateRandomPassword(8)
@@ -35,6 +49,11 @@ class TeacherRepository(
             val cloudResult = addTeacherToCloud(teacher)
             if(cloudResult is Result.Success)
             {
+                // ??? IF to update admin about sending email or resending it ???
+                // sending email (runs on background (IO) thread)
+                withContext(Dispatchers.IO){
+                    sendRegistrationEmail(teacher.email, tempPassword, teacher.name)
+                }
                 Result.Success(null)
             }
             else{
@@ -46,7 +65,7 @@ class TeacherRepository(
         }
     }
 
-    // adding teacher's info
+    // adding teacher's info into firestore
     private suspend fun addTeacherToCloud(teacher : Teacher) : Result<Void?>{
         return try{
             // storing custom data of teacher
@@ -60,8 +79,37 @@ class TeacherRepository(
             firestore.collection("teachers").document(uid)
                 .set(teacherData, SetOptions.merge()).await()
 
+            // persisting teacher's data locally
+            teacher.firestoreId = uid
             addTeacherLocally(teacher)
+
             Result.Success(null)
+        }
+        catch (e : Exception){
+            Result.Failure(e)
+        }
+    }
+
+
+    suspend fun getAllTeachersFromCloud() : Result<List<Teacher>>{
+        return try{
+            if (isInternetAvailable(applicationContext))
+            {
+                val snapshot = firestore.collection("teachers").get().await()
+                Log.d("CloudTeacherFetchTesting", "Snapshot: ${snapshot}")
+                val teachersList = snapshot.documents.map { document ->
+                    val teacher = document.toObject(Teacher::class.java)!! // Automatic mapping
+                    teacher.firestoreId = document.id // Manually set firestoreId
+                    teacher
+                }
+                Log.d("CloudTeacherFetchTesting", "Teacher List: ${teachersList}")
+                Result.Success(teachersList)
+            }
+            else{
+                // fetch from room
+                Result.Success(getAllFromRoom())
+            }
+
         }
         catch (e : Exception){
             Result.Failure(e)
@@ -78,24 +126,33 @@ class TeacherRepository(
     }
 
 
+    // Send email to user
+
     // ----------- room operations -----------
+
     private suspend fun addTeacherLocally(teacher: Teacher)
     {
         database.teacherDao().addTeacher(teacher)
-        getAll()
+        getAllFromRoom()
     }
     suspend fun updateTeacher(teacher: Teacher)
     {
         database.teacherDao().updateTeacher(teacher)
-        getAll()
+        getAllFromRoom()
     }
     suspend fun deleteTeacher(teacher: Teacher)
     {
         database.teacherDao().deleteTeacher(teacher)
-        getAll()
+        getAllFromRoom()
     }
-    suspend fun getAll()
+//    suspend fun getAll()
+//    {
+//        _teachers.postValue(database.teacherDao().getAllTeachers())
+//    }
+//
+
+    suspend fun getAllFromRoom() : List<Teacher>
     {
-        _teachers.postValue(database.teacherDao().getAllTeachers())
+        return database.teacherDao().getAllTeachers()
     }
 }
