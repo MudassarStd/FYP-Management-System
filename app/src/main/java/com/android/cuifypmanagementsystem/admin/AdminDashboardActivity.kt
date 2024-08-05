@@ -30,5 +30,8 @@ class AdminDashboardActivity : AppCompatActivity() {
         binding.section1.setOnClickListener {
             startActivity(Intent(this, BatchActivity::class.java))
         }
+        binding.section2.setOnClickListener {
+            startActivity(Intent(this, Start_FYP_Activityy::class.java))
+        }
     }
 }
