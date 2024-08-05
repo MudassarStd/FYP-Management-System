@@ -10,13 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.utils.Result
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
@@ -56,11 +59,13 @@ class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
         teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
         Log.d("TeacherCRUDTesting", "ManageTeacher:")
+//
+//        teacherViewModel.teachers.observe(this){
+//           teacherAdapter.updateTeachers(it)
+//            Log.d("TeacherCRUDTesting", "ManageTeacher: $it")
+//        }
 
-        teacherViewModel.teachers.observe(this){
-           teacherAdapter.updateTeachers(it)
-            Log.d("TeacherCRUDTesting", "ManageTeacher: $it")
-        }
+
 
         // filter teachers
         binding.fabFilter.setOnClickListener {
@@ -92,7 +97,7 @@ class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
             .setTitle("Delete Teacher?")
 
             .setPositiveButton("Confirm") { dialog, which ->
-                teacherViewModel.deleteTeacher(teacher)
+//                teacherViewModel.deleteTeacher(teacher)
                 Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show()
             }
 

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -13,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
+
+
+        <activity
+
         <activity
             android:name=".admin.DisplayTeacherActivity"
             android:exported="false" />
@@ -24,13 +30,14 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+
             android:name=".admin.AddTeacher"
             android:exported="false" />
         <activity
             android:name=".admin.BatchActivity"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".admin.ManageTeacher"
