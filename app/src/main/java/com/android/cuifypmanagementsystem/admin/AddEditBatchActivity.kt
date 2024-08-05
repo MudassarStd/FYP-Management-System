@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.BatchActivityExtras
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 

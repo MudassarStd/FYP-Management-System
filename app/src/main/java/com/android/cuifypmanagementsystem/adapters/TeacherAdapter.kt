@@ -2,6 +2,7 @@ package com.android.cuifypmanagementsystem.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.admin.AddTeacher
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
 import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
 
@@ -35,7 +36,8 @@ class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : Rec
     override fun onBindViewHolder(holder: TeacherViewHolder, position: Int) {
         holder.name.text = teachers[position].name
         holder.id.text = teachers[position].id.toString()
-        holder.depart.text = teachers[position].depart
+        holder.depart.text = teachers[position].department
+        Log.d("CloudTeacherFetchTesting", "Data fetch from firestore: ${teachers[position].department}")
     }
 
     override fun getItemCount() = teachers.size

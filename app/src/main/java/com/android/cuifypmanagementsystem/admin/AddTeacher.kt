@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddTeacherBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
 import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
@@ -80,7 +80,7 @@ class AddTeacher : AppCompatActivity() {
         binding.btnUpdateTeacher.setOnClickListener {
             val teacher = getTeacherData()
             teacher?.let{
-                Toast.makeText(this, teacher.depart, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, teacher.department, Toast.LENGTH_SHORT).show()
                 teacherViewModel.updateTeacher(teacher)
                 clearFields()
                 finish()
@@ -103,7 +103,7 @@ class AddTeacher : AppCompatActivity() {
         val teacher = intent.getSerializableExtra(ACTION_EDIT_TEACHER_OBJECT) as Teacher
 
         binding.etTeacherName.setText(teacher.name)
-        binding.etTeacherDepart.setText(teacher.depart)
+        binding.etTeacherDepart.setText(teacher.department)
 
     }
 

@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 
 
 @Dao

@@ -14,7 +14,7 @@ import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.BatchAdapter
 import com.android.cuifypmanagementsystem.adapters.OnAction
 import com.android.cuifypmanagementsystem.databinding.ActivityBatchBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 
 class BatchActivity : AppCompatActivity() , OnAction {

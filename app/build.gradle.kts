@@ -83,7 +83,7 @@ dependencies {
     // mailerSend
     implementation ("com.mailersend:java-sdk:1.0.0")
 
-    // sending email
+    // Java Mail API for sending emails
     implementation ("com.sun.mail:android-mail:1.6.7")
     implementation ("com.sun.mail:android-activation:1.6.7")
 

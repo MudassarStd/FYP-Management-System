@@ -17,7 +17,7 @@ import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
@@ -97,7 +97,7 @@ class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
             .setTitle("Delete Teacher?")
 
             .setPositiveButton("Confirm") { dialog, which ->
-                teacherViewModel.deleteTeacher(teacher)
+//                teacherViewModel.deleteTeacher(teacher)
                 Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show()
             }
 

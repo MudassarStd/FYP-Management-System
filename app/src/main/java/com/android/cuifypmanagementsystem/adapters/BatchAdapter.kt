@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.admin.BatchDetailsActivity
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 
 
 interface OnAction{
