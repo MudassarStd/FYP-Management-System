@@ -23,7 +23,7 @@
             android:name=".admin.BatchActivity"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".admin.ManageTeacher"

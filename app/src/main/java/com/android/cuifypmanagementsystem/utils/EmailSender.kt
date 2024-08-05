@@ -1,3 +1,4 @@
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Properties
@@ -13,13 +14,15 @@ import javax.mail.internet.MimeMessage
 
 object EmailSender {
 
+    private const val TAG = "EmailSenderTesting" // Tag for log messages
+
     suspend fun sendRegistrationEmail(
         recipient: String,
         tempPassword: String,
         name: String
     ) = withContext(Dispatchers.IO) {
         val senderEmail = "mudassarstd@gmail.com"
-        val senderPassword = "evct fhmb gibi zqme"
+        val senderPassword = "qkjt lskc mvid zfny"
         val host = "smtp.gmail.com"
 
         val properties = Properties().apply {
@@ -29,13 +32,15 @@ object EmailSender {
             put("mail.smtp.auth", "true")
         }
 
-        val session = Session.getInstance(properties, object : Authenticator() {
-            override fun getPasswordAuthentication(): PasswordAuthentication {
-                return PasswordAuthentication(senderEmail, senderPassword)
-            }
-        })
-
         try {
+            val session = Session.getInstance(properties, object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication(senderEmail, senderPassword)
+                }
+            })
+
+            Log.d(TAG, "Session created successfully.") // Log session creation
+
             val mimeMessage = MimeMessage(session).apply {
                 setFrom(InternetAddress(senderEmail))
                 addRecipient(Message.RecipientType.TO, InternetAddress(recipient))
@@ -46,11 +51,16 @@ object EmailSender {
                 )
             }
 
+            Log.d(TAG, "Email message composed.") // Log message composition
+
             Transport.send(mimeMessage)
+
+            Log.d(TAG, "Email sent successfully to $recipient.") // Log successful sending
+
         } catch (e: AddressException) {
-            e.printStackTrace()
+            Log.d(TAG, "Invalid email address: ${e.message}") // Log address errors
         } catch (e: MessagingException) {
-            e.printStackTrace()
+            Log.d(TAG, "Error sending email: ${e.message}") // Log messaging errors
         }
     }
 }

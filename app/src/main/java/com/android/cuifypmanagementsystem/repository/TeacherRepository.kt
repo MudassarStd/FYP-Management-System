@@ -12,7 +12,8 @@ import com.android.cuifypmanagementsystem.apiservice.Recipient
 import com.android.cuifypmanagementsystem.apiservice.RetrofitClient
 import com.android.cuifypmanagementsystem.apiservice.Sender
 import com.android.cuifypmanagementsystem.room.MainDatabase
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
@@ -73,7 +74,7 @@ class TeacherRepository(
                 "name" to teacher.name,
                 "email" to teacher.email,
                 "role" to teacher.role,
-                "department" to teacher.depart,
+                "department" to teacher.department,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
                 )
             firestore.collection("teachers").document(uid)
@@ -116,6 +117,38 @@ class TeacherRepository(
         }
     }
 
+
+    // teacher account deletion
+    suspend fun deleteTeacherRecord(uid : String){
+
+
+        try {
+
+            val documentPath = "teachers/${uid}"
+            firestore.document(documentPath)
+                .delete()
+                .await()
+            // also del from local db
+            deleteTeacherRecordById(uid)
+
+            // Implement Refresh Login after deleting records
+
+        }
+        catch (e : Exception)
+        {
+            Log.d(GLOBAL_TESTING_TAG, "Deletion Failed: ${e.message} ")
+        }
+
+
+
+            // Implement to delete user account
+
+
+        }
+
+
+
+
     private fun generateRandomPassword(length: Int = 8): String {
         require(length in 8..12) { "Password length must be between 8 and 12 characters." }
 
@@ -145,12 +178,16 @@ class TeacherRepository(
         database.teacherDao().deleteTeacher(teacher)
         getAllFromRoom()
     }
+
+    private suspend fun deleteTeacherRecordById(firestoreId : String) {
+        database.teacherDao().deleteTeacherRecordById(firestoreId)
+    }
+
 //    suspend fun getAll()
 //    {
 //        _teachers.postValue(database.teacherDao().getAllTeachers())
 //    }
 //
-
     suspend fun getAllFromRoom() : List<Teacher>
     {
         return database.teacherDao().getAllTeachers()

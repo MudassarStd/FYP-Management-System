@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
@@ -49,26 +50,7 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
 
             // code for manage teachers
 
-//    teacherViewModel.teachersFromCloud.observe(this){result ->
-//        when(result) {
-//            is Result.Success -> {
-//                hideProgressDialog()
-//                teacherAdapter.updateTeachers(result.data)
-//            }
-//            is Result.Failure ->{
-//                hideProgressDialog()
-//                val errorMessage = result.exception.message ?: "An unknown error occurred"
-////                    Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
-//
-//                Log.d("CloudTeacherFetchTesting", "Data fetch failed: ${result.exception.message}")
-//            }
-//            is Result.Loading -> {
-//                showProgressDialog("Loading data..", this)
-////                    Toast.makeText(this, "Loading Data", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//    }
+
 
 
 //    fun addTeacher(teacher: Teacher)
@@ -85,10 +67,10 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         }
     }
 
-    fun deleteTeacher(teacher: Teacher)
+    fun deleteTeacherRecord(uid : String)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            teacherRepository.deleteTeacher(teacher)
+            teacherRepository.deleteTeacherRecord(uid)
         }
     }
 

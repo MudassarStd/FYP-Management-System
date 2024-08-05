@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 
 @Dao
 interface TeacherDao {
@@ -15,6 +15,10 @@ interface TeacherDao {
     suspend fun updateTeacher(teacher: Teacher)
     @Delete
     suspend fun deleteTeacher(teacher: Teacher)
+
+    @Query("delete from Teacher where firestoreId = :firestoreId")
+    suspend fun deleteTeacherRecordById(firestoreId : String)
+
     @Query("select * from Teacher")
     suspend fun getAllTeachers() : List<Teacher>
 

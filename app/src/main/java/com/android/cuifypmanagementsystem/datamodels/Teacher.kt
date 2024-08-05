@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.room.datamodels
+package com.android.cuifypmanagementsystem.datamodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -24,7 +24,7 @@ data class Teacher(
     var firestoreId: String? = null,
     val name: String,
     val email: String,
-    val depart: String,
+    val department: String,
     val role: String,
     val registrationTimeStamp: Timestamp = Timestamp.now()
 ) : Serializable {

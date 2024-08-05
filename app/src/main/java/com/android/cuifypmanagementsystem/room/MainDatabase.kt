@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 
 @Database(entities = [Batch::class, Teacher::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)

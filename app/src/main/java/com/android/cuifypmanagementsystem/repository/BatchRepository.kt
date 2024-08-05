@@ -1,7 +1,7 @@
 package com.android.cuifypmanagementsystem.repository
 
 import android.content.Context
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.room.MainDatabase
 
 class BatchRepository(app : Context) {

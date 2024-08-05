@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login">
+    tools:context=".LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,18 +44,19 @@
                 android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/edtemail"
+                app:layout_constraintBottom_toTopOf="@id/etEmailLogin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <EditText
-                android:id="@+id/edtemail"
+                android:id="@+id/etEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="52dp"
                 android:background="@drawable/rounded_corners_white_background"
                 android:elevation="2dp"
+                android:inputType="textEmailAddress"
                 android:focusedByDefault="false"
                 android:hint="Email"
                 android:paddingStart="20dp"
@@ -66,7 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <EditText
-                android:id="@+id/edtpassword"
+                android:id="@+id/etPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20dp"
@@ -79,12 +80,12 @@
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/edtemail"
-                app:layout_constraintStart_toStartOf="@+id/edtemail"
-                app:layout_constraintTop_toBottomOf="@+id/edtemail" />
+                app:layout_constraintEnd_toEndOf="@+id/etEmailLogin"
+                app:layout_constraintStart_toStartOf="@+id/etEmailLogin"
+                app:layout_constraintTop_toBottomOf="@+id/etEmailLogin" />
 
             <Button
-                android:id="@+id/loginbtn"
+                android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -95,9 +96,9 @@
                 android:textColor="@color/white"
                 app:cornerRadius="10dp"
                 android:background="@drawable/rounded_corners_white_background"
-                app:layout_constraintEnd_toEndOf="@+id/edtpassword"
-                app:layout_constraintStart_toStartOf="@+id/edtpassword"
-                app:layout_constraintTop_toBottomOf="@+id/edtpassword" />
+                app:layout_constraintEnd_toEndOf="@+id/etPasswordLogin"
+                app:layout_constraintStart_toStartOf="@+id/etPasswordLogin"
+                app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
             <TextView
                 android:id="@+id/textView"
@@ -106,9 +107,9 @@
                 android:layout_marginTop="24dp"
                 android:text="Don't have an account ?"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/loginbtn"
-                app:layout_constraintStart_toStartOf="@+id/loginbtn"
-                app:layout_constraintTop_toBottomOf="@+id/loginbtn" />
+                app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+                app:layout_constraintStart_toStartOf="@+id/btnLogin"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
             <Button
                 android:id="@+id/signupbtn"
