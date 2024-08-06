@@ -65,8 +65,6 @@ class BatchActivity : AppCompatActivity() , OnAction {
             batchAdapter.updateBatches(it)
             toggleFab(it.size < 3)
         }
-
-
     }
 
     override fun onDeleted(batch : Batch) {

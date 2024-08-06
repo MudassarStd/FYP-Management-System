@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.utils.Result
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
@@ -20,11 +19,12 @@ import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBindi
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
+import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
 
-class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
+class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     private val binding : ActivityManageTeacherBinding by lazy {
         ActivityManageTeacherBinding.inflate(layoutInflater)
     }
@@ -66,6 +66,24 @@ class ManageTeacher : AppCompatActivity() , OnTeacherEvents  {
 //        }
 
 
+
+        teacherViewModel.teachersFromCloud.observe(this){result ->
+            when(result){
+                is Result.Success -> {
+                    hideProgressDialog()
+                    teacherAdapter.updateTeachers(result.data)
+                }
+                is Result.Loading -> {
+                    showProgressDialog("Loading Data, please wait..", this)
+                }
+                is Result.Failure -> {
+                    hideProgressDialog()
+                    val errorMessage = result.exception.message ?: "An unknown error occurred"
+                    Toast.makeText(this, "Loading data failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
 
         // filter teachers
         binding.fabFilter.setOnClickListener {

@@ -24,11 +24,14 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         binding.section3.setOnClickListener {
-            startActivity(Intent(this, ManageTeacher::class.java))
+            startActivity(Intent(this, ManageTeacherActivity::class.java))
         }
 
         binding.section1.setOnClickListener {
             startActivity(Intent(this, BatchActivity::class.java))
+        }
+        binding.section2.setOnClickListener {
+            startActivity(Intent(this, AllFypActivity::class.java))
         }
     }
 }

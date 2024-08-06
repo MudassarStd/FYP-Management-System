@@ -97,13 +97,13 @@ class TeacherRepository(
             if (isInternetAvailable(applicationContext))
             {
                 val snapshot = firestore.collection("teachers").get().await()
-                Log.d("CloudTeacherFetchTesting", "Snapshot: ${snapshot}")
+                Log.d("DisplayTeacherDebuggerAttached", "Snapshot: ${snapshot}")
                 val teachersList = snapshot.documents.map { document ->
                     val teacher = document.toObject(Teacher::class.java)!! // Automatic mapping
                     teacher.firestoreId = document.id // Manually set firestoreId
                     teacher
                 }
-                Log.d("CloudTeacherFetchTesting", "Teacher List: ${teachersList}")
+                Log.d("DisplayTeacherDebuggerAttached", "Teacher List: ${teachersList}")
                 Result.Success(teachersList)
             }
             else{
