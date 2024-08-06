@@ -41,6 +41,7 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     }
 
     private fun getAllTeachersFromCloud(){
+        Log.d("DisplayTeacherDebuggerAttached", "getAllTeachersFromCloud() called in VM")
         _teachersFromCloud.value = Result.Loading
         viewModelScope.launch {
             _teachersFromCloud.value = teacherRepository.getAllTeachersFromCloud()

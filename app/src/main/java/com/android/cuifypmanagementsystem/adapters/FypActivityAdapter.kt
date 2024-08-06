@@ -7,24 +7,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.datamodels.startActivity
+import com.android.cuifypmanagementsystem.room.datamodels.FypActivity
 
-class ActivityAdapter(private val context : Context,private val ActivitiesData : List<startActivity>) : RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder>() {
+class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivity>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ActivityAdapter.ActivityViewHolder {
+    ): FypActivityAdapter.ActivityViewHolder {
        val view=LayoutInflater.from(context).inflate(R.layout.rv_item_activity,parent,false)
         return ActivityViewHolder(view)
     }
 
 
-    override fun onBindViewHolder(holder: ActivityAdapter.ActivityViewHolder, position: Int) {
-        val activity=ActivitiesData[position]
+    override fun onBindViewHolder(holder: FypActivityAdapter.ActivityViewHolder, position: Int) {
+        val activity=activitiesData[position]
         holder.fypheadname.text=activity.fypHead
         holder.fypsecname.text=activity.fypSec
-        holder.startedDate.text=activity.registrationTimeStamp
+        holder.startedDate.text= activity.registrationTimeStamp.toString()
         holder.year.text=activity.startYear
         holder.status.text = if (activity.fypSec === "0") {
             "On going"
@@ -33,7 +33,14 @@ class ActivityAdapter(private val context : Context,private val ActivitiesData :
         }
     }
 
-    override fun getItemCount(): Int = ActivitiesData.size
+    override fun getItemCount(): Int = activitiesData.size
+
+
+    fun updateActivitiesData(activitiesData: List<FypActivity>)
+    {
+        this.activitiesData = activitiesData
+        notifyDataSetChanged()
+    }
 
     class ActivityViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val fypheadname=itemView.findViewById<TextView>(R.id.TVfypheadName)

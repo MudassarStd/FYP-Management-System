@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Start_FYP_Activityy">
+    tools:context=".admin.StartFypActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +36,7 @@
                 />
 
             <EditText
-                android:id="@+id/etFYPhead"
+                android:id="@+id/etFypHead"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="52dp"
@@ -51,7 +51,7 @@
                 android:textColorHint="@color/gray_color" />
 
             <EditText
-                android:id="@+id/etFYPSec"
+                android:id="@+id/etFypSecretory"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20dp"
@@ -66,12 +66,12 @@
                 android:textColorHint="@color/gray_color" />
 
             <EditText
-                android:id="@+id/etStartYear"
+                android:id="@+id/etFypActivityBatch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/rounded_corners_white_background"
-                android:hint="Add Year e.g (FA21)"
+                android:hint="Add Batch e.g (FA21)"
                 android:layout_marginHorizontal="20dp"
                 android:elevation="2dp"
                 android:focusedByDefault="false"
@@ -87,7 +87,7 @@
                 android:layout_marginTop="40dp"
                 android:backgroundTint="@color/primaryColor"
                 android:background="@drawable/rounded_corners_white_background"
-                android:text="Add Teacher"
+                android:text="Start Activity"
                 android:textAllCaps="true"
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dp"

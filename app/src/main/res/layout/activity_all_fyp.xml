@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Started_act_details_activity">
+    tools:context=".admin.AllFypActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvActivity"
+        android:id="@+id/rvFypActivity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"

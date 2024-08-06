@@ -2,9 +2,10 @@ package com.android.cuifypmanagementsystem.room.datamodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.Timestamp
 import java.io.Serializable
 @Entity
-data class startActivity(
+data class FypActivity(
     val fypHead: String = "",
     val fypSec: String = "",
     val startYear: String = "",
@@ -13,6 +14,7 @@ data class startActivity(
 )  {
     constructor() : this("", "", "", "", "") // Empty constructor
 }
+
 
 @Entity
 data class DisplayTeacher(
