@@ -13,14 +13,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityStartFypActivityyBinding
+import com.android.cuifypmanagementsystem.datamodels.BatchInfo
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.datamodels.TeacherNameAndId
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_ACTIVITY_BATCH
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECRETORY
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
@@ -33,11 +37,13 @@ class StartFypActivity : AppCompatActivity() {
     }
     private lateinit var selectionViewModel : H_S_SelectionViewModel
     private lateinit var fypActivityViewModel : FypActivityViewModel
+    private lateinit var batchViewModel: BatchViewModel
     private lateinit var teacherViewModel : TeacherViewModel
 
 
     private var fypHeadId : String? = null
     private var fypSecretoryId : String? = null
+    private var batchId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,24 +67,12 @@ class StartFypActivity : AppCompatActivity() {
         val fypActivityRepository = (application as BaseApplication).fypActivityRepository
         fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
+        val batchRepository = (application as BaseApplication).batchRepository
+        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
 
 
 
-        selectionViewModel.selectedHead.observe(this){
-            it?.let{
-                binding.etFypHead.setText(it.name)
-                fypHeadId = it.firestoreId
-            }
-
-        }
-
-        selectionViewModel.selectedSecretory.observe(this){
-            it?.let{
-                binding.etFypSecretory.setText(it.name)
-                fypSecretoryId = it.firestoreId
-            }
-        }
-
+        setFieldSelectionObservers()
         displayResult()
 
 
@@ -100,6 +94,33 @@ class StartFypActivity : AppCompatActivity() {
         }
     }
 
+
+
+    private fun setFieldSelectionObservers(){
+        selectionViewModel.selectedHead.observe(this){
+            it?.let{
+                binding.etFypHead.setText(it.name)
+                fypHeadId = it.firestoreId
+            }
+
+        }
+
+        selectionViewModel.selectedSecretory.observe(this){
+            it?.let{
+                binding.etFypSecretory.setText(it.name)
+                fypSecretoryId = it.firestoreId
+            }
+        }
+
+        selectionViewModel.selectedBatch.observe(this){
+            it?.let {
+                binding.etFypActivityBatch.setText(it.name)
+                batchId = it.firestoreId
+            }
+        }
+    }
+
+
     // observing results of start activity cloud operations
 
     private fun observeResults() {
@@ -115,6 +136,7 @@ class StartFypActivity : AppCompatActivity() {
                     val fypSecretoryRole = FypActivityRole(activityId, "Secretory")
 
                     teacherViewModel.updateTeacherRoles(fypHeadId!!, fypHeadRole, fypSecretoryId!!, fypSecretoryRole)
+                    batchViewModel.updateBatchActivityStatus(batchId!!, true)
 
                     teacherViewModel.teacherRoleUpdateStatusForActivity.observe(this){
                         when(it) {
@@ -156,15 +178,16 @@ class StartFypActivity : AppCompatActivity() {
     private fun resetFields() {
         selectionViewModel.setSelectedHead(null)
         selectionViewModel.setSelectedSecretory(null)
+        selectionViewModel.setSelectedBatch(null)
     }
 
     private fun getFypActivityRecord() : FypActivityRecord?{
         val fypHeadName = binding.etFypHead.text.toString()
         val fypSecretoryName = binding.etFypSecretory.text.toString()
-        val startYear = binding.etFypActivityBatch.text.toString()
-        return if(fypHeadName.isNotEmpty() && fypSecretoryName.isNotEmpty() && startYear.isNotEmpty())
+        val batchName = binding.etFypActivityBatch.text.toString()
+        return if(fypHeadName.isNotEmpty() && fypSecretoryName.isNotEmpty() && batchName.isNotEmpty())
         {
-            FypActivityRecord(TeacherNameAndId(fypHeadName, fypHeadId!!), TeacherNameAndId(fypSecretoryName, fypSecretoryId!!), startYear, true, System.currentTimeMillis())
+            FypActivityRecord(TeacherNameAndId(fypHeadName, fypHeadId!!), TeacherNameAndId(fypSecretoryName, fypSecretoryId!!), BatchInfo(batchName, batchId!!), true, System.currentTimeMillis())
         }
         else{
             null
@@ -191,10 +214,14 @@ class StartFypActivity : AppCompatActivity() {
         }
 
         activityBatch.setOnClickListener {
-
+            val intent = Intent(this, BatchActivity::class.java).also {
+                it.action = ACTION_SELECT_FYP_ACTIVITY_BATCH
+            }
+            startActivity(intent)
         }
 
     }
+
 
     private fun showRetryDialog(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) {
         val alertDialog = AlertDialog.Builder(this)

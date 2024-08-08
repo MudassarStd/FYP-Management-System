@@ -7,15 +7,20 @@ data class TeacherNameAndId(
     val firestoreId : String = ""
 )
 
+data class BatchInfo(
+    val name : String = "",
+    val batchId : String = ""
+)
+
 @Entity
 data class FypActivityRecord(
     val fypHead: TeacherNameAndId = TeacherNameAndId(),
     val fypSec: TeacherNameAndId = TeacherNameAndId(),
-    val startYear: String = "",
+    val batch: BatchInfo? = null,
     val status : Boolean = false,
     val registrationTimeStamp : Long
 )  {
-    constructor() : this(TeacherNameAndId("", ""), TeacherNameAndId("", ""), "", false, 0L) // Empty constructor
+    constructor() : this(TeacherNameAndId("", ""), TeacherNameAndId("", ""), null, false, 0L) // Empty constructor
 }
 
 

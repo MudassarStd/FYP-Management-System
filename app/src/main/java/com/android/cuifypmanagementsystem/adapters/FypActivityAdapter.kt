@@ -26,7 +26,7 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         holder.fypheadname.text=activity.fypHead.name
         holder.fypsecname.text=activity.fypSec.name
         holder.startedDate.text= activity.registrationTimeStamp.toString()
-        holder.year.text=activity.startYear
+        holder.year.text=activity.batch!!.name
         holder.status.text = if (activity.status) {
             "On going"
         } else {

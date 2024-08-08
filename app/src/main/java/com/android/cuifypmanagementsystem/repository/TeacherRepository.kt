@@ -5,15 +5,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.cuifypmanagementsystem.apiservice.MailerSendEmail
-import com.android.cuifypmanagementsystem.apiservice.MailerSendResponse
-import com.android.cuifypmanagementsystem.apiservice.MailerSendService
-import com.android.cuifypmanagementsystem.apiservice.Recipient
-import com.android.cuifypmanagementsystem.apiservice.RetrofitClient
-import com.android.cuifypmanagementsystem.apiservice.Sender
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
-import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.Result
@@ -23,9 +17,6 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class TeacherRepository(

@@ -51,125 +51,127 @@
                 app:layout_constraintStart_toStartOf="@id/teacher_main_layout"
                 app:layout_constraintTop_toBottomOf="@id/tvMngTeacher">
 
-                <TextView
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/svManageTeachers"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_weight="2.80"
+                    android:background="@drawable/foursideradius"
+                    app:iconifiedByDefault="false"
                     android:gravity="center_vertical"
                     android:text="Teachers List"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/btnGotoAddTeacher"
+                    android:id="@+id/ivBtnFilterTeachers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:layout_weight=".20"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/add_icon" />
+                    android:src="@drawable/ic_filter" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/hr"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="@id/TVteacherlist"
-                app:layout_constraintStart_toStartOf="@id/TVteacherlist"
-                app:layout_constraintTop_toBottomOf="@id/TVteacherlist" />
+<!--            <View-->
+<!--                android:id="@+id/hr"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="@color/black"-->
+<!--                app:layout_constraintEnd_toEndOf="@id/TVteacherlist"-->
+<!--                app:layout_constraintStart_toStartOf="@id/TVteacherlist"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist" />-->
 
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/hr">
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/hr">-->
 
-                <!-- Table Row for Column Headings -->
-                <TableRow>
+<!--                &lt;!&ndash; Table Row for Column Headings &ndash;&gt;-->
+<!--                <TableRow>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:gravity="center"
-                        android:text="ID"
-                        android:layout_weight="1"
-                        android:textStyle="bold" />
-
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/darker_gray"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="ID"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textStyle="bold" />-->
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:text="Name"
-                        android:textStyle="bold" />
+<!--                    <View-->
+<!--                        android:layout_width="1dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@android:color/darker_gray"/>-->
 
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/darker_gray"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="Name"-->
+<!--                        android:textStyle="bold" />-->
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:text="Department"
-                        android:textStyle="bold" />
+<!--                    <View-->
+<!--                        android:layout_width="1dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@android:color/darker_gray"/>-->
 
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/darker_gray"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="Department"-->
+<!--                        android:textStyle="bold" />-->
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Action"
-                        android:textStyle="bold" />
+<!--                    <View-->
+<!--                        android:layout_width="1dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@android:color/darker_gray"/>-->
 
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/darker_gray"/>
-                </TableRow>
-            </TableLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="Action"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                    <View-->
+<!--                        android:layout_width="1dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@android:color/darker_gray"/>-->
+<!--                </TableRow>-->
+<!--            </TableLayout>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvManageTeachers"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/hr"
-                app:layout_constraintStart_toStartOf="@id/hr"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-                tools:listitem="@layout/rv_item_teacher" />
+                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist"
+                tools:listitem="@layout/rv_item_select_teacher" />
 
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabFilter"
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAddTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_filter"
+                android:src="@drawable/ic_add"
+                android:text="Add Teacher"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
