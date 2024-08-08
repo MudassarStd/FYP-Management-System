@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.cuifypmanagementsystem.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 
 class H_S_SelectionViewModel() : ViewModel() {
     init {
@@ -13,17 +15,23 @@ class H_S_SelectionViewModel() : ViewModel() {
     }
 
     // Existing LiveData and methods
-    val selectedHead = MutableLiveData<String>()
-    val selectedSecretory = MutableLiveData<String>()
+    val selectedHead = MutableLiveData<Teacher?>()
+    val selectedSecretory = MutableLiveData<Teacher?>()
+    val selectedBatch = MutableLiveData<Batch?>()
 
-    fun setSelectedHead(head: String) {
-        selectedHead.value = head
-        Log.d("H_S_SelectionViewModelInstanceTesting", "Selected head set: $head, ViewModel instance: ${this.hashCode()}")
+    fun setSelectedHead(teacher: Teacher?) {
+        selectedHead.value = teacher
+        Log.d("H_S_SelectionViewModelInstanceTesting", "Selected head set: $teacher, ViewModel instance: ${this.hashCode()}")
     }
 
-    fun setSelectedSecretory(secretory: String) {
-        selectedSecretory.value = secretory
-        Log.d("H_S_SelectionViewModelInstanceTesting", "Selected secretory set: $secretory, ViewModel instance: ${this.hashCode()}")
+    fun setSelectedSecretory(teacher: Teacher?) {
+        selectedSecretory.value = teacher
+        Log.d("H_S_SelectionViewModelInstanceTesting", "Selected secretory set: $teacher, ViewModel instance: ${this.hashCode()}")
+    }
+
+    fun setSelectedBatch(batch: Batch?) {
+        selectedBatch.value = batch
+        Log.d("H_S_SelectionViewModelInstanceTesting", "Selected secretory set: $batch, ViewModel instance: ${this.hashCode()}")
     }
 }
 

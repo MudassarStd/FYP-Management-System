@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -67,6 +68,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
 
 
+
         teacherViewModel.teachersFromCloud.observe(this){result ->
             when(result){
                 is Result.Success -> {
@@ -85,8 +87,25 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
         }
 
+
+
+        // search bar
+
+        val searchView = binding.svManageTeachers
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                teacherAdapter.filter(newText ?: "")
+                return true
+            }
+        })
+
+
         // filter teachers
-        binding.fabFilter.setOnClickListener {
+        binding.ivBtnFilterTeachers.setOnClickListener {
             departFilter.show(supportFragmentManager, departFilter.tag)
         }
 
@@ -94,7 +113,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             Toast.makeText(this, "$it  Selected", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnGotoAddTeacher.setOnClickListener {
+        binding.fabAddTeacher.setOnClickListener {
             startActivity(Intent(this, AddTeacher::class.java))
         }
 

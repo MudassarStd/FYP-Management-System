@@ -1,42 +1,45 @@
 package com.android.cuifypmanagementsystem.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.room.datamodels.FypActivity
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 
-class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivity>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
+class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FypActivityAdapter.ActivityViewHolder {
+    ): ActivityViewHolder {
        val view=LayoutInflater.from(context).inflate(R.layout.rv_item_activity,parent,false)
         return ActivityViewHolder(view)
     }
 
 
-    override fun onBindViewHolder(holder: FypActivityAdapter.ActivityViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity=activitiesData[position]
-        holder.fypheadname.text=activity.fypHead
-        holder.fypsecname.text=activity.fypSec
+        holder.fypheadname.text=activity.fypHead.name
+        holder.fypsecname.text=activity.fypSec.name
         holder.startedDate.text= activity.registrationTimeStamp.toString()
-        holder.year.text=activity.startYear
-        holder.status.text = if (activity.fypSec === "0") {
+        holder.year.text=activity.batch!!.name
+        holder.status.text = if (activity.status) {
             "On going"
         } else {
-            "On going"
+            "Paused"
         }
+        Log.d("fsdlfjsaoifhsadofhisd", "isActive; ${activity.status}")
+
     }
 
     override fun getItemCount(): Int = activitiesData.size
 
 
-    fun updateActivitiesData(activitiesData: List<FypActivity>)
+    fun updateActivitiesData(activitiesData: List<FypActivityRecord>)
     {
         this.activitiesData = activitiesData
         notifyDataSetChanged()

@@ -5,14 +5,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.cuifypmanagementsystem.apiservice.MailerSendEmail
-import com.android.cuifypmanagementsystem.apiservice.MailerSendResponse
-import com.android.cuifypmanagementsystem.apiservice.MailerSendService
-import com.android.cuifypmanagementsystem.apiservice.Recipient
-import com.android.cuifypmanagementsystem.apiservice.RetrofitClient
-import com.android.cuifypmanagementsystem.apiservice.Sender
-import com.android.cuifypmanagementsystem.room.MainDatabase
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.Result
@@ -22,9 +17,6 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class TeacherRepository(
@@ -73,8 +65,10 @@ class TeacherRepository(
             val teacherData = mapOf(
                 "name" to teacher.name,
                 "email" to teacher.email,
-                "role" to teacher.role,
                 "department" to teacher.department,
+                "isSupervisor" to teacher.isSupervisor,
+                "isFypHeadOrSecretory" to teacher.isFypHeadOrSecretory,
+                "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
                 )
             firestore.collection("teachers").document(uid)
@@ -116,6 +110,73 @@ class TeacherRepository(
             Result.Failure(e)
         }
     }
+    suspend fun getNotFypHeadSecretaries() : Result<List<Teacher>>{
+        return try{
+            if (isInternetAvailable(applicationContext))
+            {
+                val snapshot = firestore.collection("teachers").whereEqualTo("isFypHeadOrSecretory", false) // Filter for teachers who are not head or sec
+                    .get()
+                    .await()
+                Log.d("DisplayTeacherDebuggerAttached", "Snapshot: ${snapshot}")
+                val teachersList = snapshot.documents.map { document ->
+                    val teacher = document.toObject(Teacher::class.java)!! // Automatic mapping
+                    teacher.firestoreId = document.id // Manually set firestoreId
+                    teacher
+                }
+                Log.d("DisplayTeacherDebuggerAttached", "Teacher List: ${teachersList}")
+                Result.Success(teachersList)
+            }
+            else{
+                // fetch from room
+                Result.Success(getAllFromRoom().filter {
+                    !it.isFypHeadOrSecretory
+                })
+            }
+
+        }
+        catch (e : Exception){
+            Result.Failure(e)
+        }
+    }
+
+
+    // update teacher field
+
+    suspend fun updateTeacherRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) : Result<Void?>{
+        try{
+            val batch = firestore.batch()
+
+            val headDocRef = firestore.collection("teachers").document(fypHeadId)
+            val headRoleUpdate = hashMapOf<String, Any>(
+                "isFypHeadOrSecretory" to true,
+                "fypActivityRole.activityId" to fypHeadRole.activityId as Any,
+                "fypActivityRole.activityRole" to fypHeadRole.activityRole as Any
+            )
+            batch.update(headDocRef, headRoleUpdate)
+
+            val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
+            val secretoryRoleUpdate = hashMapOf<String, Any>(
+                "isFypHeadOrSecretory" to true,
+                "fypActivityRole.activityId" to fypSecretoryRole.activityId as Any,
+                "fypActivityRole.activityRole" to fypSecretoryRole.activityRole as Any
+            )
+
+            batch.update(secretoryDocRef, secretoryRoleUpdate)
+
+//            throw Exception("Forced failure for testing")
+
+            batch.commit().await()
+            Log.d("TestingRoleUpdate", "Successfulling Update FYP activity Roles")
+            return Result.Success(null)
+
+
+        }
+        catch (e : Exception){
+            Log.d("TestingRoleUpdate", "Error Role Updating: ${e.message}")
+            return Result.Failure(e)
+        }
+    }
+
 
 
     // teacher account deletion
