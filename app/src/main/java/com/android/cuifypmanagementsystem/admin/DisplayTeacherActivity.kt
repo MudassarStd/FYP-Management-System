@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -65,22 +66,30 @@ class DisplayTeacherActivity : AppCompatActivity(),
     override fun onItemClick(teacher : Teacher) {
         if(intent.action == ACTION_SELECT_FYP_HEAD)
         {
-            selectionViewModel.setSelectedHead(teacher.name)
+            selectionViewModel.setSelectedHead(teacher)
             finish()
         }
         else {
-            selectionViewModel.setSelectedSecretory(teacher.name)
+            selectionViewModel.setSelectedSecretory(teacher)
             finish()
         }
     }
 
     private fun fetchTeachersFromCloud(){
 
-        teacherViewModel.teachersFromCloud.observe(this){result ->
+        teacherViewModel.notFypHeadSecretaries.observe(this){result ->
             when(result){
                 is Result.Success -> {
+                    val data = result.data
                     hideProgressDialog()
-                    selectTeacherAdapter.updateTeachersList(result.data)
+                    if (data.isEmpty())
+                    {
+                        toggleViews(false, true)
+                    }
+                    else{
+                        toggleViews(true, false)
+                        selectTeacherAdapter.updateTeachersList(result.data)
+                    }
                 }
                 is Result.Loading -> {
                     showProgressDialog("Loading Data, please wait..", this)
@@ -92,6 +101,11 @@ class DisplayTeacherActivity : AppCompatActivity(),
                 }
             }
         }
+    }
+
+    private fun toggleViews(showRecyclerView: Boolean, showNoTeacherMessage: Boolean) {
+        binding.Teacherrecyclerview.visibility = if (showRecyclerView) View.VISIBLE else View.GONE
+        binding.tvNoTeacherFound.visibility = if (showNoTeacherMessage) View.VISIBLE else View.GONE
     }
 
     private fun setUpRecyclerView(){

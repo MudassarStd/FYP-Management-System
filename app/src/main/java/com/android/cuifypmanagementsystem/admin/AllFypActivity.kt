@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,7 @@ class AllFypActivity : AppCompatActivity() {
 
         binding.fabAddActivity.setOnClickListener{
             startActivity(Intent(this, StartFypActivity::class.java))
+            finish()
         }
     }
 
@@ -63,13 +65,16 @@ class AllFypActivity : AppCompatActivity() {
         fypActivityViewModel.fypActivitiesFetch.observe(this){
             when(it){
                 is Result.Success -> {
+                    val data = it.data
                     hideProgressDialog()
-                    activityAdapter.updateActivitiesData(it.data)
+                    activityAdapter.updateActivitiesData(data)
+                    toggleFab(data.size < 3)
                 }
                 is Result.Failure -> {
                     hideProgressDialog()
                     val errorMessage = it.exception.message ?: "An unknown error occurred"
                     Toast.makeText(this, "Loading data failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                    Log.d("fsdlfjsaoifhsadofhisd", errorMessage)
                 }
                 is Result.Loading -> {
                     showProgressDialog("Loading Activities, please wait..", this)
@@ -79,11 +84,13 @@ class AllFypActivity : AppCompatActivity() {
         }
     }
 
+    fun toggleFab(showFab: Boolean) {
+        binding.fabAddActivity.visibility = if (showFab) View.VISIBLE else View.GONE
+    }
+
     private fun setUpRecyclerView() {
         recyclerview = binding.rvFypActivity
         recyclerview.adapter = activityAdapter
         recyclerview.layoutManager = LinearLayoutManager(this)
     }
-
-
 }

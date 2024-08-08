@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
@@ -22,12 +23,18 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     private val _teachersFromCloud = MutableLiveData<Result<List<Teacher>>>()
     val teachersFromCloud : LiveData<Result<List<Teacher>>> get() = _teachersFromCloud
 
+    private val _notFypHeadSecretaries = MutableLiveData<Result<List<Teacher>>>()
+    val notFypHeadSecretaries : LiveData<Result<List<Teacher>>> get() = _notFypHeadSecretaries
 
     private var _teacherRegistrationResult = MutableLiveData<Result<Void?>>()
     val teacherRegistrationResult : LiveData<Result<Void?>> get() = _teacherRegistrationResult
 
+    private var _teacherRoleUpdateStatusForActivity = MutableLiveData<Result<Void?>>()
+    val teacherRoleUpdateStatusForActivity : LiveData<Result<Void?>> get() = _teacherRoleUpdateStatusForActivity
+
     init {
         getAllTeachersFromCloud()
+        getNotFypHeadSecretaries()
 //       viewModelScope.launch {
 //           teacherRepository.getAllFromRoom()
 //       }
@@ -47,6 +54,22 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
             _teachersFromCloud.value = teacherRepository.getAllTeachersFromCloud()
         }
     }
+
+    fun getNotFypHeadSecretaries(){
+        _notFypHeadSecretaries.value = Result.Loading
+        viewModelScope.launch {
+            _notFypHeadSecretaries.value = teacherRepository.getNotFypHeadSecretaries()
+        }
+    }
+
+    fun updateTeacherRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) {
+        _teacherRoleUpdateStatusForActivity.value = Result.Loading
+        viewModelScope.launch(Dispatchers.IO) {
+            _teacherRoleUpdateStatusForActivity.postValue(teacherRepository.updateTeacherRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole))
+        }
+    }
+
+
 
 
             // code for manage teachers
