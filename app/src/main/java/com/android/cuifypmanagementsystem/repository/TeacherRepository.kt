@@ -140,6 +140,10 @@ class TeacherRepository(
     }
 
 
+    suspend fun getTeachersFilteredByDepartments(){
+
+    }
+
     // update teacher field
 
     suspend fun updateTeacherRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) : Result<Void?>{

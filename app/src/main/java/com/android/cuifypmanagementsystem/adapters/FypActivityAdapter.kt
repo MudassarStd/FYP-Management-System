@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
@@ -45,11 +46,18 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         notifyDataSetChanged()
     }
 
-    class ActivityViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class ActivityViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val fypheadname=itemView.findViewById<TextView>(R.id.TVfypheadName)
         val fypsecname=itemView.findViewById<TextView>(R.id.TVfypSecName)
         val startedDate=itemView.findViewById<TextView>(R.id.TV_startedDate)
         val year=itemView.findViewById<TextView>(R.id.TV_year)
         val status=itemView.findViewById<TextView>(R.id.TV_status)
+
+        init {
+            itemView.setOnClickListener {
+                Toast.makeText(context, "Activity details", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 }

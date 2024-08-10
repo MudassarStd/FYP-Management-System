@@ -200,14 +200,14 @@ class StartFypActivity : AppCompatActivity() {
         val activityBatch = binding.etFypActivityBatch
 
         fypHead.setOnClickListener {
-            val intent = Intent(this, DisplayTeacherActivity::class.java).also {
+            val intent = Intent(this, ManageTeacherActivity::class.java).also {
                 it.action = ACTION_SELECT_FYP_HEAD
             }
             startActivity(intent)
         }
 
         fypSec.setOnClickListener {
-            val intent = Intent(this, DisplayTeacherActivity::class.java).also {
+            val intent = Intent(this, ManageTeacherActivity::class.java).also {
                 it.action = ACTION_SELECT_FYP_SECRETORY
             }
             startActivity(intent)

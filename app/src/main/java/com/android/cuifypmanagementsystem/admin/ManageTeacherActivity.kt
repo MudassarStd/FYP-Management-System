@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -18,9 +19,12 @@ import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_HEAD
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECRETORY
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
@@ -43,6 +47,12 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     }
 
     private lateinit var teacherViewModel : TeacherViewModel
+    private lateinit var selectionViewModel: H_S_SelectionViewModel
+
+    // changes
+    private  var headSelectionIntent : Boolean = false
+    private  var secretorySelectionIntent : Boolean = false
+    // changes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,20 +64,18 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             insets
         }
 
+        // selection VM for persisting selected values (head & secretory)
+        selectionViewModel = (application as BaseApplication).getH_S_SelectionViewModel()
+        // changes
+
         teacherAdapter.setOnTeacherEventInterface(this)
 
         val teacherRepository = (application as BaseApplication).teacherRepository
         teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
-        Log.d("TeacherCRUDTesting", "ManageTeacher:")
-//
-//        teacherViewModel.teachers.observe(this){
-//           teacherAdapter.updateTeachers(it)
-//            Log.d("TeacherCRUDTesting", "ManageTeacher: $it")
-//        }
+        checkIntentAction()
 
-
-
+        // observing teachers data from cloud
 
         teacherViewModel.teachersFromCloud.observe(this){result ->
             when(result){
@@ -87,9 +95,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
         }
 
-
-
-        // search bar
+        // setting up search bar
 
         val searchView = binding.svManageTeachers
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -111,6 +117,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
         departmentViewModel.selectedDepartments.observe(this){
             Toast.makeText(this, "$it  Selected", Toast.LENGTH_SHORT).show()
+            teacherAdapter.filterByDepartments(it)
         }
 
         binding.fabAddTeacher.setOnClickListener {
@@ -120,6 +127,34 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         setUpRV()
     }
 
+    private fun checkIntentAction(){
+        val intentAction = intent.action
+        val isSelectionIntent = when (intentAction) {
+            ACTION_SELECT_FYP_HEAD -> {
+                headSelectionIntent = true
+                changeScreenTitle("Select FYP Head")
+                true
+            }
+            ACTION_SELECT_FYP_SECRETORY -> {
+                secretorySelectionIntent = true
+                changeScreenTitle("Select FYP Secretory")
+                true
+            }
+            else -> false
+        }
+
+
+        // getting data from cloud based on Intent
+        if (isSelectionIntent) {
+            binding.fabAddTeacher.visibility = View.GONE
+            teacherViewModel.getNotFypHeadSecretaries()
+        } else {
+            binding.fabAddTeacher.visibility = View.VISIBLE
+            teacherViewModel.getAllTeachersFromCloud()
+        }
+
+    }
+
     private fun setUpRV() {
         binding.rvManageTeachers.adapter = teacherAdapter
         binding.rvManageTeachers.layoutManager = LinearLayoutManager(this)
@@ -127,6 +162,20 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
     override fun onDeleteSignal(teacher: Teacher) {
         showConfirmationDialog(teacher)
+    }
+
+    override fun onTeacherClick(teacher: Teacher) {
+        if (headSelectionIntent){
+            selectionViewModel.setSelectedHead(teacher)
+            finish()
+        }
+        else if(secretorySelectionIntent){
+            selectionViewModel.setSelectedSecretory(teacher)
+            finish()
+        }
+        else{
+            Toast.makeText(this, "Move to Details Screen", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showConfirmationDialog(teacher: Teacher) {
@@ -145,5 +194,8 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             .show()
     }
 
+    private fun changeScreenTitle(title : String){
+        binding.tvManageTeachersTitle.text = title
+    }
 
 }
