@@ -18,6 +18,7 @@ import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEA
 
 interface OnTeacherEvents{
     fun onDeleteSignal(teacher: Teacher)
+    fun onTeacherClick(teacher: Teacher)
 }
 class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : RecyclerView.Adapter<TeacherAdapter.TeacherViewHolder>() {
 
@@ -59,6 +60,18 @@ class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : Rec
         notifyDataSetChanged()
     }
 
+
+    fun filterByDepartments(departments : List<String>){
+        filteredList = if (departments.isEmpty()) {
+            teachers // Assuming you keep the original list somewhere in the adapter
+        } else {
+            teachers.filter { teacher ->
+                teacher.department in departments
+            }
+        }
+        notifyDataSetChanged()
+    }
+
     inner class TeacherViewHolder(itemView: View, listener: OnTeacherEvents) :
         RecyclerView.ViewHolder(itemView) {
 //        val id = itemView.findViewById<TextView>(R.id.tvTeacherId)
@@ -67,6 +80,10 @@ class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : Rec
 //        val btnDelete = itemView.findViewById<ImageButton>(R.id.btnDeleteTeacher)
 //        val btnEdit = itemView.findViewById<ImageButton>(R.id.btnEditTeacher)
         init {
+
+            itemView.setOnClickListener {
+                listener.onTeacherClick(teachers[adapterPosition])
+            }
 //            btnDelete.setOnClickListener {
 //               listener.onDeleteSignal(teachers[adapterPosition])
 //            }

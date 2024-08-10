@@ -27,7 +27,7 @@
             android:layout_marginHorizontal="20dp">
 
             <TextView
-                android:id="@+id/tvMngTeacher"
+                android:id="@+id/tvManageTeachersTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -49,7 +49,7 @@
                 android:weightSum="3"
                 app:layout_constraintEnd_toEndOf="@id/teacher_main_layout"
                 app:layout_constraintStart_toStartOf="@id/teacher_main_layout"
-                app:layout_constraintTop_toBottomOf="@id/tvMngTeacher">
+                app:layout_constraintTop_toBottomOf="@id/tvManageTeachersTitle">
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/svManageTeachers"
@@ -172,6 +172,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add"
                 android:text="Add Teacher"
+                android:visibility="gone"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

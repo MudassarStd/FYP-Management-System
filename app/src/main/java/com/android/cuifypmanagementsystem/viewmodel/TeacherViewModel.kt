@@ -33,8 +33,8 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     val teacherRoleUpdateStatusForActivity : LiveData<Result<Void?>> get() = _teacherRoleUpdateStatusForActivity
 
     init {
-        getAllTeachersFromCloud()
-        getNotFypHeadSecretaries()
+//        getAllTeachersFromCloud()
+//        getNotFypHeadSecretaries()
 //       viewModelScope.launch {
 //           teacherRepository.getAllFromRoom()
 //       }
@@ -44,10 +44,11 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         _teacherRegistrationResult.value = Result.Loading
         viewModelScope.launch {
            _teacherRegistrationResult.value = teacherRepository.registerTeacher(teacher)
+            getAllTeachersFromCloud() // refreshes list
         }
     }
 
-    private fun getAllTeachersFromCloud(){
+    fun getAllTeachersFromCloud(){
         Log.d("DisplayTeacherDebuggerAttached", "getAllTeachersFromCloud() called in VM")
         _teachersFromCloud.value = Result.Loading
         viewModelScope.launch {
@@ -56,9 +57,9 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     }
 
     fun getNotFypHeadSecretaries(){
-        _notFypHeadSecretaries.value = Result.Loading
+        _teachersFromCloud.value = Result.Loading
         viewModelScope.launch {
-            _notFypHeadSecretaries.value = teacherRepository.getNotFypHeadSecretaries()
+            _teachersFromCloud.value = teacherRepository.getNotFypHeadSecretaries()
         }
     }
 
