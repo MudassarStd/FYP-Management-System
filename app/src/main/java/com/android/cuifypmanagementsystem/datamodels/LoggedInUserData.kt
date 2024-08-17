@@ -1,6 +1,6 @@
 package com.android.cuifypmanagementsystem.datamodels
 
-data class UserAuthData(
+data class LoggedInUserData(
     val userId : String,
-    val userRole : String
+    val role : String
 )

@@ -1,7 +1,7 @@
 package com.android.cuifypmanagementsystem.repository
 
 
-import com.android.cuifypmanagementsystem.datamodels.UserAuthData
+import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -12,7 +12,7 @@ class UserAuthRepository(
     private val firebaseAuth: FirebaseAuth
 ) {
 
-    suspend fun userLogin(email: String, password: String): Result<UserAuthData> {
+    suspend fun userLogin(email: String, password: String): Result<LoggedInUserData> {
         return try {
             // Attempt to sign in with email and password
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
@@ -21,7 +21,7 @@ class UserAuthRepository(
             // Fetch user role
             val roleResult = fetchUserRole(userId)
             when (roleResult) {
-                is Result.Success -> Result.Success(UserAuthData(userId, roleResult.data))
+                is Result.Success -> Result.Success(LoggedInUserData(userId, roleResult.data))
                 is Result.Failure -> Result.Failure(roleResult.exception)
                 else -> Result.Failure(IllegalStateException("Unknown error while fetching role"))
 
@@ -40,6 +40,28 @@ class UserAuthRepository(
         } catch (e: Exception) {
             // Handle document retrieval failures
             Result.Failure(Exception("Failed to fetch user role: ${e.message}", e))
+        }
+    }
+
+    // Function to send a password reset email
+    suspend fun sendPasswordResetEmail(email: String) : Result<Void?>{
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            Result.Success(null)
+        } catch (e: Exception) {
+            Result.Failure(e)
+//            throw Exception("Failed to send password reset email: ${e.message}")
+        }
+    }
+
+
+    suspend fun userLogout() {
+        try {
+            firebaseAuth.signOut()  // Sign out the current user
+            // Optionally, handle post-signout actions here
+        } catch (e: Exception) {
+            // Handle possible exceptions here
+            e.printStackTrace()
         }
     }
 }

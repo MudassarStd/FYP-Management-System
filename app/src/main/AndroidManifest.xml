@@ -16,6 +16,15 @@
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.TeacherDetailsActivity"
             android:exported="false" />
         <activity
@@ -50,7 +59,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminDashboardActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

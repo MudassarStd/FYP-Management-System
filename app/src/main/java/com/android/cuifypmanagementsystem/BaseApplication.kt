@@ -7,6 +7,7 @@ import com.android.cuifypmanagementsystem.repository.BatchRepository
 import com.android.cuifypmanagementsystem.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
 import com.android.cuifypmanagementsystem.room.MainDatabase
+import com.android.cuifypmanagementsystem.utils.UserAuthSharedPreferenceHelper
 import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,6 +36,9 @@ class BaseApplication  : Application() {
         val firestore = FirebaseFirestore.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
 
+
+        // initializing shared prefs
+        UserAuthSharedPreferenceHelper.initialize(applicationContext)
 
         teacherRepository = TeacherRepository(applicationContext, roomDatabase, firestore, firebaseAuth)
         fypActivityRepository = FypActivityRepository(firestore, roomDatabase)
