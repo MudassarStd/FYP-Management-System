@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scrollbars="vertical"
+        android:fillViewport="true"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,9 +57,9 @@
                 android:layout_marginTop="52dp"
                 android:background="@drawable/rounded_corners_white_background"
                 android:elevation="2dp"
-                android:inputType="textEmailAddress"
                 android:focusedByDefault="false"
                 android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
@@ -89,16 +90,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corners_white_background"
                 android:backgroundTint="@color/primaryColor"
                 android:text="Login"
                 android:textColor="@color/white"
                 app:cornerRadius="10dp"
-                android:background="@drawable/rounded_corners_white_background"
                 app:layout_constraintEnd_toEndOf="@+id/etPasswordLogin"
                 app:layout_constraintStart_toStartOf="@+id/etPasswordLogin"
-                app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
+                app:layout_constraintTop_toBottomOf="@+id/cbRememberMeLogin" />
 
             <TextView
                 android:id="@+id/textView"
@@ -115,8 +115,8 @@
                 android:id="@+id/signupbtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/rounded_corners_white_background"
                 android:text="Register"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +124,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView" />
 
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbRememberMeLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Remember me"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

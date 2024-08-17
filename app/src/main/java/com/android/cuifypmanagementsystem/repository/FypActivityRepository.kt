@@ -59,4 +59,24 @@ class FypActivityRepository(private val firestore: FirebaseFirestore,
         }
     }
 
+    suspend fun getActivityInfo(activityId: String): FypActivityRecord? {
+        return try {
+            val docSnapshot = firestore.collection("Activities").document(activityId).get().await()
+
+            if (docSnapshot.exists()) {
+                val activity = docSnapshot.toObject(FypActivityRecord::class.java)
+                Log.d("hfsjdhfsjd", "Document data: ${docSnapshot.data}")
+                Log.d("hfsjdhfsjd", "Deserialized activity: $activity")
+                activity
+            } else {
+                Log.d("hfsjdhfsjd", "Document does not exist for activityId: $activityId")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("hfsjdhfsjd", "Error fetching document: ${e.message}")
+            null
+        }
+    }
+
+
 }

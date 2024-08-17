@@ -2,6 +2,7 @@ package com.android.cuifypmanagementsystem
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.repository.UserAuthRepository
 import com.android.cuifypmanagementsystem.repository.BatchRepository
 import com.android.cuifypmanagementsystem.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.repository.TeacherRepository
@@ -16,6 +17,7 @@ class BaseApplication  : Application() {
     lateinit var teacherRepository: TeacherRepository
     lateinit var fypActivityRepository: FypActivityRepository
     lateinit var batchRepository: BatchRepository
+    lateinit var userAuthRepository: UserAuthRepository
 
     private val h_s_selectionViewModel: H_S_SelectionViewModel by lazy {
         ViewModelProvider.AndroidViewModelFactory.getInstance(this).create(H_S_SelectionViewModel::class.java)
@@ -37,6 +39,7 @@ class BaseApplication  : Application() {
         teacherRepository = TeacherRepository(applicationContext, roomDatabase, firestore, firebaseAuth)
         fypActivityRepository = FypActivityRepository(firestore, roomDatabase)
         batchRepository = BatchRepository(firestore, roomDatabase)
+        userAuthRepository = UserAuthRepository(firestore, firebaseAuth)
     }
 
     fun getH_S_SelectionViewModel(): H_S_SelectionViewModel {

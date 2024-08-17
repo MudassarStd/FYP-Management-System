@@ -15,19 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
-
+        <activity
+            android:name=".admin.TeacherDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".admin.DisplayTeacherActivity"
             android:exported="false" />
         <activity
             android:name=".admin.AllFypActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".admin.StartFypActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-
             android:name=".admin.AddTeacher"
             android:exported="false" />
         <activity

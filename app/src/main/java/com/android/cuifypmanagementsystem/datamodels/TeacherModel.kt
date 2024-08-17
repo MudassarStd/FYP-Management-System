@@ -17,13 +17,13 @@ data class Teacher(
     val name: String,
     val email: String,
     val department: String,
-    val isSupervisor : Boolean,
-    val isFypHeadOrSecretory : Boolean,
+    val supervisor: Int ,
+    val fypHeadOrSecretory: Int,
     @Embedded val fypActivityRole: FypActivityRole? = null,
     val registrationTimeStamp: Timestamp = Timestamp.now()
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
-    constructor() : this(null, "", "", "", false, false ,null, Timestamp.now()) // No-argument constructor
+    constructor() : this(null, "", "", "", 0, 0, null, Timestamp.now())
 }

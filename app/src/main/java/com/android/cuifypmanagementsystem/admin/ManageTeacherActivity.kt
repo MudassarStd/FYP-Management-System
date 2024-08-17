@@ -28,6 +28,7 @@ import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
+import java.io.Serializable
 
 class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     private val binding : ActivityManageTeacherBinding by lazy {
@@ -82,6 +83,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
                 is Result.Success -> {
                     hideProgressDialog()
                     teacherAdapter.updateTeachers(result.data)
+                    Log.d("hfsjdhfsjd","data from cloud: ${result.data}")
                 }
                 is Result.Loading -> {
                     showProgressDialog("Loading Data, please wait..", this)
@@ -174,7 +176,16 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             finish()
         }
         else{
-            Toast.makeText(this, "Move to Details Screen", Toast.LENGTH_SHORT).show()
+            val intent = (Intent(this, TeacherDetailsActivity::class.java)).apply {
+                putExtra("name", teacher.name)
+                putExtra("department", teacher.department)
+                putExtra("isSupervisor", teacher.supervisor)
+                putExtra("isFypHeadOrSecretory", teacher.fypHeadOrSecretory)
+                putExtra("activityRole", teacher.fypActivityRole?.activityRole)
+                putExtra("activityId", teacher.fypActivityRole?.activityId)
+            }
+            Log.d("hfsjdhfsjd","value test before starting actv: ${teacher.fypHeadOrSecretory}")
+            startActivity(intent)
         }
     }
 
