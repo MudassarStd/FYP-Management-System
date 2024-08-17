@@ -123,7 +123,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name,email, depart, false, false, null)
+            Teacher(null, name,email, depart, 0, 0, null)
         } else {
             null
         }

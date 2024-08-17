@@ -18,6 +18,9 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
     private val _fypActivityStartStatus = MutableLiveData<Result<String>>()
     val fypActivityStartStatus : LiveData<Result<String>> get() = _fypActivityStartStatus
 
+    private val _fypActivityInfo = MutableLiveData<FypActivityRecord>()
+    val fypActivityInfo : LiveData<FypActivityRecord> get() = _fypActivityInfo
+
     init {
         _fypActivitiesFetch.value = Result.Loading
         viewModelScope.launch {
@@ -35,6 +38,12 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
     fun deleteFypActivity(activityId : String){
         viewModelScope.launch(Dispatchers.IO) {
             fypActivityRepository.deleteFypActivity(activityId)
+        }
+    }
+
+    fun getActivityInfo(activityId : String){
+        viewModelScope.launch() {
+            _fypActivityInfo.value = fypActivityRepository.getActivityInfo(activityId)
         }
     }
 }

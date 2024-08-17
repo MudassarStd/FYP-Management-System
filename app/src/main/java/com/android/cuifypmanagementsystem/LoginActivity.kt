@@ -6,8 +6,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.ActivityLoginBinding
 import com.android.cuifypmanagementsystem.datamodels.LoginCredentials
+import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.math.log
 
@@ -15,6 +18,9 @@ class LoginActivity : AppCompatActivity() {
     private val binding : ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
+
+    private lateinit var userAuthViewModel: UserAuthViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +32,15 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnLogin.setOnClickListener {
-            val login = getLoginCredentials()
+        val userAuthRepository = (application as BaseApplication).userAuthRepository
+        userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
 
-            login?.let {
-                loginUser(login.email, login.password)
+        binding.btnLogin.setOnClickListener {
+            val loginCredentials = getLoginCredentials()
+
+            loginCredentials?.let {
+                userAuthViewModel.userLogin(loginCredentials.email, loginCredentials.password)
+//                loginUser()
 
             } ?: Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
         }
@@ -43,17 +53,17 @@ class LoginActivity : AppCompatActivity() {
         return LoginCredentials(email, password).takeIf { email.isNotEmpty() && password.isNotEmpty() }
     }
 
-    private fun loginUser(email: String, password: String) {
-        FirebaseAuth.getInstance()
-            .signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Success: ${email} & ${password}", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Fail: ${email} & ${password}", Toast.LENGTH_SHORT).show()
-                    val exception = task.exception
-                    // ... display error message or take appropriate action
-                }
-            }
-    }
+//    private fun loginUser(email: String, password: String) {
+//        FirebaseAuth.getInstance()
+//            .signInWithEmailAndPassword(email, password)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(this, "Success: ${email} & ${password}", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "Fail: ${email} & ${password}", Toast.LENGTH_SHORT).show()
+//                    val exception = task.exception
+//                    // ... display error message or take appropriate action
+//                }
+//            }
+//    }
 }

@@ -66,8 +66,8 @@ class TeacherRepository(
                 "name" to teacher.name,
                 "email" to teacher.email,
                 "department" to teacher.department,
-                "isSupervisor" to teacher.isSupervisor,
-                "isFypHeadOrSecretory" to teacher.isFypHeadOrSecretory,
+                "supervisor" to teacher.supervisor,
+                "fypHeadOrSecretory" to teacher.fypHeadOrSecretory,
                 "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
                 )
@@ -114,7 +114,7 @@ class TeacherRepository(
         return try{
             if (isInternetAvailable(applicationContext))
             {
-                val snapshot = firestore.collection("teachers").whereEqualTo("isFypHeadOrSecretory", false) // Filter for teachers who are not head or sec
+                val snapshot = firestore.collection("teachers").whereEqualTo("fypHeadOrSecretory", 0) // Filter for teachers who are not head or sec
                     .get()
                     .await()
                 Log.d("DisplayTeacherDebuggerAttached", "Snapshot: ${snapshot}")
@@ -129,10 +129,9 @@ class TeacherRepository(
             else{
                 // fetch from room
                 Result.Success(getAllFromRoom().filter {
-                    !it.isFypHeadOrSecretory
+                    it.fypHeadOrSecretory == 0
                 })
             }
-
         }
         catch (e : Exception){
             Result.Failure(e)
@@ -152,7 +151,7 @@ class TeacherRepository(
 
             val headDocRef = firestore.collection("teachers").document(fypHeadId)
             val headRoleUpdate = hashMapOf<String, Any>(
-                "isFypHeadOrSecretory" to true,
+                "fypHeadOrSecretory" to 1,
                 "fypActivityRole.activityId" to fypHeadRole.activityId as Any,
                 "fypActivityRole.activityRole" to fypHeadRole.activityRole as Any
             )
@@ -160,7 +159,7 @@ class TeacherRepository(
 
             val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
             val secretoryRoleUpdate = hashMapOf<String, Any>(
-                "isFypHeadOrSecretory" to true,
+                "fypHeadOrSecretory" to 1,
                 "fypActivityRole.activityId" to fypSecretoryRole.activityId as Any,
                 "fypActivityRole.activityRole" to fypSecretoryRole.activityRole as Any
             )
