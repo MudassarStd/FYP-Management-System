@@ -11,4 +11,9 @@
         <item>Dr Tariq Shehzad</item>
     </string-array>
 
+    <string name="group_title">FYP managment system</string>
+    <string name="group_description">Our project is solely focus on the betterment of the society and the
+        envirnment around us there is nothing else can be happen to be.
+    </string>
+
 </resources>

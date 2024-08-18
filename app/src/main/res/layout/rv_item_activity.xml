@@ -97,6 +97,8 @@
                 android:layout_weight="3.5"
                 android:letterSpacing="0.1"
                 android:text="Semester"
+                android:drawableStart="@drawable/school"
+                android:drawablePadding="15dp"
                 android:textAllCaps="true"
                 android:textSize="12dp" />
 
@@ -125,6 +127,8 @@
                 android:layout_weight="3.5"
                 android:letterSpacing="0.1"
                 android:text="Started Date"
+                android:drawableStart="@drawable/date"
+                android:drawablePadding="15dp"
                 android:textAllCaps="true"
                 android:textSize="12dp" />
 
@@ -153,6 +157,8 @@
                 android:layout_weight="3.5"
                 android:letterSpacing="0.1"
                 android:text="Status"
+                android:drawableStart="@drawable/star_status"
+                android:drawablePadding="15dp"
                 android:textAllCaps="true"
                 android:textSize="12dp" />
 

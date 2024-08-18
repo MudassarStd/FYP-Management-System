@@ -45,8 +45,8 @@ class Start_FYP_Activityy : AppCompatActivity() {
 
         binding.btnStartActivity.setOnClickListener {
             // Retrieve input values
-            val fyphead = fypheadId
-            val fypsec = fypsecId
+            val fyphead = binding.etFYPhead.text.toString()
+            val fypsec = binding.etFYPSec.text.toString()
             val startyear = binding.etStartYear.text.toString()
 
             // Validate inputs
