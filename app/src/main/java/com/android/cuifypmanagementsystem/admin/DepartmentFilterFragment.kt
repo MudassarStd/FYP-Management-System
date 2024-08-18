@@ -68,6 +68,7 @@ class DepartmentFilterFragment : BottomSheetDialogFragment(), OnDepartSelected {
     override fun onSelect(selectedDepartments: List<String>) {
         binding.btnApplyFilter.setOnClickListener {
             departmentViewModel.selected(selectedDepartments)
+            dismiss()
         }
     }
 

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".admin.BatchActivity">
 
 
@@ -39,9 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:text="Batch"
+        android:visibility="gone"
         android:contentDescription="Add New Batch"
         app:icon="@drawable/ic_add"
-        app:iconTint="@color/primaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

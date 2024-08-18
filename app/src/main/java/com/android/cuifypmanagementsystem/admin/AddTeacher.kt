@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddTeacherBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Teacher
+import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_TEACHER_OBJECT
 import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEACHER
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
@@ -23,7 +25,6 @@ class AddTeacher : AppCompatActivity() {
     private val binding : ActivityAddTeacherBinding by lazy {
         ActivityAddTeacherBinding.inflate(layoutInflater)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,33 +47,31 @@ class AddTeacher : AppCompatActivity() {
             getTeacherFromIntent()
         }
 
-
-
-
-
         binding.btnAddTeacher.setOnClickListener {
             val teacher = getTeacherData()
             teacher?.let {
                 // insertion into room
                 teacherViewModel.registerTeacher(teacher)
 
-                // observing teacher registration results
-                teacherViewModel.registrationResult.observe(this){ result ->
+                // ---------------------- observing teacher registration results ----------------------
+
+                teacherViewModel.teacherRegistrationResult.observe(this){ result ->
                    when(result){
+                       is Result.Loading -> {
+                          showProgressDialog("Registering Teacher, please wait..", this)
+                       }
                        is Result.Success -> {
+                           hideProgressDialog()
+                           clearFields()
                            Toast.makeText(this, "Teacher Registered Successfully", Toast.LENGTH_SHORT).show()
                        }
                        is Result.Failure -> {
+                           hideProgressDialog()
                            val errorMessage = result.exception.message ?: "An unknown error occurred"
                            Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
                        }
                    }
                 }
-
-                Log.d("TeacherCRUDTesting", "AddTeacher: teacher added successfully")
-//                Toast.makeText(this, "Teacher Added Successfully", Toast.LENGTH_SHORT).show()
-
-                clearFields()
             }
         }
 
@@ -81,7 +80,7 @@ class AddTeacher : AppCompatActivity() {
         binding.btnUpdateTeacher.setOnClickListener {
             val teacher = getTeacherData()
             teacher?.let{
-                Toast.makeText(this, teacher.depart, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, teacher.department, Toast.LENGTH_SHORT).show()
                 teacherViewModel.updateTeacher(teacher)
                 clearFields()
                 finish()
@@ -104,7 +103,7 @@ class AddTeacher : AppCompatActivity() {
         val teacher = intent.getSerializableExtra(ACTION_EDIT_TEACHER_OBJECT) as Teacher
 
         binding.etTeacherName.setText(teacher.name)
-        binding.etTeacherDepart.setText(teacher.depart)
+        binding.etTeacherDepart.setText(teacher.department)
 
     }
 
@@ -124,9 +123,46 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name,email, depart, role, System.currentTimeMillis())
+            Teacher(null, name,email, depart, 0, 0, null)
         } else {
             null
         }
     }
+
+
+
+    // MailerSend API implementation
+//    fun sendEmail() {
+//        val service = RetrofitClient.instance.create(MailerSendService::class.java)
+//
+//        val email = MailerSendEmail(
+//            to = listOf(Recipient("mudassarstd@gmail.com", "Recipient Name")),
+//            from = Sender("mudassarstd@gmail.com", "Your Name"),
+//            subject = "Email Subject",
+//            text = "This is the text content",
+//            html = "<p>This is the HTML content</p>"
+//        )
+//
+//        service.sendEmail(email).enqueue(object : Callback<MailerSendResponse> {
+//            override fun onResponse(call: Call<MailerSendResponse>, response: Response<MailerSendResponse>) {
+//                if (response.isSuccessful) {
+//                    Log.d("TESTINGMAILINGSERVICE", "Email sent successfully, message ID: ${response.body()?.messageId}")
+//                } else {
+//                    println()
+//                    Log.d("TESTINGMAILINGSERVICE", "Failed to send email: ${response.errorBody()?.string()}")
+//
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<MailerSendResponse>, t: Throwable) {
+//                t.printStackTrace()
+//                println("Failed to send email: ${t.message}")
+//                Log.d("TESTINGMAILINGSERVICE", "Failed to send email: ${t.message}")
+//
+//            }
+//        })
+//    }
+
+
+
 }

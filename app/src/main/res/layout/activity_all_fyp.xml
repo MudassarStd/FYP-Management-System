@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Started_act_details_activity">
+    tools:context=".admin.AllFypActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvActivity"
+        android:id="@+id/rvFypActivity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"
@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:visibility="gone"
         android:contentDescription="Add New Batch"
         app:icon="@drawable/ic_add"
         app:iconTint="@color/primaryColor"

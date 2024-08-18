@@ -2,23 +2,24 @@ package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
-import com.android.cuifypmanagementsystem.room.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.BatchActivityExtras
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 
 class AddEditBatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEditBatchBinding
-    private val viewModel: BatchViewModel by lazy {
-        ViewModelProvider(this)[BatchViewModel::class.java]
-    }
+    private lateinit var batchViewModel: BatchViewModel
     private var isEditing: Boolean = false
     private lateinit var editingBatch: Batch
 
@@ -29,16 +30,18 @@ class AddEditBatchActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupInsets()
 
-        viewModel.getAllBatches()
+        val batchRepository = (application as BaseApplication).batchRepository
+        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
+//        viewModel.getAllBatches()
 
-        isEditing = intent.hasExtra(BatchActivityExtras.EXTRA_ACTION_EDIT)
+//        if (isEditing) {
+//            editingBatch = intent.getSerializableExtra("batch") as Batch
+//            populateFields(editingBatch)
+//        }
 
-        if (isEditing) {
-            editingBatch = intent.getSerializableExtra("batch") as Batch
-            populateFields(editingBatch)
+        binding.btnUpdateBatch.setOnClickListener { handleBatchUpdate()
+            Log.d("TestingBatchAddLogic", "btn clicked")
         }
-
-        binding.btnUpdate.setOnClickListener { handleBatchUpdate() }
     }
 
     private fun setupInsets() {
@@ -56,29 +59,31 @@ class AddEditBatchActivity : AppCompatActivity() {
 
     private fun handleBatchUpdate() {
         val batch = getData()
+        Log.d("TestingBatchAddLogic", "batch: ${batch}")
         batch?.let {
-            if (isEditing) {
-                updateBatch(it)
-            } else {
+//            if (isEditing) {
+//                updateBatch(it)
+//            } else {
                 addBatch(it)
-            }
+//            }
         }
     }
 
-    private fun updateBatch(batch: Batch) {
-        if (viewModel.validateBatchForEditing(batch.name, batch.semester)) {
-            viewModel.update(batch)
-            showToast("Batch updated Successfully")
-            finish()
-            startActivity(Intent(this, BatchActivity::class.java))
-        } else {
-            showToast("Batch already exists")
-        }
-    }
+//    private fun updateBatch(batch: Batch) {
+//        if (viewModel.validateBatchForEditing(batch.name, batch.semester!!)) {
+//            viewModel.update(batch)
+//            showToast("Batch updated Successfully")
+//            finish()
+//            startActivity(Intent(this, BatchActivity::class.java))
+//        } else {
+//            showToast("Batch already exists")
+//        }
+//    }
 
     private fun addBatch(batch: Batch) {
-        if (viewModel.validateBatch(batch.name, batch.semester)) {
-            viewModel.insert(batch)
+        if (batchViewModel.validateBatch(batch.name, batch.semester!!)) {
+            batchViewModel.addBatch(batch)
+
             showToast("Batch Added Successfully")
             finish()
         } else {
@@ -92,16 +97,11 @@ class AddEditBatchActivity : AppCompatActivity() {
 
         return if (batchName.isNotEmpty() && semesterStr.isNotEmpty()) {
             val semester = semesterStr.toInt()
-            if (isEditing) {
-                Batch(editingBatch.id, batchName, semester, editingBatch.registeredStudents)
+            Batch(null, batchName, semester, 0, 0, false)
             } else {
-                Batch(0, batchName, semester, 0)
+                null
             }
-        } else {
-            showToast("Invalid Information")
-            null
         }
-    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

@@ -3,41 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".admin.DisplayTeacherActivity">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Select Teacher"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
         android:textAllCaps="true"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        >
+        android:layout_marginTop="40dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/Teacherrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="8dp"
-            tools:listitem="@layout/rv_item_select_teacher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:listitem="@layout/rv_item_select_teacher" />
+        <!--        -->
+
+
     </ScrollView>
 
+    <TextView
+        android:id="@+id/tvNoTeacherFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No teacher found"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

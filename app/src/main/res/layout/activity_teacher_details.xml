@@ -1,0 +1,242 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:id="@+id/main"
+    android:fillViewport="true"
+    tools:context=".TeacherDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Teacher Details"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="22sp"/>
+
+        <!-- Profile Section -->
+
+        <!-- Roles Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingBottom="12dp">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tvTeacherName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Teacher Name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toEndOf="@+id/profile_image"
+                app:layout_constraintStart_toStartOf="@+id/profile_image"
+                app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+            <TextView
+                android:id="@+id/tvDepartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Department Name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintEnd_toEndOf="@+id/tvTeacherName"
+                app:layout_constraintStart_toStartOf="@+id/tvTeacherName"
+                app:layout_constraintTop_toBottomOf="@+id/tvTeacherName" />
+
+
+            <TextView
+                android:id="@+id/tvRegistrationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registration"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Roles"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvNoRoleAssigned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone"
+            android:textStyle="italic"
+            android:text="No roles assigned yet"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:paddingBottom="8dp" />
+
+        <!-- FYP Head Section -->
+        <LinearLayout
+            android:id="@+id/llFypHeadSecretorySection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:background="@drawable/rounded_bg_light">
+
+            <TextView
+                android:id="@+id/tvTitleSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FYP Head"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvFypActivityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading.."
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+            <TextView
+                android:id="@+id/tvFypActivityDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading.."
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+        </LinearLayout>
+
+        <!-- Secretary Section -->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/llFypSecretorySection"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:visibility="gone"-->
+<!--            android:padding="8dp"-->
+<!--            android:background="@drawable/rounded_bg_light"-->
+<!--            android:layout_marginTop="8dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Secretary"-->
+<!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
+<!--                android:paddingBottom="4dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/llSecretoryActivityName"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Loading activity"-->
+<!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/llSecretoryActivityStartDate"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Loading description for activity."-->
+<!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />-->
+<!--        </LinearLayout>-->
+
+        <!-- Supervisor Section -->
+        <LinearLayout
+            android:id="@+id/llSupervisorSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:background="@drawable/rounded_bg_light"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Supervisor"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/supervised_groups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Groups: Group 1, Group 2, Group 3"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+            <TextView
+                android:id="@+id/supervised_batches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Batches: Batch 1, Batch 2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+        </LinearLayout>
+
+        <!-- Additional Info Section (Expandable) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Additional Information"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/additional_info_section">
+
+            <!-- Additional information content goes here -->
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/expand_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View More"
+            android:textColor="?attr/colorPrimary"
+            android:paddingTop="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+            <Button
+                android:id="@+id/schedule_meeting_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disable Account"
+                android:layout_marginTop="10dp"
+                app:cornerRadius="10dp"
+                android:backgroundTint="@color/red"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+    </LinearLayout>
+</ScrollView>
