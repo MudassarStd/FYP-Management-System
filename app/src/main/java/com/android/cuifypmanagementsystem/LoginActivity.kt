@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -7,8 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
 import com.android.cuifypmanagementsystem.databinding.ActivityLoginBinding
 import com.android.cuifypmanagementsystem.datamodels.LoginCredentials
+import com.android.cuifypmanagementsystem.utils.LoadingProgress
+import com.android.cuifypmanagementsystem.utils.Result
+import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
@@ -40,9 +45,36 @@ class LoginActivity : AppCompatActivity() {
 
             loginCredentials?.let {
                 userAuthViewModel.userLogin(loginCredentials.email, loginCredentials.password)
+                observeUserLoginState()
 //                loginUser()
 
             } ?: Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+        }
+
+
+        binding.tvForgetPassword.setOnClickListener {
+            startActivity(Intent(this, ForgetPasswordActivity::class.java))
+        }
+    }
+
+    private fun observeUserLoginState() {
+        userAuthViewModel.userAuthState.observe(this){ result ->
+            when(result){
+                is Result.Success -> {
+                    LoadingProgress.hideProgressDialog()
+                    UserAuthNavigationManager.navigateToAppropriateScreen(this, result.data)
+                    finish()
+                }
+                is Result.Failure -> {
+                    LoadingProgress.hideProgressDialog()
+//                    Toast.makeText(this, "Login Failed: ${result.exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
+                }
+                is Result.Loading -> {
+                    LoadingProgress.showProgressDialog("Logging in, please wait", this)
+//                    Toast.makeText(this, "Logging in, please wait", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -52,18 +84,4 @@ class LoginActivity : AppCompatActivity() {
 
         return LoginCredentials(email, password).takeIf { email.isNotEmpty() && password.isNotEmpty() }
     }
-
-//    private fun loginUser(email: String, password: String) {
-//        FirebaseAuth.getInstance()
-//            .signInWithEmailAndPassword(email, password)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    Toast.makeText(this, "Success: ${email} & ${password}", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(this, "Fail: ${email} & ${password}", Toast.LENGTH_SHORT).show()
-//                    val exception = task.exception
-//                    // ... display error message or take appropriate action
-//                }
-//            }
-//    }
 }

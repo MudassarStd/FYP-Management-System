@@ -10,6 +10,7 @@ import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
+import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -213,14 +214,14 @@ class TeacherRepository(
 
 
 
-    private fun generateRandomPassword(length: Int = 8): String {
-        require(length in 8..12) { "Password length must be between 8 and 12 characters." }
-
-        val chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" // Digits
-        return (1..length)
-            .map { chars.random() } // Pick random characters from the set
-            .joinToString("") // Join them into a single string
-    }
+//    private fun generateRandomPassword(length: Int = 8): String {
+//        require(length in 8..12) { "Password length must be between 8 and 12 characters." }
+//
+//        val chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" // Digits
+//        return (1..length)
+//            .map { chars.random() } // Pick random characters from the set
+//            .joinToString("") // Join them into a single string
+//    }
 
 
     // Send email to user
