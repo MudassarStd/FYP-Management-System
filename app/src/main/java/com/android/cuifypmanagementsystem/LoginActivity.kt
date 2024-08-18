@@ -12,10 +12,13 @@ import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
 import com.android.cuifypmanagementsystem.databinding.ActivityLoginBinding
 import com.android.cuifypmanagementsystem.datamodels.LoginCredentials
 import com.android.cuifypmanagementsystem.utils.LoadingProgress
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.math.log
 
@@ -46,6 +49,8 @@ class LoginActivity : AppCompatActivity() {
             loginCredentials?.let {
                 userAuthViewModel.userLogin(loginCredentials.email, loginCredentials.password)
                 observeUserLoginState()
+//                LoadingProgress.showProgressDialog("Logging in, please wait", this)
+
 //                loginUser()
 
             } ?: Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
@@ -61,18 +66,18 @@ class LoginActivity : AppCompatActivity() {
         userAuthViewModel.userAuthState.observe(this){ result ->
             when(result){
                 is Result.Success -> {
-                    LoadingProgress.hideProgressDialog()
+                    hideProgressDialog()
                     UserAuthNavigationManager.navigateToAppropriateScreen(this, result.data)
                     finish()
                 }
                 is Result.Failure -> {
-                    LoadingProgress.hideProgressDialog()
+                    hideProgressDialog()
 //                    Toast.makeText(this, "Login Failed: ${result.exception.message}", Toast.LENGTH_SHORT).show()
                     Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
+
                 }
                 is Result.Loading -> {
-                    LoadingProgress.showProgressDialog("Logging in, please wait", this)
-//                    Toast.makeText(this, "Logging in, please wait", Toast.LENGTH_SHORT).show()
+                    showProgressDialog("Logging in...", this)
                 }
             }
         }
@@ -84,4 +89,6 @@ class LoginActivity : AppCompatActivity() {
 
         return LoginCredentials(email, password).takeIf { email.isNotEmpty() && password.isNotEmpty() }
     }
+
+
 }

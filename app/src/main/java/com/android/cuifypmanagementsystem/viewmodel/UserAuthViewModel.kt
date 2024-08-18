@@ -15,6 +15,13 @@ class UserAuthViewModel(private val userAuthRepository: UserAuthRepository) : Vi
     private val _userAuthState = MutableLiveData<Result<LoggedInUserData>>()
     val userAuthState : LiveData<Result<LoggedInUserData>> get() = _userAuthState
 
+
+    private val _passwordResetEmailState = MutableLiveData<Result<Void?>>()
+    val passwordResetEmailState : LiveData<Result<Void?>> get() = _passwordResetEmailState
+
+    private val _passwordChangeResult = MutableLiveData<Result<Void?>>()
+    val passwordChangeResult: LiveData<Result<Void?>> get() = _passwordChangeResult
+
     fun userLogin(email : String, password : String){
         _userAuthState.value = Result.Loading
         viewModelScope.launch {
@@ -35,8 +42,17 @@ class UserAuthViewModel(private val userAuthRepository: UserAuthRepository) : Vi
 
 
     fun sendPasswordResetEmail (email : String){
+        _passwordResetEmailState.value = Result.Loading
         viewModelScope.launch {
-            userAuthRepository.sendPasswordResetEmail(email)
+            _passwordResetEmailState.value = userAuthRepository.sendPasswordResetEmail(email)
+        }
+    }
+
+
+    fun userChangePassword(oldPassword : String, newPassword : String){
+        _passwordChangeResult.value = Result.Loading
+        viewModelScope.launch {
+            _passwordChangeResult.value = userAuthRepository.userChangePassword(oldPassword, newPassword)
         }
     }
 

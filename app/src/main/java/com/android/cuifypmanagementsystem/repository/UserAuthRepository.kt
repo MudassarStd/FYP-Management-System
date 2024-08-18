@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.android.cuifypmanagementsystem.utils.Result
+import com.google.firebase.auth.EmailAuthProvider
 
 class UserAuthRepository(
     private val firestore: FirebaseFirestore,
@@ -64,4 +65,28 @@ class UserAuthRepository(
             e.printStackTrace()
         }
     }
+
+    suspend fun userChangePassword(oldPassword: String, newPassword: String): Result<Void?> {
+        val user = firebaseAuth.currentUser
+        return if (user != null) {
+            val email = user.email ?: return Result.Failure(Exception("User email not found"))
+            val credential = EmailAuthProvider.getCredential(email, oldPassword)
+
+            try {
+                // Reauthenticate the user
+                user.reauthenticate(credential).await()
+
+                // Update the password
+                user.updatePassword(newPassword).await()
+
+                Result.Success(null)
+            } catch (e: Exception) {
+                Result.Failure(e)
+            }
+        } else {
+            Result.Failure(Exception("User not found"))
+        }
+    }
+
+
 }

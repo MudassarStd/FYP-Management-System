@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import CustomDialogHelper.showLoadingDialog
 import CustomDialogHelper.showLogoutDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -39,6 +40,8 @@ class AdminDashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        window.statusBarColor = Color.parseColor("#8C99ED")
 
         val userAuthRepository = (application as BaseApplication).userAuthRepository
         userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
@@ -91,5 +94,10 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         popupMenu.show()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
