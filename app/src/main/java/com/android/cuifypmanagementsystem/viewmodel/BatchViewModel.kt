@@ -7,7 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.android.cuifypmanagementsystem.datamodels.Batch
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.repository.BatchRepository
 import com.android.cuifypmanagementsystem.utils.Result
 import kotlinx.coroutines.launch
@@ -19,6 +21,10 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
 
     private val _batches = MutableLiveData<List<Batch>>()
     val batches : LiveData<List<Batch>> get() = _batches
+
+    private val _batchById = MutableLiveData<Batch>()
+    val batchById : LiveData<Batch> get() = _batchById
+
 
     private val _batchesFromCloud = MutableLiveData<Result<List<Batch>>>()
     val batchesFromCloud : LiveData<Result<List<Batch>>> get() = _batchesFromCloud
@@ -47,6 +53,13 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
             _batchesFromCloud.value = batchRepository.fetchAllBatches()
         }
     }
+
+    fun getBatchById(batchId : String){
+        viewModelScope.launch {
+            _batchById.value = batchRepository.getBatchById(batchId)
+        }
+    }
+
 
 
 //    fun fetchAvailableBatchesForActivity() {

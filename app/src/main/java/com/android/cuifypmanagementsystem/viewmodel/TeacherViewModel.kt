@@ -32,6 +32,10 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     private var _teacherRoleUpdateStatusForActivity = MutableLiveData<Result<Void?>>()
     val teacherRoleUpdateStatusForActivity : LiveData<Result<Void?>> get() = _teacherRoleUpdateStatusForActivity
 
+    private val _fypHeadSecretaryById = MutableLiveData<Pair<Teacher?, Teacher?>>()
+    val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> = _fypHeadSecretaryById
+
+
     init {
 //        getAllTeachersFromCloud()
 //        getNotFypHeadSecretaries()
@@ -67,6 +71,12 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         _teacherRoleUpdateStatusForActivity.value = Result.Loading
         viewModelScope.launch(Dispatchers.IO) {
             _teacherRoleUpdateStatusForActivity.postValue(teacherRepository.updateTeacherRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole))
+        }
+    }
+
+    fun getHeadSecretoryById(fypHeadId : String, fypSecretoryId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _fypHeadSecretaryById.postValue(teacherRepository.getHeadSecretoryById(fypHeadId, fypSecretoryId))
         }
     }
 

@@ -15,7 +15,11 @@ class FypActivityRepository(private val firestore: FirebaseFirestore,
         return try{
             val snapshot = firestore.collection("Activities")
                 .get().await()
-            val fypActivities = snapshot.toObjects(FypActivityRecord::class.java)
+            val fypActivities = snapshot.documents.map {doc ->
+                val fypActivity = doc.toObject(FypActivityRecord::class.java)!!
+                fypActivity.copy(firestoreId = doc.id)
+
+            }
             Log.d("FYpActivityResultsjfsl","$fypActivities")
             Result.Success(fypActivities)
         }

@@ -84,6 +84,22 @@ class BatchRepository(private val firestore : FirebaseFirestore,
     }
 
 
+    suspend fun getBatchById(batchId : String) : Batch? {
+        return try {
+            val docSnapshot = firestore.collection("batches").document(batchId).get().await()
+            if (docSnapshot.exists()){
+                val batchDoc = docSnapshot.toObject(Batch::class.java)
+                batchDoc
+            }
+
+            else{
+                null
+            }
+        }
+        catch (e : Exception){
+            null
+        }
+    }
 
 
 

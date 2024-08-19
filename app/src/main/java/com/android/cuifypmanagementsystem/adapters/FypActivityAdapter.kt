@@ -1,6 +1,7 @@
 package com.android.cuifypmanagementsystem.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
+import com.android.cuifypmanagementsystem.admin.FypDetailsActivity
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 
 class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
@@ -24,10 +26,10 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
 
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity=activitiesData[position]
-        holder.fypheadname.text=activity.fypHead.name
-        holder.fypsecname.text=activity.fypSec.name
+        holder.fypheadname.text=activity.fypHeadId
+        holder.fypsecname.text=activity.fypSecId
         holder.startedDate.text= activity.registrationTimeStamp.toString()
-        holder.year.text=activity.batch!!.name
+        holder.year.text=activity.batchId
         holder.status.text = if (activity.status) {
             "On going"
         } else {
@@ -56,6 +58,9 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         init {
             itemView.setOnClickListener {
                 Toast.makeText(context, "Activity details", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, FypDetailsActivity::class.java )
+                intent.putExtra("fypActivityRecord", activitiesData[adapterPosition])
+                context.startActivity(intent)
             }
         }
 

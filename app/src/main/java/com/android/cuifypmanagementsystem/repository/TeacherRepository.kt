@@ -140,10 +140,6 @@ class TeacherRepository(
     }
 
 
-    suspend fun getTeachersFilteredByDepartments(){
-
-    }
-
     // update teacher field
 
     suspend fun updateTeacherRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) : Result<Void?>{
@@ -182,6 +178,29 @@ class TeacherRepository(
     }
 
 
+    suspend fun getHeadSecretoryById(fypHeadId: String, fypSecretoryId: String): Pair<Teacher?, Teacher?> {
+        return try {
+            // Fetch the head and secretary documents concurrently
+            val headTask = firestore.collection("teachers").document(fypHeadId).get()
+            val secretaryTask = firestore.collection("teachers").document(fypSecretoryId).get()
+
+            // Await the results of both tasks
+            val headSnapshot = headTask.await()
+            val secretarySnapshot = secretaryTask.await()
+
+            // Convert snapshots to Teacher objects, if they exist
+            val headTeacher = headSnapshot.toObject(Teacher::class.java)
+            val secretaryTeacher = secretarySnapshot.toObject(Teacher::class.java)
+
+            // Return the Pair of results
+            Pair(headTeacher, secretaryTeacher)
+        } catch (e: Exception) {
+            // Log the exception if necessary
+            Pair(null, null)
+        }
+    }
+
+
 
     // teacher account deletion
     suspend fun deleteTeacherRecord(uid : String){
@@ -203,12 +222,7 @@ class TeacherRepository(
         {
             Log.d(GLOBAL_TESTING_TAG, "Deletion Failed: ${e.message} ")
         }
-
-
-
             // Implement to delete user account
-
-
         }
 
 
@@ -248,11 +262,6 @@ class TeacherRepository(
         database.teacherDao().deleteTeacherRecordById(firestoreId)
     }
 
-//    suspend fun getAll()
-//    {
-//        _teachers.postValue(database.teacherDao().getAllTeachers())
-//    }
-//
     suspend fun getAllFromRoom() : List<Teacher>
     {
         return database.teacherDao().getAllTeachers()

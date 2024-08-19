@@ -2,6 +2,8 @@ package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -19,15 +21,20 @@ import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_HEAD
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_SECRETORY
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECRETORY
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.Serializable
 
 class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
@@ -48,12 +55,18 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     }
 
     private lateinit var teacherViewModel : TeacherViewModel
+    private lateinit var  fypActivityViewModel : FypActivityViewModel
     private lateinit var selectionViewModel: H_S_SelectionViewModel
 
     // changes
     private  var headSelectionIntent : Boolean = false
     private  var secretorySelectionIntent : Boolean = false
+    private  var changeHeadIntent : Boolean = false
+    private  var changeSecretoryIntent : Boolean = false
     // changes
+
+    private var actionChangeRoleActivityId : String? = null
+    private var actionChangeRoleTeacherId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +86,9 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
         val teacherRepository = (application as BaseApplication).teacherRepository
         teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+
+        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
         checkIntentAction()
 
@@ -131,6 +147,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
     private fun checkIntentAction(){
         val intentAction = intent.action
+
         val isSelectionIntent = when (intentAction) {
             ACTION_SELECT_FYP_HEAD -> {
                 headSelectionIntent = true
@@ -142,6 +159,24 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
                 changeScreenTitle("Select FYP Secretory")
                 true
             }
+
+            // Conditionals for changing fyp head or secretory role
+
+            ACTION_CHANGE_FYP_HEAD -> {
+                changeHeadIntent = true
+                changeScreenTitle("Select New Head")
+                actionChangeRoleActivityId = intent.getStringExtra("activityId")
+                actionChangeRoleTeacherId = intent.getStringExtra("roleHolderTeacherId")
+                true
+            }
+               ACTION_CHANGE_FYP_SECRETORY -> {
+                changeSecretoryIntent = true
+                changeScreenTitle("Select New Secretory")
+                actionChangeRoleActivityId = intent.getStringExtra("activityId")
+                actionChangeRoleTeacherId = intent.getStringExtra("roleHolderTeacherId")
+                true
+            }
+
             else -> false
         }
 
@@ -175,6 +210,12 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             selectionViewModel.setSelectedSecretory(teacher)
             finish()
         }
+        else if(changeHeadIntent){
+            showDialog("Fyp Head", teacher)
+        }
+        else if(changeSecretoryIntent){
+            showDialog("Fyp Secretory", teacher)
+        }
         else{
             val intent = (Intent(this, TeacherDetailsActivity::class.java)).apply {
                 putExtra("name", teacher.name)
@@ -207,6 +248,30 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
     private fun changeScreenTitle(title : String){
         binding.tvManageTeachersTitle.text = title
+    }
+
+    private fun showDialog(role : String, teacher : Teacher) {
+
+
+        val message: Spanned = Html.fromHtml(
+            "Are you sure to select <b>${teacher.name}</b> as new <b>$role</b>? <br><br>" +
+                    "<b>Note</b>: If you proceed, you will not be able to undo this action."
+        )
+
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Update Role") // Set the title of the dialog
+            .setMessage(message) // Set the message
+            .setPositiveButton("Proceed") { dialog, _ ->
+                // Handle positive button click
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                // Handle negative button click
+                dialog.dismiss()
+            }
+
+            .show()
     }
 
 }

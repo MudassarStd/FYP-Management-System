@@ -187,7 +187,7 @@ class StartFypActivity : AppCompatActivity() {
         val batchName = binding.etFypActivityBatch.text.toString()
         return if(fypHeadName.isNotEmpty() && fypSecretoryName.isNotEmpty() && batchName.isNotEmpty())
         {
-            FypActivityRecord(TeacherNameAndId(fypHeadName, fypHeadId!!), TeacherNameAndId(fypSecretoryName, fypSecretoryId!!), BatchInfo(batchName, batchId!!), true, System.currentTimeMillis())
+            FypActivityRecord(null,fypHeadId!!, fypSecretoryId!!, batchId!!, true, System.currentTimeMillis())
         }
         else{
             null

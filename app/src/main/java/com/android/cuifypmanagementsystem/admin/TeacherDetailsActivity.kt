@@ -11,15 +11,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityTeacherDetailsBinding
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
+import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 
 class TeacherDetailsActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityTeacherDetailsBinding.inflate(layoutInflater) }
     private lateinit var fypActivityViewModel: FypActivityViewModel
+    private lateinit var batchViewModel: BatchViewModel
     private var fypActivityInfo: FypActivityRecord? = null
+    private var batchInfo: Batch? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +35,7 @@ class TeacherDetailsActivity : AppCompatActivity() {
 
         initializeViewModel()
         handleIntentData()
-        observeFypActivityInfo()
+        observeFypActivityInfoResult()
     }
 
     private fun setupWindowInsets() {
@@ -46,6 +52,14 @@ class TeacherDetailsActivity : AppCompatActivity() {
             this,
             FypActivityViewModelFactory(fypActivityRepository)
         )[FypActivityViewModel::class.java]
+
+        val batchRepository = (application as BaseApplication).batchRepository
+        batchViewModel = ViewModelProvider(
+            this,
+            BatchViewModelFactory(batchRepository)
+        )[BatchViewModel::class.java]
+
+
     }
 
     private fun handleIntentData() {
@@ -65,13 +79,27 @@ class TeacherDetailsActivity : AppCompatActivity() {
         updateUI(name, department, isSupervisor, isFypHeadOrSecretory, activityRole)
     }
 
-    private fun observeFypActivityInfo() {
+    private fun observeFypActivityInfoResult() {
         fypActivityViewModel.fypActivityInfo.observe(this) { fypActivity ->
             fypActivity?.let {
                 fypActivityInfo = it
-                updateFypActivityInfoUI()
-            }
+                batchViewModel.getBatchById(fypActivityInfo!!.batchId!!)
+                observeBatchInfoResult()
+
+            } ?:
             Log.d("TeacherDetailsActivity", "FYP Activity Info: $fypActivityInfo")
+        }
+    }
+
+    private fun observeBatchInfoResult() {
+        batchViewModel.batchById.observe(this){ batch ->
+            batch?.let{
+                batchInfo = batch
+            }
+
+            updateFypActivityInfoUI()
+
+
         }
     }
 
@@ -105,8 +133,8 @@ class TeacherDetailsActivity : AppCompatActivity() {
 
 
     private fun updateFypActivityInfoUI() {
-        binding.tvFypActivityName.text = fypActivityInfo?.batch?.name
-        binding.tvFypActivityDescription.text = fypActivityInfo?.batch?.batchId
+        binding.tvFypActivityName.text = batchInfo!!.name
+        binding.tvFypActivityDescription.text = fypActivityInfo!!.batchId
     }
 
 //    private fun updateSupervisorInfoUI(){

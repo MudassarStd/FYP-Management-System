@@ -67,6 +67,11 @@ class AllFypActivity : AppCompatActivity() {
                 is Result.Success -> {
                     val data = it.data
                     hideProgressDialog()
+
+                    val headSecretoryIds = data.flatMap { listOf(it.fypHeadId, it.fypSecId) }
+
+
+
                     activityAdapter.updateActivitiesData(data)
                     toggleFab(data.size < 3)
                 }

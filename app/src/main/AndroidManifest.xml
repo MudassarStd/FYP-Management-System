@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".admin.FypDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity

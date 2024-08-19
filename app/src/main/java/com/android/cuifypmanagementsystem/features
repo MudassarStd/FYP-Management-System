@@ -1,1 +1,12 @@
-1- Can admin update or delete teachers' information after teachers' profiling?
+
+------------ Today's Tasks -------------
+- How to update batch Info in fpy activity cards and details (tick)
+- Setup flow for teacher panel
+
+
+----------------------- Change FYP roles ----------------
+- put activity id and current headSec id
+- take new teacher id
+- update current teacher to null (no role)
+- update activity with new teacher id
+- update new teacher with role (update role)

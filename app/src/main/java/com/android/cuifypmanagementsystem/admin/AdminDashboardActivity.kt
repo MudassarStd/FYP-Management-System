@@ -41,7 +41,7 @@ class AdminDashboardActivity : AppCompatActivity() {
             insets
         }
 
-        window.statusBarColor = Color.parseColor("#8C99ED")
+        window.statusBarColor = Color.parseColor("#576AE0")
 
         val userAuthRepository = (application as BaseApplication).userAuthRepository
         userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
@@ -64,6 +64,7 @@ class AdminDashboardActivity : AppCompatActivity() {
                 onLogout = {
                     userAuthViewModel.userLogout()
                     startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
             )
         }
