@@ -1,9 +1,11 @@
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.android.cuifypmanagementsystem.R
+import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
 import com.google.android.material.textview.MaterialTextView
 
 object CustomDialogHelper {
@@ -58,24 +60,44 @@ object CustomDialogHelper {
     }
       fun showActionSuccessDialog(context: Context, messageStr : String) {
         // Inflate the custom layout
-        val inflater = LayoutInflater.from(context)
-        val dialogView: View = inflater.inflate(R.layout.action_success_dialog, null)
 
         // Build the MaterialAlertDialogBuilder
         val builder = MaterialAlertDialogBuilder(context)
-            .setView(dialogView)
+            .setTitle("Action Successful") // Set the title of the dialog
+            .setMessage(messageStr) // Set the message
+            .setPositiveButton("Ok") { dialog, _ ->
+                // Handle positive button click
+
+                dialog.dismiss()
+                context.startActivity(Intent(context, AdminDashboardActivity::class.java ))
+            }
             .setCancelable(true) // Set to false if you don't want to allow dismissing by clicking outside
 
         // Create the AlertDialog
         val dialog = builder.create()
 
-          val message: MaterialTextView = dialogView.findViewById(R.id.tvActionSuccessDialogMessage)
-          message.text = messageStr
-
         // Show the dialog
         dialog.show()
     }
 
+    fun showReversibleActionFailedDialog(context : Context , messageStr : String, onRetry: () -> Unit, onCancel: () -> Unit) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Failed") // Set the title of the dialog
+            .setMessage(messageStr) // Set the message
+            .setPositiveButton("Retry") { dialog, _ ->
+                // Handle positive button click
+                onRetry()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                // Handle negative button click
+                onCancel()
+                dialog.dismiss()
+            }
 
-
+            .show()
+    }
 }
+
+
+

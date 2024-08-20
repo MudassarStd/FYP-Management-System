@@ -21,6 +21,10 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
     private val _fypActivityInfo = MutableLiveData<FypActivityRecord>()
     val fypActivityInfo : LiveData<FypActivityRecord> get() = _fypActivityInfo
 
+
+    private val _updateFypRoleResult = MutableLiveData<Result<Void?>>()
+    val updateFypRoleResult : LiveData<Result<Void?>> get() = _updateFypRoleResult
+
     init {
         _fypActivitiesFetch.value = Result.Loading
         viewModelScope.launch {
@@ -45,5 +49,15 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
         viewModelScope.launch() {
             _fypActivityInfo.value = fypActivityRepository.getActivityInfo(activityId)
         }
+    }
+
+    fun updateFypRole(activityId: String, newTeacherId: String, role: String) {
+        viewModelScope.launch {
+            _updateFypRoleResult.value = fypActivityRepository.updateFypRole(activityId, newTeacherId, role)
+        }
+    }
+
+    fun rollbackFypRoleUpdate(actionchangeroleActivityid: String) {
+
     }
 }

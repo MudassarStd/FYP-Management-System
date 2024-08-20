@@ -135,7 +135,7 @@ class StartFypActivity : AppCompatActivity() {
                     val fypHeadRole = FypActivityRole(activityId, "Head")
                     val fypSecretoryRole = FypActivityRole(activityId, "Secretory")
 
-                    teacherViewModel.updateTeacherRoles(fypHeadId!!, fypHeadRole, fypSecretoryId!!, fypSecretoryRole)
+                    teacherViewModel.assignFypRoles(fypHeadId!!, fypHeadRole, fypSecretoryId!!, fypSecretoryRole)
                     batchViewModel.updateBatchActivityStatus(batchId!!, true)
 
                     teacherViewModel.teacherRoleUpdateStatusForActivity.observe(this){
@@ -229,7 +229,7 @@ class StartFypActivity : AppCompatActivity() {
             .setMessage("Failed to update teacher roles. Do you want to retry?")
             .setPositiveButton("Retry") { _, _ ->
                 showProgressDialog("Updating Teachers' Roles, please wait...", this)
-                teacherViewModel.updateTeacherRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole)
+                teacherViewModel.assignFypRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole)
             }
             .setNegativeButton("Cancel") { _, _ ->
                 fypActivityViewModel.deleteFypActivity(fypHeadRole.activityId)
@@ -237,6 +237,7 @@ class StartFypActivity : AppCompatActivity() {
             .create()
 
         alertDialog.setOnDismissListener {
+            // In case role assignment fails, activity should not exist
             fypActivityViewModel.deleteFypActivity(fypHeadRole.activityId)
         }
 

@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -49,23 +50,24 @@ class FypDetailsActivity : AppCompatActivity() {
 
 
         fypActivityRecord = intent.getSerializableExtra("fypActivityRecord") as? FypActivityRecord
-        fypActivityRecord?.let {
+        fypActivityRecord?.let { record ->
+            // Use 'record' as a local, immutable reference
+            val fypHeadId = record.fypHeadId.toString()
+            val fypSecretoryId = record.fypSecId.toString()
+            val batchId = record.batchId.toString()
 
-            val fypHeadId = fypActivityRecord!!.fypHeadId.toString()
-            val fypSecretoryId = fypActivityRecord!!.fypSecId.toString()
-            val batchId = fypActivityRecord!!.batchId.toString()
-
-            // fetching data
+            // Fetching data
             batchViewModel.getBatchById(batchId)
             teacherViewModel.getHeadSecretoryById(fypHeadId, fypSecretoryId)
 
-            // observing data results
+            // Observing data results
             observeResults()
 
+            // Setting UI elements
+            binding.tvFypDetailsStartDate.text = record.registrationTimeStamp.toString()
+            binding.tvFypDetailsActivityStatus.text = record.status.toString()
+        } ?: Toast.makeText(this, "Null Exception: Error fetching activity details", Toast.LENGTH_LONG).show()
 
-            binding.tvFypDetailsStartDate.text = fypActivityRecord!!.registrationTimeStamp.toString()
-            binding.tvFypDetailsActivityStatus.text = fypActivityRecord!!.status.toString()
-        }
 
 
         binding.toolbarFypActivityDetails.setNavigationOnClickListener {
@@ -87,8 +89,8 @@ class FypDetailsActivity : AppCompatActivity() {
 
         teacherViewModel.fypHeadSecretaryById.observe(this){result ->
             result?.let{
-                fypHead = result.first!!
-                fypSecretory = result.second!!
+                fypHead = result.first
+                fypSecretory = result.second
                 checkAndUpdateUI()
             }
         }
@@ -102,6 +104,8 @@ class FypDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
+
+
         binding.tvFypDetailsHeadName.text = fypHead!!.name
         binding.tvFypDetailsSecretoryName.text = fypSecretory!!.name
 
@@ -114,8 +118,10 @@ class FypDetailsActivity : AppCompatActivity() {
 
         // -------- Action Change Head --------
         binding.btnFypDetailsChangeHead.setOnClickListener {
-            val intent = Intent(this, ManageTeacherActivity::class.java ).also {
-                it.action = ACTION_CHANGE_FYP_HEAD
+            val intent = Intent(this, ManageTeacherActivity::class.java ).apply {
+                action = ACTION_CHANGE_FYP_HEAD
+                putExtra("activityId", fypActivityRecord!!.firestoreId )
+                putExtra("currentRoleHolderTeacherId", fypActivityRecord!!.fypHeadId)
             }
             startActivity(intent)
         }
@@ -125,7 +131,7 @@ class FypDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, ManageTeacherActivity::class.java ).apply {
                 action = ACTION_CHANGE_FYP_SECRETORY
                 putExtra("activityId", fypActivityRecord!!.firestoreId )
-                putExtra("roleHolderTeacherId", fypActivityRecord!!.fypSecId)
+                putExtra("currentRoleHolderTeacherId", fypActivityRecord!!.fypSecId)
             }
             startActivity(intent)
         }

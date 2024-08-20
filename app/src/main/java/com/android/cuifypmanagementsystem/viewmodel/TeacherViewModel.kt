@@ -35,6 +35,9 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     private val _fypHeadSecretaryById = MutableLiveData<Pair<Teacher?, Teacher?>>()
     val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> = _fypHeadSecretaryById
 
+    private val _updateFypRoleResultForTeachers = MutableLiveData<Result<Void?>>()
+    val updateFypRoleResultForTeachers: LiveData<Result<Void?>> = _updateFypRoleResultForTeachers
+
 
     init {
 //        getAllTeachersFromCloud()
@@ -67,10 +70,16 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         }
     }
 
-    fun updateTeacherRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) {
+    fun assignFypRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole) {
         _teacherRoleUpdateStatusForActivity.value = Result.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            _teacherRoleUpdateStatusForActivity.postValue(teacherRepository.updateTeacherRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole))
+            _teacherRoleUpdateStatusForActivity.postValue(teacherRepository.assignFypRoles(fypHeadId, fypHeadRole, fypSecretoryId, fypSecretoryRole))
+        }
+    }
+
+    fun updateFypRole(currentTeacherId: String, newTeacherId: String, fypActivityRole: FypActivityRole) {
+        viewModelScope.launch {
+            _updateFypRoleResultForTeachers.value = teacherRepository.updateFypRoles(currentTeacherId, newTeacherId, fypActivityRole)
         }
     }
 
@@ -79,6 +88,7 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
             _fypHeadSecretaryById.postValue(teacherRepository.getHeadSecretoryById(fypHeadId, fypSecretoryId))
         }
     }
+
 
 
 
@@ -108,6 +118,7 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
             teacherRepository.deleteTeacherRecord(uid)
         }
     }
+
 
 
 

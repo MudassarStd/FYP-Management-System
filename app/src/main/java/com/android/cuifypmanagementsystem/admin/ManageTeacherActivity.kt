@@ -1,5 +1,7 @@
 package com.android.cuifypmanagementsystem.admin
 
+import CustomDialogHelper.showActionSuccessDialog
+import CustomDialogHelper.showReversibleActionFailedDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
@@ -20,6 +23,7 @@ import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
 import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_SECRETORY
@@ -35,7 +39,6 @@ import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.io.Serializable
 
 class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     private val binding : ActivityManageTeacherBinding by lazy {
@@ -65,8 +68,10 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     private  var changeSecretoryIntent : Boolean = false
     // changes
 
-    private var actionChangeRoleActivityId : String? = null
-    private var actionChangeRoleTeacherId : String? = null
+    private var actionChangeRole_ActivityId : String? = null
+    private var actionChangeRole_CurrentTeacherId : String? = null
+    private var actionChangeRole_NewTeacherId : String? = null
+    private var actionChangeRole_Role : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,15 +170,15 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             ACTION_CHANGE_FYP_HEAD -> {
                 changeHeadIntent = true
                 changeScreenTitle("Select New Head")
-                actionChangeRoleActivityId = intent.getStringExtra("activityId")
-                actionChangeRoleTeacherId = intent.getStringExtra("roleHolderTeacherId")
+                actionChangeRole_ActivityId = intent.getStringExtra("activityId")
+                actionChangeRole_CurrentTeacherId = intent.getStringExtra("currentRoleHolderTeacherId")
                 true
             }
                ACTION_CHANGE_FYP_SECRETORY -> {
                 changeSecretoryIntent = true
                 changeScreenTitle("Select New Secretory")
-                actionChangeRoleActivityId = intent.getStringExtra("activityId")
-                actionChangeRoleTeacherId = intent.getStringExtra("roleHolderTeacherId")
+                actionChangeRole_ActivityId = intent.getStringExtra("activityId")
+                actionChangeRole_CurrentTeacherId = intent.getStringExtra("currentRoleHolderTeacherId")
                 true
             }
 
@@ -202,6 +207,9 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     }
 
     override fun onTeacherClick(teacher: Teacher) {
+
+        actionChangeRole_NewTeacherId = teacher.firestoreId
+
         if (headSelectionIntent){
             selectionViewModel.setSelectedHead(teacher)
             finish()
@@ -211,10 +219,10 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             finish()
         }
         else if(changeHeadIntent){
-            showDialog("Fyp Head", teacher)
+            showDialog("Head", teacher)
         }
         else if(changeSecretoryIntent){
-            showDialog("Fyp Secretory", teacher)
+            showDialog("Secretory", teacher)
         }
         else{
             val intent = (Intent(this, TeacherDetailsActivity::class.java)).apply {
@@ -250,11 +258,12 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         binding.tvManageTeachersTitle.text = title
     }
 
-    private fun showDialog(role : String, teacher : Teacher) {
+    private fun showDialog(role : String, newTeacher : Teacher) {
 
+        actionChangeRole_Role = role
 
         val message: Spanned = Html.fromHtml(
-            "Are you sure to select <b>${teacher.name}</b> as new <b>$role</b>? <br><br>" +
+            "Are you sure to select <b>${newTeacher.name}</b> as new <b>Fyp $role</b>? <br><br>" +
                     "<b>Note</b>: If you proceed, you will not be able to undo this action."
         )
 
@@ -264,6 +273,9 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             .setMessage(message) // Set the message
             .setPositiveButton("Proceed") { dialog, _ ->
                 // Handle positive button click
+
+                updateFypRoles(newTeacher.firestoreId!!, role)
+
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
@@ -274,4 +286,94 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             .show()
     }
 
+    private fun updateFypRoles(newTeacherId : String, role: String) {
+
+        val fypActivityRole = FypActivityRole(actionChangeRole_ActivityId!!, role)
+
+        fypActivityViewModel.updateFypRole(actionChangeRole_ActivityId!!, newTeacherId, role)
+        teacherViewModel.updateFypRole(actionChangeRole_CurrentTeacherId!!, newTeacherId, fypActivityRole)
+
+        showProgressDialog("Updating roles..", this)
+
+        observeFypRoleUpdateResults()
+    }
+
+
+
+    private fun observeFypRoleUpdateResults() {
+        val bothResultsObserver = MediatorLiveData<Pair<Result<Void?>?, Result<Void?>?>>().apply {
+
+            var fypActivityUpdateResult: Result<Void?>? = null
+            var teacherUpdateResult: Result<Void?>? = null
+
+            addSource(fypActivityViewModel.updateFypRoleResult) { result ->
+                fypActivityUpdateResult = result
+                value = Pair(fypActivityUpdateResult, teacherUpdateResult)
+            }
+
+            addSource(teacherViewModel.updateFypRoleResultForTeachers) { result ->
+                teacherUpdateResult = result
+                value = Pair(fypActivityUpdateResult, teacherUpdateResult)
+            }
+        }
+
+        bothResultsObserver.observe(this) { (fypActivityResult, teacherResult) ->
+            if (fypActivityResult != null && teacherResult != null) {
+                when {
+                    fypActivityResult is Result.Success && teacherResult is Result.Success -> {
+                        hideProgressDialog()
+                        showActionSuccessDialog(this, "Roles updated successfully")
+
+                        // reset values
+                        actionChangeRole_Role = null
+                        actionChangeRole_NewTeacherId = null
+                    }
+                    fypActivityResult is Result.Failure || teacherResult is Result.Failure -> {
+                        hideProgressDialog()
+                        val fypActivityErrorMessage = (fypActivityResult as? Result.Failure)?.exception?.message
+                        val teacherErrorMessage = (teacherResult as? Result.Failure)?.exception?.message
+
+                        val errorMessage = buildString {
+                            append("Failed to update roles. ")
+                            fypActivityErrorMessage?.let { append("FYP Activity Error: $it. ") }
+                            teacherErrorMessage?.let { append("Teacher Error: $it.") }
+                        }
+
+                        showReversibleActionFailedDialog(this, "Operation failed. Try again",
+                            onRetry = {
+                                Toast.makeText(this, "Retrying", Toast.LENGTH_SHORT).show()
+                        }, onCancel = {
+                            finish()
+                        })
+
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        hideProgressDialog()
+                        val partialSuccessMessage = "Some updates were successful, but not all."
+                        Toast.makeText(this, partialSuccessMessage, Toast.LENGTH_SHORT).show()
+
+//                        rollbackChanges(fypActivityResult, teacherResult)
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun rollbackChanges(fypActivityResult: Result<Void?>?, teacherResult: Result<Void?>?) {
+
+
+//        // rollBack successful changes
+//        if (fypActivityResult is Result.Success && teacherResult is Result.Failure) {
+//
+//            fypActivityViewModel.rollbackFypRoleUpdate(actionChangeRole_ActivityId!!, actionChangeRole_CurrentTeacherId)
+//        }
+
+//        if (teacherResult is Result.Success && fypActivityResult is Result.Failure) {
+//
+//            teacherViewModel.rollbackTeacherRoleUpdate(actionChangeRole_CurrentTeacherId!!)
+//        }
+
+    }
 }
