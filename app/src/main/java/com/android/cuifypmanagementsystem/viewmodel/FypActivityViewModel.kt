@@ -57,7 +57,9 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
         }
     }
 
-    fun rollbackFypRoleUpdate(actionchangeroleActivityid: String) {
-
+    fun rollbackFypRoleUpdate(activityId: String, currentTeacherId: String, role: String) {
+        viewModelScope.launch {
+            fypActivityRepository.rollbackFypRoleUpdate(activityId, currentTeacherId, role)
+        }
     }
 }

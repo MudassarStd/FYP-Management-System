@@ -83,6 +83,12 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         }
     }
 
+    fun rollbackTeacherRoleUpdate(currentTeacherId: String, newTeacherId: String, fypActivityRole: FypActivityRole) {
+        viewModelScope.launch {
+            teacherRepository.rollbackUpdateFypRole(currentTeacherId, newTeacherId, fypActivityRole)
+        }
+    }
+
     fun getHeadSecretoryById(fypHeadId : String, fypSecretoryId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _fypHeadSecretaryById.postValue(teacherRepository.getHeadSecretoryById(fypHeadId, fypSecretoryId))

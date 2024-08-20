@@ -13,7 +13,7 @@ object LoadingProgress {
 
         progressDialog = ProgressDialog(context).apply {
             setMessage(message)
-            setCancelable(true) // Prevent dismissal by back button
+            setCancelable(false) // Prevent dismissal by back button
             show()
         }
     }

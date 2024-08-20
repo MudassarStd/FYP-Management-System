@@ -112,6 +112,33 @@ class FypActivityRepository(private val firestore: FirebaseFirestore,
         }
     }
 
+    suspend fun rollbackFypRoleUpdate(activityId: String, currentTeacherId: String, role: String) : Result<Void?>{
+
+        return try {
+            // Get the document reference for the activity
+            val docRef = firestore.collection("Activities").document(activityId)
+
+            // Create a map to hold the updates based on the role
+            val roleUpdate = when (role) {
+                "Head" -> mapOf("fypHeadId" to currentTeacherId)
+                "Secretory" -> mapOf("fypSecId" to currentTeacherId)
+                else -> throw IllegalArgumentException("Invalid role: $role")
+            }
+
+            // Execute the batch update
+            firestore.runBatch { batch ->
+                batch.update(docRef, roleUpdate)
+            }.await()
+
+            Result.Success(null)
+        }
+        catch (e : Exception) {
+
+            Log.d("TESTING_UPDATE_ROLES_DURING_FYP_ACTIVITIES","Failed to update role in activity: ${e.message}")
+            Result.Failure(e)
+//            throw IllegalArgumentException("Exce: ${e.message}")
+        }
+    }
 
 
 }

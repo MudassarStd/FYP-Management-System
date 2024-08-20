@@ -155,11 +155,35 @@ class TeacherRepository(
                 "fypActivityRole.activityRole" to role.activityRole
             ))
 
-            // testing purpose
-            throw IllegalArgumentException("Failed to update teacher")
 
-//            batch.commit().await()
-//            Result.Success(null)
+
+            batch.commit().await()
+            Result.Success(null)
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    suspend fun rollbackUpdateFypRole(currentTeacherId: String, newTeacherId: String, role: FypActivityRole) : Result<Void?>  {
+        return try {
+            val batch = firestore.batch()
+
+            val currentTeacherDocRef = firestore.collection("teachers").document(currentTeacherId)
+            val newTeacherDocRef = firestore.collection("teachers").document(newTeacherId)
+
+            batch.update(newTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            ))
+
+            batch.update(currentTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 1,
+                "fypActivityRole.activityId" to role.activityId,
+                "fypActivityRole.activityRole" to role.activityRole
+            ))
+
+            batch.commit().await()
+            Result.Success(null)
         } catch (e: Exception) {
             Result.Failure(e)
         }
@@ -221,4 +245,6 @@ class TeacherRepository(
     private suspend fun refreshTeachersFromRoom() {
         _teachers.postValue(getAllFromRoom())
     }
+
+
 }

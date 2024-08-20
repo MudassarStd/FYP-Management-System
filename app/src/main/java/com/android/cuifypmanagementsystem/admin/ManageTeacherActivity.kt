@@ -328,32 +328,34 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
                         actionChangeRole_Role = null
                         actionChangeRole_NewTeacherId = null
                     }
-                    fypActivityResult is Result.Failure || teacherResult is Result.Failure -> {
+                    fypActivityResult is Result.Failure && teacherResult is Result.Failure -> {
                         hideProgressDialog()
-                        val fypActivityErrorMessage = (fypActivityResult as? Result.Failure)?.exception?.message
-                        val teacherErrorMessage = (teacherResult as? Result.Failure)?.exception?.message
 
-                        val errorMessage = buildString {
-                            append("Failed to update roles. ")
-                            fypActivityErrorMessage?.let { append("FYP Activity Error: $it. ") }
-                            teacherErrorMessage?.let { append("Teacher Error: $it.") }
-                        }
+//                        val fypActivityErrorMessage = (fypActivityResult as? Result.Failure)?.exception?.message
+//                        val teacherErrorMessage = (teacherResult as? Result.Failure)?.exception?.message
 
-                        showReversibleActionFailedDialog(this, "Operation failed. Try again",
+//                        val errorMessage = buildString {
+//                            append("Failed to update roles. ")
+//                            fypActivityErrorMessage?.let { append("FYP Activity Error: $it. ") }
+//                            teacherErrorMessage?.let { append("Teacher Error: $it.") }
+//                        }
+
+                        showReversibleActionFailedDialog(this, "Update operations failed. Try again",
                             onRetry = {
                                 Toast.makeText(this, "Retrying", Toast.LENGTH_SHORT).show()
+                                updateFypRoles(actionChangeRole_NewTeacherId!!, actionChangeRole_Role!!)
                         }, onCancel = {
                             finish()
                         })
 
-                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
                     }
                     else -> {
                         hideProgressDialog()
-                        val partialSuccessMessage = "Some updates were successful, but not all."
+                        val partialSuccessMessage = "Updates partially executed, rolling back"
                         Toast.makeText(this, partialSuccessMessage, Toast.LENGTH_SHORT).show()
 
-//                        rollbackChanges(fypActivityResult, teacherResult)
+                        rollbackChanges(fypActivityResult, teacherResult)
                     }
                 }
             }
@@ -361,19 +363,20 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     }
 
 
+
+
     private fun rollbackChanges(fypActivityResult: Result<Void?>?, teacherResult: Result<Void?>?) {
 
 
 //        // rollBack successful changes
-//        if (fypActivityResult is Result.Success && teacherResult is Result.Failure) {
-//
-//            fypActivityViewModel.rollbackFypRoleUpdate(actionChangeRole_ActivityId!!, actionChangeRole_CurrentTeacherId)
-//        }
+        if (fypActivityResult is Result.Success && teacherResult is Result.Failure) {
 
-//        if (teacherResult is Result.Success && fypActivityResult is Result.Failure) {
-//
-//            teacherViewModel.rollbackTeacherRoleUpdate(actionChangeRole_CurrentTeacherId!!)
-//        }
+            fypActivityViewModel.rollbackFypRoleUpdate(actionChangeRole_ActivityId!!, actionChangeRole_CurrentTeacherId!!, actionChangeRole_Role!!)
+        }
+
+        if (teacherResult is Result.Success && fypActivityResult is Result.Failure) {
+            teacherViewModel.rollbackTeacherRoleUpdate(actionChangeRole_CurrentTeacherId!!, actionChangeRole_NewTeacherId!!, FypActivityRole(actionChangeRole_ActivityId!!, actionChangeRole_Role!!))
+        }
 
     }
 }

@@ -5,8 +5,5 @@
 
 
 ----------------------- Change FYP roles ----------------
-- put activity id and current headSec id
-- take new teacher id
-- update current teacher to null (no role)
-- update activity with new teacher id
-- update new teacher with role (update role)
+- Observe results for rollback operations
+- Test all use cases
