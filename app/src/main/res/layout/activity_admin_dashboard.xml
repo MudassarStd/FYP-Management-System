@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         app:title="Admin Panel"
+        app:titleTextColor="@color/white"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:title="Admin Panel"
@@ -18,7 +19,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <!-- Logout Button -->
+            <ImageButton
+                android:id="@+id/btnLogoutAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_power_button"
+                android:contentDescription="Logout button"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+
+            <!-- Menu Button (Three-Dot Menu) -->
+            <ImageButton
+                android:id="@+id/btnDotsMenuAdminPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_dots_menu"
+                android:contentDescription="Dot menu"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/topView"
@@ -75,6 +107,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -168,11 +201,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/section1" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
+        android:text="FA21"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

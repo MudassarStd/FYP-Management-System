@@ -5,16 +5,12 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.cuifypmanagementsystem.apiservice.MailerSendEmail
-import com.android.cuifypmanagementsystem.apiservice.MailerSendResponse
-import com.android.cuifypmanagementsystem.apiservice.MailerSendService
-import com.android.cuifypmanagementsystem.apiservice.Recipient
-import com.android.cuifypmanagementsystem.apiservice.RetrofitClient
-import com.android.cuifypmanagementsystem.apiservice.Sender
-import com.android.cuifypmanagementsystem.room.MainDatabase
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
+import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,10 +18,6 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 class TeacherRepository(
     private val applicationContext: Context,
@@ -34,162 +26,225 @@ class TeacherRepository(
     private val firebaseAuth: FirebaseAuth
 ) {
 
-    private lateinit var uid : String
-
     private var _teachers = MutableLiveData<List<Teacher>>()
-    val teachers : LiveData<List<Teacher>> get() = _teachers
+    val teachers: LiveData<List<Teacher>> get() = _teachers
 
-    // ---------------- firebase APIs operations ----------------
+    // ---------------- Firebase API Operations ----------------
 
-    // teacher registration using firebase auth
     suspend fun registerTeacher(teacher: Teacher): Result<Void?> {
         return try {
             val tempPassword = generateRandomPassword(8)
             val authResult = firebaseAuth.createUserWithEmailAndPassword(teacher.email, tempPassword).await()
-            uid = authResult.user?.uid ?: throw Exception("User ID is null")
-            val cloudResult = addTeacherToCloud(teacher)
-            if(cloudResult is Result.Success)
-            {
-                // ??? IF to update admin about sending email or resending it ???
-                // sending email (runs on background (IO) thread)
-                withContext(Dispatchers.IO){
+            val uid = authResult.user?.uid ?: throw Exception("User ID is null")
+
+            val cloudResult = addTeacherToCloud(teacher, uid)
+            if (cloudResult is Result.Success) {
+                withContext(Dispatchers.IO) {
                     sendRegistrationEmail(teacher.email, tempPassword, teacher.name)
                 }
                 Result.Success(null)
-            }
-            else{
+            } else {
                 cloudResult
             }
-            // on Success, dispatch email to registered user
-        }   catch (e: Exception) {
+        } catch (e: Exception) {
             Result.Failure(e)
         }
     }
 
-    // adding teacher's info into firestore
-    private suspend fun addTeacherToCloud(teacher : Teacher) : Result<Void?>{
-        return try{
-            // storing custom data of teacher
+    private suspend fun addTeacherToCloud(teacher: Teacher, uid: String): Result<Void?> {
+        return try {
             val teacherData = mapOf(
                 "name" to teacher.name,
                 "email" to teacher.email,
-                "role" to teacher.role,
                 "department" to teacher.department,
+                "supervisor" to teacher.supervisor,
+                "fypHeadOrSecretory" to teacher.fypHeadOrSecretory,
+                "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
-                )
+            )
             firestore.collection("teachers").document(uid)
                 .set(teacherData, SetOptions.merge()).await()
 
-            // persisting teacher's data locally
             teacher.firestoreId = uid
             addTeacherLocally(teacher)
 
             Result.Success(null)
-        }
-        catch (e : Exception){
+        } catch (e: Exception) {
             Result.Failure(e)
         }
     }
 
-
-    suspend fun getAllTeachersFromCloud() : Result<List<Teacher>>{
-        return try{
-            if (isInternetAvailable(applicationContext))
-            {
+    suspend fun getAllTeachersFromCloud(): Result<List<Teacher>> {
+        return try {
+            if (isInternetAvailable(applicationContext)) {
                 val snapshot = firestore.collection("teachers").get().await()
-                Log.d("CloudTeacherFetchTesting", "Snapshot: ${snapshot}")
                 val teachersList = snapshot.documents.map { document ->
-                    val teacher = document.toObject(Teacher::class.java)!! // Automatic mapping
-                    teacher.firestoreId = document.id // Manually set firestoreId
-                    teacher
+                    document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
                 }
-                Log.d("CloudTeacherFetchTesting", "Teacher List: ${teachersList}")
                 Result.Success(teachersList)
-            }
-            else{
-                // fetch from room
+            } else {
                 Result.Success(getAllFromRoom())
             }
-
-        }
-        catch (e : Exception){
+        } catch (e: Exception) {
             Result.Failure(e)
         }
     }
 
+    suspend fun getNotFypHeadSecretaries(): Result<List<Teacher>> {
+        return try {
+            if (isInternetAvailable(applicationContext)) {
+                val snapshot = firestore.collection("teachers")
+                    .whereEqualTo("fypHeadOrSecretory", 0)
+                    .get()
+                    .await()
+                val teachersList = snapshot.documents.map { document ->
+                    document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
+                }
+                Result.Success(teachersList)
+            } else {
+                Result.Success(getAllFromRoom().filter { it.fypHeadOrSecretory == 0 })
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
 
-    // teacher account deletion
-    suspend fun deleteTeacherRecord(uid : String){
+    suspend fun assignFypRoles(fypHeadId: String, fypHeadRole: FypActivityRole, fypSecretoryId: String, fypSecretoryRole: FypActivityRole): Result<Void?> {
+        return try {
+            val batch = firestore.batch()
+
+            val headDocRef = firestore.collection("teachers").document(fypHeadId)
+            val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
+
+            batch.update(headDocRef, mapOf(
+                "fypHeadOrSecretory" to 1,
+                "fypActivityRole.activityId" to fypHeadRole.activityId,
+                "fypActivityRole.activityRole" to fypHeadRole.activityRole
+            ))
+
+            batch.update(secretoryDocRef, mapOf(
+                "fypHeadOrSecretory" to 1,
+                "fypActivityRole.activityId" to fypSecretoryRole.activityId,
+                "fypActivityRole.activityRole" to fypSecretoryRole.activityRole
+            ))
+
+            batch.commit().await()
+            Log.d("TestingRoleUpdate", "Successfully Updated FYP activity Roles")
+            Result.Success(null)
+        } catch (e: Exception) {
+            Log.d("TestingRoleUpdate", "Error Role Updating: ${e.message}")
+            Result.Failure(e)
+        }
+    }
+
+    suspend fun updateFypRoles(currentRoleHolderId: String, newRoleHolderId: String, role: FypActivityRole): Result<Void?> {
+        return try {
+            val batch = firestore.batch()
+
+            val currentTeacherDocRef = firestore.collection("teachers").document(currentRoleHolderId)
+            val newTeacherDocRef = firestore.collection("teachers").document(newRoleHolderId)
+
+            batch.update(currentTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            ))
+
+            batch.update(newTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 1,
+                "fypActivityRole.activityId" to role.activityId,
+                "fypActivityRole.activityRole" to role.activityRole
+            ))
 
 
-        try {
 
-            val documentPath = "teachers/${uid}"
-            firestore.document(documentPath)
-                .delete()
-                .await()
-            // also del from local db
+            batch.commit().await()
+            Result.Success(null)
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    suspend fun rollbackUpdateFypRole(currentTeacherId: String, newTeacherId: String, role: FypActivityRole) : Result<Void?>  {
+        return try {
+            val batch = firestore.batch()
+
+            val currentTeacherDocRef = firestore.collection("teachers").document(currentTeacherId)
+            val newTeacherDocRef = firestore.collection("teachers").document(newTeacherId)
+
+            batch.update(newTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            ))
+
+            batch.update(currentTeacherDocRef, mapOf(
+                "fypHeadOrSecretory" to 1,
+                "fypActivityRole.activityId" to role.activityId,
+                "fypActivityRole.activityRole" to role.activityRole
+            ))
+
+            batch.commit().await()
+            Result.Success(null)
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    suspend fun getHeadSecretoryById(fypHeadId: String, fypSecretoryId: String): Pair<Teacher?, Teacher?> {
+        return try {
+            val headTask = firestore.collection("teachers").document(fypHeadId).get()
+            val secretaryTask = firestore.collection("teachers").document(fypSecretoryId).get()
+
+            val headSnapshot = headTask.await()
+            val secretarySnapshot = secretaryTask.await()
+
+            val headTeacher = headSnapshot.toObject(Teacher::class.java)
+            val secretaryTeacher = secretarySnapshot.toObject(Teacher::class.java)
+
+            Pair(headTeacher, secretaryTeacher)
+        } catch (e: Exception) {
+            Pair(null, null)
+        }
+    }
+
+    suspend fun deleteTeacherRecord(uid: String): Result<Void?> {
+        return try {
+            firestore.collection("teachers").document(uid).delete().await()
             deleteTeacherRecordById(uid)
-
-            // Implement Refresh Login after deleting records
-
+            Result.Success(null)
+        } catch (e: Exception) {
+            Log.d(GLOBAL_TESTING_TAG, "Deletion Failed: ${e.message}")
+            Result.Failure(e)
         }
-        catch (e : Exception)
-        {
-            Log.d(GLOBAL_TESTING_TAG, "Deletion Failed: ${e.message} ")
-        }
-
-
-
-            // Implement to delete user account
-
-
-        }
-
-
-
-
-    private fun generateRandomPassword(length: Int = 8): String {
-        require(length in 8..12) { "Password length must be between 8 and 12 characters." }
-
-        val chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" // Digits
-        return (1..length)
-            .map { chars.random() } // Pick random characters from the set
-            .joinToString("") // Join them into a single string
     }
 
+    // ---------------- Room Database Operations ----------------
 
-    // Send email to user
-
-    // ----------- room operations -----------
-
-    private suspend fun addTeacherLocally(teacher: Teacher)
-    {
+    private suspend fun addTeacherLocally(teacher: Teacher) {
         database.teacherDao().addTeacher(teacher)
-        getAllFromRoom()
-    }
-    suspend fun updateTeacher(teacher: Teacher)
-    {
-        database.teacherDao().updateTeacher(teacher)
-        getAllFromRoom()
-    }
-    suspend fun deleteTeacher(teacher: Teacher)
-    {
-        database.teacherDao().deleteTeacher(teacher)
-        getAllFromRoom()
+        refreshTeachersFromRoom()
     }
 
-    private suspend fun deleteTeacherRecordById(firestoreId : String) {
+    suspend fun updateTeacher(teacher: Teacher) {
+        database.teacherDao().updateTeacher(teacher)
+        refreshTeachersFromRoom()
+    }
+
+    suspend fun deleteTeacher(teacher: Teacher) {
+        database.teacherDao().deleteTeacher(teacher)
+        refreshTeachersFromRoom()
+    }
+
+    private suspend fun deleteTeacherRecordById(firestoreId: String) {
         database.teacherDao().deleteTeacherRecordById(firestoreId)
     }
 
-//    suspend fun getAll()
-//    {
-//        _teachers.postValue(database.teacherDao().getAllTeachers())
-//    }
-//
-    suspend fun getAllFromRoom() : List<Teacher>
-    {
+    private suspend fun getAllFromRoom(): List<Teacher> {
         return database.teacherDao().getAllTeachers()
     }
+
+    private suspend fun refreshTeachersFromRoom() {
+        _teachers.postValue(getAllFromRoom())
+    }
+
+
 }

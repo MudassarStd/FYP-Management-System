@@ -14,53 +14,95 @@ import javax.mail.internet.MimeMessage
 
 object EmailSender {
 
-    private const val TAG = "EmailSenderTesting" // Tag for log messages
+    private const val TAG = "EmailSender" // Tag for log messages
+
+    private const val senderEmail = "Sender@gmail.com"
+    private const val senderPassword = "password"
+    private const val host = "smtp.gmail.com"
+
+    private val properties = Properties().apply {
+        put("mail.smtp.host", host)
+        put("mail.smtp.port", "465")
+        put("mail.smtp.ssl.enable", "true")
+        put("mail.smtp.auth", "true")
+    }
+
+    private fun createSession(): Session {
+        return Session.getInstance(properties, object : Authenticator() {
+            override fun getPasswordAuthentication(): PasswordAuthentication {
+                return PasswordAuthentication(senderEmail, senderPassword)
+            }
+        })
+    }
 
     suspend fun sendRegistrationEmail(
         recipient: String,
         tempPassword: String,
         name: String
     ) = withContext(Dispatchers.IO) {
-        val senderEmail = "Sender@gmail.com"
-        val senderPassword = "password"
-        val host = "smtp.gmail.com"
-
-        val properties = Properties().apply {
-            put("mail.smtp.host", host)
-            put("mail.smtp.port", "465")
-            put("mail.smtp.ssl.enable", "true")
-            put("mail.smtp.auth", "true")
-        }
-
         try {
-            val session = Session.getInstance(properties, object : Authenticator() {
-                override fun getPasswordAuthentication(): PasswordAuthentication {
-                    return PasswordAuthentication(senderEmail, senderPassword)
-                }
-            })
+            val session = createSession()
+            Log.d(TAG, "Session created successfully for registration email.")
 
-            Log.d(TAG, "Session created successfully.") // Log session creation
+            val messageContent = """
+                Hi $name,
+                
+                You have been registered to CUI FYP Management System.
+                
+                Login with the following credentials:
+                Email: $recipient
+                Password: $tempPassword
+                
+                Note: You must change your password after the first successful login.
+            """.trimIndent()
 
+            sendEmail(session, recipient, "FYP Management System Registration", messageContent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error sending registration email: ${e.message}")
+        }
+    }
+
+    suspend fun sendForgotPasswordEmail(
+        recipientEmail: String,
+        resetLink: String
+    ) = withContext(Dispatchers.IO) {
+        try {
+            val session = createSession()
+            Log.d(TAG, "Session created successfully for forgot password email.")
+
+            val messageContent = """
+                Hi,
+                
+                We received a request to reset your password.
+                
+                Please click the link below to reset your password:
+                
+                
+                If you didn't request this, please ignore this email.
+            """.trimIndent()
+
+            sendEmail(session, recipientEmail, "FYP Management System Password Reset", messageContent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error sending forgot password email: ${e.message}")
+        }
+    }
+
+    private fun sendEmail(session: Session, recipient: String, subject: String, content: String) {
+        try {
             val mimeMessage = MimeMessage(session).apply {
                 setFrom(InternetAddress(senderEmail))
                 addRecipient(Message.RecipientType.TO, InternetAddress(recipient))
-                subject = "FYP Management System Registration"
-                setText(
-                    "Hi $name,\n\nYou have been registered to CUI FYP Management System.\n\nLogin with the following credentials:" +
-                            "\nEmail: $recipient\nPassword: $tempPassword\n\nNote: You must change your password after the first successful login."
-                )
+                setSubject(subject)
+                setText(content)
             }
 
-            Log.d(TAG, "Email message composed.") // Log message composition
-
+            Log.d(TAG, "Email message composed: $subject")
             Transport.send(mimeMessage)
-
-            Log.d(TAG, "Email sent successfully to $recipient.") // Log successful sending
-
+            Log.d(TAG, "Email sent successfully to $recipient.")
         } catch (e: AddressException) {
-            Log.d(TAG, "Invalid email address: ${e.message}") // Log address errors
+            Log.e(TAG, "Invalid email address: ${e.message}")
         } catch (e: MessagingException) {
-            Log.d(TAG, "Error sending email: ${e.message}") // Log messaging errors
+            Log.e(TAG, "Error sending email: ${e.message}")
         }
     }
 }

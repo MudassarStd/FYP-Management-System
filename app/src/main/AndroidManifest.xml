@@ -15,22 +15,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
-
-
         <activity
-
+            android:name=".admin.FypDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.TeacherDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".admin.DisplayTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Started_act_details_activity"
-            android:exported="false"/>
+            android:name=".admin.AllFypActivity"
+            android:exported="false" />
         <activity
-            android:name=".admin.Start_FYP_Activityy"
+            android:name=".admin.StartFypActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-
             android:name=".admin.AddTeacher"
             android:exported="false" />
         <activity
@@ -40,7 +50,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.ManageTeacher"
+            android:name=".admin.ManageTeacherActivity"
             android:exported="false" />
         <activity
             android:name=".admin.BatchDetailsActivity"
@@ -52,7 +62,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminDashboardActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,23 +1,15 @@
 package com.android.cuifypmanagementsystem.datamodels
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import java.io.Serializable
 
-//@Entity
-//data class Teacher(
-//    var firestoreId : String? = null,
-//    val name : String,
-//    val email : String,
-//    val depart : String,
-//    val role : String,
-//    val registrationTimeStamp: Timestamp = Timestamp.now()
-//) : Serializable
-//{
-//    @PrimaryKey(autoGenerate = true)
-//    var id : Long = 0
-//}
+data class FypActivityRole(
+    val activityId : String = "",
+    val activityRole : String = ""
+)
 
 @Entity
 data class Teacher(
@@ -25,11 +17,13 @@ data class Teacher(
     val name: String,
     val email: String,
     val department: String,
-    val role: String,
+    val supervisor: Int ,
+    val fypHeadOrSecretory: Int,
+    @Embedded val fypActivityRole: FypActivityRole? = null,
     val registrationTimeStamp: Timestamp = Timestamp.now()
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
-    constructor() : this(null, "", "", "", "", Timestamp.now()) // No-argument constructor
+    constructor() : this(null, "", "", "", 0, 0, null, Timestamp.now())
 }

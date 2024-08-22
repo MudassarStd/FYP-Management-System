@@ -4,82 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:padding="5dp">
 
 
-    <com.google.android.material.card.MaterialCardView
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginHorizontal="5dp"-->
+<!--        android:layout_marginVertical="1dp"-->
+<!--        app:cardCornerRadius="10dp"-->
+<!--        android:elevation="1dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginVertical="1dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="1dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/foursideradius"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvBatchName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="BatchName"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvBatchName"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:text="-120"-->
-<!--                        android:textColor="@color/expenseRedColor"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textStyle="bold" />-->
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvBatchSemester"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Semester" />
+            <TextView
+                android:id="@+id/tvBatchName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BatchName"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                </LinearLayout>
+            <TextView
+                android:id="@+id/tvSemesterTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semester"
+                android:layout_marginStart="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBatchName" />
 
-            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvSemesterValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7th"
+                android:layout_marginEnd="8dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBatchName" />
 
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tvRegisteredStudentsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registered Students"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSemesterTitle" />
 
 
-    </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/tvRegisteredStudentsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="89"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSemesterValue" />
+
+
+            <TextView
+                android:id="@+id/tvRegisteredGroupsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registered Groups"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRegisteredStudentsTitle" />
+
+
+            <TextView
+                android:id="@+id/tvRegisteredGroupsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                android:text="17"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRegisteredStudentsValue" />
+
+
+            <TextView
+                android:id="@+id/tvFypActivityStatusTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="FYP Activity"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRegisteredGroupsTitle" />
+
+            <TextView
+                android:id="@+id/tvFypActivityStatusValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="On going"
+                android:textStyle="italic"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRegisteredGroupsValue" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
