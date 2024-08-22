@@ -7,12 +7,12 @@
     tools:context=".admin.AdminDashboardActivity">
 
     <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
+        android:layout_height="50dp"
         app:title="Admin Panel"
         app:titleTextColor="@color/white"
-        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:title="Admin Panel"
         android:titleTextColor="@android:color/white"
@@ -50,7 +50,7 @@
                 android:padding="8dp"
                 app:tint="@color/white" />
         </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <TextView
         android:id="@+id/topView"

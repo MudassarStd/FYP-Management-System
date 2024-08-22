@@ -24,6 +24,25 @@ class BatchRepository(private val firestore : FirebaseFirestore,
         }
     }
 
+    suspend fun updateBatch(batch: Batch) {
+
+        try {
+                // Get a reference to the document with the matching ID
+                val documentRef = firestore.collection("batches").document(batch.firestoreId!!)
+                 Log.e("updateBatch", "updating batch:")
+
+                // Update the batch data in the document
+                documentRef.set(batch).await()
+
+        }
+            catch (e: Exception) {
+            Log.e("updateBatch", "Error updating batch: ${e.message}", e)
+        }
+    }
+
+
+
+
     suspend fun fetchAllBatches() : Result<List<Batch>> {
 
          return try {
@@ -115,7 +134,7 @@ class BatchRepository(private val firestore : FirebaseFirestore,
 
     suspend fun insert(batch : Batch) = batchDao.insert(batch)
     
-    suspend fun update(batch : Batch) = batchDao.update(batch)
+//    suspend fun update(batch : Batch) = batchDao.update(batch)
 
     suspend fun delete(batch : Batch) = batchDao.delete(batch)
     

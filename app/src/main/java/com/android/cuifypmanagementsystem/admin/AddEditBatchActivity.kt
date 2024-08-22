@@ -14,6 +14,7 @@ import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.BatchActivityExtras
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_BATCH
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 
@@ -34,10 +35,13 @@ class AddEditBatchActivity : AppCompatActivity() {
         batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
 //        viewModel.getAllBatches()
 
-//        if (isEditing) {
-//            editingBatch = intent.getSerializableExtra("batch") as Batch
-//            populateFields(editingBatch)
-//        }
+        val intentAction = intent.action
+        if(intentAction == ACTION_EDIT_BATCH) {
+            isEditing = true
+
+            editingBatch = intent.getSerializableExtra("batch") as Batch
+            populateFields(editingBatch)
+        }
 
         binding.btnUpdateBatch.setOnClickListener { handleBatchUpdate()
             Log.d("TestingBatchAddLogic", "btn clicked")
@@ -61,24 +65,24 @@ class AddEditBatchActivity : AppCompatActivity() {
         val batch = getData()
         Log.d("TestingBatchAddLogic", "batch: ${batch}")
         batch?.let {
-//            if (isEditing) {
-//                updateBatch(it)
-//            } else {
+            if (isEditing) {
+                updateBatch(it)
+            } else {
                 addBatch(it)
-//            }
+            }
         }
     }
 
-//    private fun updateBatch(batch: Batch) {
-//        if (viewModel.validateBatchForEditing(batch.name, batch.semester!!)) {
-//            viewModel.update(batch)
-//            showToast("Batch updated Successfully")
-//            finish()
+    private fun updateBatch(batch: Batch) {
+        if (batchViewModel.validateBatchForEditing(batch.name, batch.semester!!)) {
+            batchViewModel.update(batch)
+            showToast("Batch updated start")
 //            startActivity(Intent(this, BatchActivity::class.java))
-//        } else {
-//            showToast("Batch already exists")
-//        }
-//    }
+//            finish()
+        } else {
+            showToast("Batch already exists")
+        }
+    }
 
     private fun addBatch(batch: Batch) {
         if (batchViewModel.validateBatch(batch.name, batch.semester!!)) {

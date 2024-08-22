@@ -62,7 +62,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="Edit"
                 android:padding="8dp"
-                android:src="@drawable/edit_icon" />
+                android:src="@drawable/ic_edit" />
 
             <ImageButton
                 android:id="@+id/btnDeleteTeacher"

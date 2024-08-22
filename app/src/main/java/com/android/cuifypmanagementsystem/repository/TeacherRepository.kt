@@ -66,7 +66,7 @@ class TeacherRepository(
                 .set(teacherData, SetOptions.merge()).await()
 
             teacher.firestoreId = uid
-            addTeacherLocally(teacher)
+//            addTeacherLocally(teacher)
 
             Result.Success(null)
         } catch (e: Exception) {
@@ -76,15 +76,16 @@ class TeacherRepository(
 
     suspend fun getAllTeachersFromCloud(): Result<List<Teacher>> {
         return try {
-            if (isInternetAvailable(applicationContext)) {
+//            if (isInternetAvailable(applicationContext)) {
                 val snapshot = firestore.collection("teachers").get().await()
                 val teachersList = snapshot.documents.map { document ->
                     document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
                 }
                 Result.Success(teachersList)
-            } else {
-                Result.Success(getAllFromRoom())
-            }
+//            }
+//            else {
+//                Result.Success(getAllFromRoom())
+//            }
         } catch (e: Exception) {
             Result.Failure(e)
         }

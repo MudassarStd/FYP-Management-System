@@ -9,30 +9,68 @@
     tools:context=".admin.BatchActivity">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Current Batches"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarFypActivityDetails"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:navigationIconTint="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Current Batches"
+        app:titleTextColor="@color/white" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <!-- Logout Button -->
+            <ImageButton
+                android:id="@+id/btnToolbarCancelEditBatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone"
+                android:contentDescription="Logout button"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+
+            <!-- Menu Button (Three-Dot Menu) -->
+            <ImageButton
+                android:id="@+id/btnToolbarEditBatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Fyp activity details"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBatches"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"
-        tools:listitem="@layout/rv_item_batch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        tools:listitem="@layout/rv_item_batch"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddBatch"
