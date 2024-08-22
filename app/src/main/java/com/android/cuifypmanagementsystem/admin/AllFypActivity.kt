@@ -1,6 +1,7 @@
 package com.android.cuifypmanagementsystem.admin
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -39,6 +40,7 @@ class AllFypActivity : AppCompatActivity() {
         binding = ActivityAllFypBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        window.statusBarColor = Color.parseColor("#576AE0")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

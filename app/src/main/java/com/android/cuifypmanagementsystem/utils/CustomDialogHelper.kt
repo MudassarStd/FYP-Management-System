@@ -58,7 +58,8 @@ object CustomDialogHelper {
         // Show the dialog
         dialog.show()
     }
-      fun showActionSuccessDialog(context: Context, messageStr : String) {
+
+    fun showActionSuccessDialog(context: Context, messageStr: String) {
         // Inflate the custom layout
 
         // Build the MaterialAlertDialogBuilder
@@ -69,7 +70,7 @@ object CustomDialogHelper {
                 // Handle positive button click
 
                 dialog.dismiss()
-                context.startActivity(Intent(context, AdminDashboardActivity::class.java ))
+                context.startActivity(Intent(context, AdminDashboardActivity::class.java))
             }
             .setCancelable(true) // Set to false if you don't want to allow dismissing by clicking outside
 
@@ -80,7 +81,12 @@ object CustomDialogHelper {
         dialog.show()
     }
 
-    fun showReversibleActionFailedDialog(context : Context , messageStr : String, onRetry: () -> Unit, onCancel: () -> Unit) {
+    fun showReversibleActionFailedDialog(
+        context: Context,
+        messageStr: String,
+        onRetry: () -> Unit,
+        onCancel: () -> Unit
+    ) {
         MaterialAlertDialogBuilder(context)
             .setTitle("Failed") // Set the title of the dialog
             .setMessage(messageStr) // Set the message
@@ -97,7 +103,24 @@ object CustomDialogHelper {
 
             .show()
     }
-}
 
+    fun showActionConfirmationDialog(context: Context, messageStr: String, onProceed: () -> Unit) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Confirm Action") // Set the title of the dialog
+            .setMessage(messageStr) // Set the message
+            .setPositiveButton("Proceed") { dialog, _ ->
+                // Handle positive button click
+                onProceed()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+
+                dialog.dismiss()
+            }
+
+            .show()
+    }
+
+}
 
 

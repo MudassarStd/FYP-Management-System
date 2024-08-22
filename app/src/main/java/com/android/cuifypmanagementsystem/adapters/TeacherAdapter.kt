@@ -82,7 +82,7 @@ class TeacherAdapter(var teachers : List<Teacher>, val context : Context)  : Rec
         init {
 
             itemView.setOnClickListener {
-                listener.onTeacherClick(teachers[adapterPosition])
+                listener.onTeacherClick(filteredList[adapterPosition])
             }
 //            btnDelete.setOnClickListener {
 //               listener.onDeleteSignal(teachers[adapterPosition])

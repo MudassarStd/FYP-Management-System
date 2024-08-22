@@ -12,7 +12,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarFypActivityDetails"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="?attr/colorPrimary"
         android:titleTextColor="@android:color/white"
         app:contentInsetStartWithNavigation="0dp"
@@ -23,7 +23,41 @@
         app:navigationIconTint="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="FYP Acitivity Details"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <!-- Logout Button -->
+            <ImageButton
+                android:id="@+id/btnCancelEditingFypActivityDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone"
+                android:contentDescription="Logout button"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+
+            <!-- Menu Button (Three-Dot Menu) -->
+            <ImageButton
+                android:id="@+id/btnEditFypActivityDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Fyp activity details"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <GridLayout
@@ -34,7 +68,7 @@
         android:columnCount="2"
         android:rowCount="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails">
 
@@ -83,7 +117,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/edit_icon"
+                        android:src="@drawable/ic_edit"
                         android:visibility="gone" />
                 </LinearLayout>
 
@@ -97,14 +131,15 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFypDetailsChangeHead"
-                android:layout_width="50dp"
+                android:layout_width="55dp"
                 android:layout_height="30dp"
-                android:text="Change"
-                android:layout_marginTop="4dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
                 android:backgroundTint="@color/primaryColor2"
                 android:padding="0dp"
-                android:textSize="10sp"/>
+                android:visibility="gone"
+                android:text="Change"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,7 +187,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/edit_icon"
+                        android:src="@drawable/ic_edit"
                         android:visibility="gone" />
                 </LinearLayout>
 
@@ -167,14 +202,15 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFypDetailsChangeSecretory"
-                android:layout_width="50dp"
+                android:layout_width="55dp"
                 android:layout_height="30dp"
-                android:text="Edit"
-                android:layout_marginTop="4dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
                 android:backgroundTint="@color/primaryColor2"
                 android:padding="0dp"
-                android:textSize="10sp"/>
+                android:visibility="gone"
+                android:text="Change"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -414,14 +450,40 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <com.google.android.material.button.MaterialButton
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Close Activity"
-        android:layout_marginHorizontal="20dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCloseFypActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="Close"
+            android:layout_weight=".5"
+            app:cornerRadius="10dp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteFypActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:backgroundTint="@color/red"
+            android:text="Delete"
+            android:layout_weight=".5"
+            app:cornerRadius="10dp" />
+
+
+
+    </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

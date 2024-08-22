@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -73,7 +74,18 @@ class FypDetailsActivity : AppCompatActivity() {
         binding.toolbarFypActivityDetails.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        // Handling edit UI updates
+        binding.btnEditFypActivityDetails.setOnClickListener {
+            showEditOptions()
+        }
+
+        binding.btnCancelEditingFypActivityDetails.setOnClickListener {
+            hideEditOptions()
+        }
     }
+
+
 
 //    private fun fetchDetails() {
 //
@@ -146,4 +158,22 @@ class FypDetailsActivity : AppCompatActivity() {
         batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
 
     }
+
+
+    private fun showEditOptions() {
+        binding.btnEditFypActivityDetails.visibility = View.GONE
+        binding.btnCancelEditingFypActivityDetails.visibility = View.VISIBLE
+
+        binding.btnFypDetailsChangeHead.visibility = View.VISIBLE
+        binding.btnFypDetailsChangeSecretory.visibility = View.VISIBLE
+    }
+
+    private fun hideEditOptions() {
+        binding.btnEditFypActivityDetails.visibility = View.VISIBLE
+        binding.btnCancelEditingFypActivityDetails.visibility = View.GONE
+
+        binding.btnFypDetailsChangeHead.visibility = View.GONE
+        binding.btnFypDetailsChangeSecretory.visibility = View.GONE
+    }
+
 }

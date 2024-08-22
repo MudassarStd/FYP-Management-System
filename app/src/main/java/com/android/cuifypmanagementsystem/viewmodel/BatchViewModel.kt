@@ -47,6 +47,13 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
         }
     }
 
+    fun update(batch : Batch)
+    {
+        viewModelScope.launch {
+            batchRepository.updateBatch(batch)
+        }
+    }
+
     fun fetchAllBatches() {
 //        _batchesFromCloud.value = Result.Loading
         viewModelScope.launch {
@@ -90,12 +97,7 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
         }
     }
 
-    fun update(batch : Batch)
-    {
-        viewModelScope.launch {
-            batchRepository.update(batch)
-        }
-    }
+
     fun delete(batch : Batch)
     {
         viewModelScope.launch {

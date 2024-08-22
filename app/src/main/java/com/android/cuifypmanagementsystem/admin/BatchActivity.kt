@@ -1,12 +1,13 @@
 package com.android.cuifypmanagementsystem.admin
 
+import CustomDialogHelper.showActionConfirmationDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,84 +27,104 @@ import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
 
-class BatchActivity : AppCompatActivity() , OnAction {
-    private lateinit var binding : ActivityBatchBinding
+class BatchActivity : AppCompatActivity(), OnAction {
+
+    private lateinit var binding: ActivityBatchBinding
     private lateinit var batchViewModel: BatchViewModel
     private lateinit var selectionViewModel: H_S_SelectionViewModel
     private var isBatchSelectionIntent: Boolean = false
-
 
     private val batchAdapter: BatchAdapter by lazy {
         BatchAdapter(emptyList(), this)
     }
 
-    private val viewModel : BatchViewModel by lazy {
-        ViewModelProvider(this)[BatchViewModel::class.java]
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityBatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        configureStatusBar()
 
-        checkIntentAction()
-        
-        selectionViewModel = (application as BaseApplication).getH_S_SelectionViewModel()
-
-        val batchRepository = (application as BaseApplication).batchRepository
-        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
-
-        batchAdapter.setOnCategoryClickListenerInterface(this)
-
-        fetchBatches()
-        setAdapterOnRV()
+        initializeViewModels()
+        setupRecyclerView()
+        handleIntentActions()
 
         binding.fabAddBatch.setOnClickListener {
             startActivity(Intent(this, AddEditBatchActivity::class.java))
         }
 
+        setupToolbarButtons()
+    }
+
+    // **Update: Modularized and extracted methods for better readability**
+    private fun configureStatusBar() {
+        window.statusBarColor = Color.parseColor("#576AE0")
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+
+    private fun initializeViewModels() {
+        val application = application as BaseApplication
+        selectionViewModel = application.getH_S_SelectionViewModel()
+        val batchRepository = application.batchRepository
+        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
+        batchAdapter.setOnActionListener(this)
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvBatches.apply {
+            adapter = batchAdapter
+            layoutManager = LinearLayoutManager(this@BatchActivity)
+        }
+        fetchBatches()
     }
 
     private fun fetchBatches() {
-
-        Log.d("TestingBatchLogic", "Inside fetch in activity")
-
-        batchViewModel.batchesFromCloud.observe(this){
-            when(it){
+        Log.d("TestingBatchLogic", "Fetching batches in activity")
+        batchViewModel.batchesFromCloud.observe(this) { result ->
+            when (result) {
                 is Result.Success -> {
-                    val data = it.data
-//                    hideProgressDialog()
-
-                    batchAdapter.updateBatches(data)
-                    toggleFab(data.size < 3)
+                    batchAdapter.updateBatchList(result.data)
+                    toggleFabVisibility(result.data.size < 3)
+                    hideProgressDialog()
                 }
                 is Result.Failure -> {
-//                    hideProgressDialog()
-                    val errorMessage = it.exception.message ?: "An unknown error occurred"
+                    val errorMessage = result.exception.message ?: "An unknown error occurred"
                     Toast.makeText(this, "Loading data failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                    hideProgressDialog()
                 }
-                is Result.Loading -> {
-                    showProgressDialog("Loading Batches, please wait..", this)
-                }
+                is Result.Loading -> showProgressDialog("Loading Batches, please wait...", this)
             }
         }
     }
 
-    private fun checkIntentAction(){
-        if(intent.action == ACTION_SELECT_FYP_ACTIVITY_BATCH){
-            toggleFab(false)
+    private fun handleIntentActions() {
+        if (intent.action == ACTION_SELECT_FYP_ACTIVITY_BATCH) {
             isBatchSelectionIntent = true
+            toggleFabVisibility(false)
+            hideEditOptions()
+            batchAdapter.toggleBatchSelectionMode()
         }
     }
 
-    private fun setAdapterOnRV() {
-        binding.rvBatches.adapter = batchAdapter
-        binding.rvBatches.layoutManager = LinearLayoutManager(this)
+    private fun setupToolbarButtons() {
+        binding.btnToolbarEditBatch.setOnClickListener {
+            toggleEditMode(true)
+        }
+
+        binding.btnToolbarCancelEditBatch.setOnClickListener {
+            toggleEditMode(false)
+        }
+    }
+
+    private fun toggleEditMode(isEditMode: Boolean) {
+        batchAdapter.toggleEditMode()
+        binding.btnToolbarEditBatch.visibility = if (isEditMode) View.GONE else View.VISIBLE
+        binding.btnToolbarCancelEditBatch.visibility = if (isEditMode) View.VISIBLE else View.GONE
     }
 
     override fun onResume() {
@@ -111,42 +132,28 @@ class BatchActivity : AppCompatActivity() , OnAction {
         batchViewModel.fetchAllBatches()
     }
 
-    override fun onDeleted(batch : Batch) {
-        showDialog(batch)
+    override fun onDeleted(batch: Batch) {
+        // Uncomment and implement if needed
+        // showDialog(batch)
     }
 
     override fun onBatchSelectionForActivity(batch: Batch) {
-        if (isBatchSelectionIntent)
-        {
-            if (batch.fypActivityStatus){
-                Toast.makeText(this, "Activity already started for this batch", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                selectionViewModel.setSelectedBatch(batch)
-                finish()
-            }
+        if (isBatchSelectionIntent) {
+            showActionConfirmationDialog(this,
+                "Are you sure to start activity for ${batch.name} batch? \n\n<b>Note:</b> Once activity is started for this batch, you will not be able to edit this batch",
+                onProceed = {
+                    selectionViewModel.setSelectedBatch(batch)
+                    finish()
+                })
         }
     }
 
-    private fun showDialog(batch: Batch)
-    {
-         AlertDialog.Builder(this)
-        .setTitle("Delete Batch?")
-
-        .setPositiveButton("OK") { dialog, which ->
-            viewModel.delete(batch)
-        }
-
-        .setNegativeButton("Cancel") { dialog, which ->
-            dialog.dismiss()
-        }
-            .create()
-            .show()
-    }
-
-    private fun toggleFab(show: Boolean) {
+    private fun toggleFabVisibility(show: Boolean) {
         binding.fabAddBatch.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-
+    private fun hideEditOptions() {
+        binding.btnToolbarEditBatch.visibility = View.GONE
+        binding.btnToolbarCancelEditBatch.visibility = View.GONE
+    }
 }
