@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import android.content.Intent
 import android.os.Bundle

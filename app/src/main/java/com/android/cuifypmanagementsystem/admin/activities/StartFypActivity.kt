@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,10 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityStartFypActivityyBinding
-import com.android.cuifypmanagementsystem.datamodels.BatchInfo
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
-import com.android.cuifypmanagementsystem.datamodels.TeacherNameAndId
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_ACTIVITY_BATCH
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECRETORY

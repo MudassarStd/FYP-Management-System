@@ -32,6 +32,10 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
     // handling batch by Id
     private val _batch = MutableLiveData<Batch>()
     val batch: LiveData<Batch> get() = _batch
+    // handling batch by Id
+
+    private val _batchUpdate = MutableLiveData<Result<Void?>>()
+    val batchUpdate: LiveData<Result<Void?>> get() = _batchUpdate
 
 
     init {
@@ -42,22 +46,35 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
 
     // cloud operations
     fun addBatch(batch : Batch){
+        _batchUpdate.value = Result.Loading
         viewModelScope.launch {
-            batchRepository.addBatch(batch)
+            _batchUpdate.value = batchRepository.addBatch(batch)
         }
     }
 
     fun update(batch : Batch)
     {
+        _batchUpdate.value = Result.Loading
         viewModelScope.launch {
-            batchRepository.updateBatch(batch)
+            _batchUpdate.value = batchRepository.updateBatch(batch)
+        }
+    }
+
+    fun deleteBatch(batchId : String) {
+        _batchUpdate.value = Result.Loading
+        viewModelScope.launch {
+            _batchUpdate.value = batchRepository.deleteBatch(batchId)
         }
     }
 
     fun fetchAllBatches() {
-//        _batchesFromCloud.value = Result.Loading
+        _batchesFromCloud.value = Result.Loading
         viewModelScope.launch {
-            _batchesFromCloud.value = batchRepository.fetchAllBatches()
+            val result = batchRepository.fetchAllBatches()
+            _batchesFromCloud.value = result
+            if (result is Result.Success) {
+                listBatches = result.data
+            }
         }
     }
 
@@ -66,6 +83,8 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
             _batchById.value = batchRepository.getBatchById(batchId)
         }
     }
+
+
 
 
 
@@ -102,7 +121,7 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
     {
         viewModelScope.launch {
             batchRepository.delete(batch)
-            getAllBatches() // refreshing
+//            getAllBatches() // refreshing
         }
     }
 
@@ -125,6 +144,7 @@ class BatchViewModel(private val batchRepository: BatchRepository) : ViewModel()
     }
 
     fun validateBatchForEditing(batchName: String, semester: Int): Boolean {
+        Log.d("BatchUpdateTesting", "Batch List in VM: $listBatches")
         return !listBatches.any { it.name == batchName && it.semester == semester }
     }
 }

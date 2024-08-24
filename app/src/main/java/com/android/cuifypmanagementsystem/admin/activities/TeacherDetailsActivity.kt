@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +17,6 @@ import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
-import com.google.android.material.snackbar.Snackbar
 
 class TeacherDetailsActivity : AppCompatActivity() {
 

@@ -9,7 +9,7 @@
         android:id="@+id/SingleTeacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/foursideradius"
+        android:background="@drawable/bg_round_white_allsides"
         android:elevation="5dp"
         android:layout_margin="2dp"
         android:orientation="vertical"

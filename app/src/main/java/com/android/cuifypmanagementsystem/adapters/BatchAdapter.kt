@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.admin.AddEditBatchActivity
+import com.android.cuifypmanagementsystem.admin.activities.AddEditBatchActivity
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_BATCH
 
@@ -42,6 +42,7 @@ class BatchAdapter(
     override fun onBindViewHolder(holder: BatchViewHolder, position: Int) {
         val batch = batches[position]
 
+
         holder.bind(batch, isEditMode, isSelectionMode)
     }
 
@@ -50,7 +51,7 @@ class BatchAdapter(
     // **Update: Clearer method name**
     fun updateBatchList(batches: List<Batch>) {
         this.batches = batches
-        Log.d("TestingBatchLogic", "Adapter data updated")
+        Log.d("BatchUpdateTesting", "Adapter data updated")
         notifyDataSetChanged()
     }
 
@@ -103,6 +104,7 @@ class BatchAdapter(
                 val intent = Intent(context, AddEditBatchActivity::class.java).apply {
                     action = ACTION_EDIT_BATCH
                     putExtra("batch", batch)
+                    Log.d("BatchUpdateTesting", "Passing batch on edit: $batch ")
                 }
                 context.startActivity(intent)
             }

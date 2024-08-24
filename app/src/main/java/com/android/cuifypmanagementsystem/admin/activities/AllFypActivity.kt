@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import android.content.Intent
 import android.graphics.Color
@@ -17,7 +17,6 @@ import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.adapters.FypActivityAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityAllFypBinding
-import com.android.cuifypmanagementsystem.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result

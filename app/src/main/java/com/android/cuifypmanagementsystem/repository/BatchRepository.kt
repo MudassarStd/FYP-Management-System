@@ -15,28 +15,44 @@ class BatchRepository(private val firestore : FirebaseFirestore,
     private val batchDao = roomDatabase.batchDao()
 
 
-    suspend fun addBatch(batch : Batch){
-        try {
+    suspend fun addBatch(batch : Batch) : Result<Void?>{
+        return try {
             firestore.collection("batches").add(batch).await()
+            Result.Success(null)
         }
         catch(e : Exception){
-            Log.d("fjsljfsldf", e.message.toString())
+            Result.Failure(e)
         }
     }
 
-    suspend fun updateBatch(batch: Batch) {
+    suspend fun updateBatch(batch: Batch) : Result<Void?> {
 
-        try {
+        return try {
                 // Get a reference to the document with the matching ID
-                val documentRef = firestore.collection("batches").document(batch.firestoreId!!)
-                 Log.e("updateBatch", "updating batch:")
+            val documentRef = firestore.collection("batches").document(batch.firestoreId!!)
 
-                // Update the batch data in the document
-                documentRef.set(batch).await()
+            // Update the batch data in the document
+            documentRef.set(batch).await()
+            Result.Success(null)
 
         }
             catch (e: Exception) {
-            Log.e("updateBatch", "Error updating batch: ${e.message}", e)
+                Result.Failure(e)
+        }
+    }
+
+    suspend fun deleteBatch(batchId: String): Result<Void?> {
+        return try {
+            // Get a reference to the document with the matching ID
+            val documentRef =
+                FirebaseFirestore.getInstance().collection("batches").document(batchId)
+
+            // Delete the batch document
+            documentRef.delete().await()
+            Result.Success(null)
+
+        } catch (e: Exception) {
+            Result.Failure(e)
         }
     }
 
@@ -146,5 +162,7 @@ class BatchRepository(private val firestore : FirebaseFirestore,
     {
         return batchDao.getBatchById(id)
     }
+
+
 
 }

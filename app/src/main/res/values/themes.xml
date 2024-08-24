@@ -3,6 +3,7 @@
     <style name="Base.Theme.CUIFYPManagementSystem" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryColorVariant</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:fontFamily">@font/roboto</item>

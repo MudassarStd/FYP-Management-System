@@ -1,6 +1,5 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
-import CustomDialogHelper.showLoadingDialog
 import CustomDialogHelper.showLogoutDialog
 import android.content.Intent
 import android.graphics.Color
@@ -18,8 +17,6 @@ import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
 
 import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.Button
 import androidx.appcompat.widget.PopupMenu
 import com.android.cuifypmanagementsystem.ChangePasswordActivity
 import com.android.cuifypmanagementsystem.LoginActivity
@@ -48,7 +45,7 @@ class AdminDashboardActivity : AppCompatActivity() {
 
 
         binding.section3.setOnClickListener {
-            startActivity(Intent(this, ManageTeacherActivity::class.java))
+            startActivity(Intent(this, TeacherActivity::class.java))
         }
 
         binding.section1.setOnClickListener {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    tools:context=".admin.AdminDashboardActivity">
+    tools:context=".admin.activities.AdminDashboardActivity">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar

@@ -15,8 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
+
+
         <activity
-            android:name=".admin.FypDetailsActivity"
+            android:name=".admin.activities.TeacherActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".admin.activities.FypDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".ChangePasswordActivity"
@@ -25,38 +31,38 @@
             android:name=".ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminDashboardActivity"
+            android:name=".admin.activities.AdminDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.TeacherDetailsActivity"
+            android:name=".admin.activities.TeacherDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.DisplayTeacherActivity"
+            android:name=".admin.activities.DisplayTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AllFypActivity"
+            android:name=".admin.activities.AllFypActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.StartFypActivity"
+            android:name=".admin.activities.StartFypActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".admin.AddTeacher"
+            android:name=".admin.activities.AddTeacher"
             android:exported="false" />
         <activity
-            android:name=".admin.BatchActivity"
+            android:name=".admin.activities.BatchActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.ManageTeacherActivity"
+            android:name=".admin.activities.ManageTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.BatchDetailsActivity"
+            android:name=".admin.activities.BatchDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AddEditBatchActivity"
+            android:name=".admin.activities.AddEditBatchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

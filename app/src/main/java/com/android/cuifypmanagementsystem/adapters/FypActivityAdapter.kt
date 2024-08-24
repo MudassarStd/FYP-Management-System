@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.admin.FypDetailsActivity
+import com.android.cuifypmanagementsystem.admin.activities.FypDetailsActivity
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 
 class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {

@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import CustomDialogHelper.showActionSuccessDialog
 import CustomDialogHelper.showReversibleActionFailedDialog

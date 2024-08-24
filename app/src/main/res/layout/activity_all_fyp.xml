@@ -6,9 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AllFypActivity">
-
-
+    tools:context=".admin.activities.AllFypActivity">
 
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -28,6 +26,27 @@
         app:titleTextColor="@color/white" />
 
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails">
+
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Closed" />
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFypActivity"
         android:layout_width="match_parent"
@@ -37,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddActivity"

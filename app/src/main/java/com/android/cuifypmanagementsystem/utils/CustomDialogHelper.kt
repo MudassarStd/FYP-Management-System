@@ -5,8 +5,7 @@ import android.view.View
 import android.widget.Button
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
-import com.google.android.material.textview.MaterialTextView
+import com.android.cuifypmanagementsystem.admin.activities.AdminDashboardActivity
 
 object CustomDialogHelper {
 

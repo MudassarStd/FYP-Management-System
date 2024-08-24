@@ -8,19 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
 import com.android.cuifypmanagementsystem.databinding.ActivityLoginBinding
 import com.android.cuifypmanagementsystem.datamodels.LoginCredentials
-import com.android.cuifypmanagementsystem.utils.LoadingProgress
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private val binding : ActivityLoginBinding by lazy {

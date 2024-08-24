@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.admin
+package com.android.cuifypmanagementsystem.admin.activities
 
 import CustomDialogHelper.showActionConfirmationDialog
 import android.content.Intent
@@ -33,10 +33,12 @@ class BatchActivity : AppCompatActivity(), OnAction {
     private lateinit var batchViewModel: BatchViewModel
     private lateinit var selectionViewModel: H_S_SelectionViewModel
     private var isBatchSelectionIntent: Boolean = false
+    private var isBackFromEditing : Boolean = false
 
     private val batchAdapter: BatchAdapter by lazy {
         BatchAdapter(emptyList(), this)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,9 @@ class BatchActivity : AppCompatActivity(), OnAction {
         binding = ActivityBatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         configureStatusBar()
+        binding.toolbarBatchActivity.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         initializeViewModels()
         setupRecyclerView()
@@ -84,17 +89,29 @@ class BatchActivity : AppCompatActivity(), OnAction {
     }
 
     private fun fetchBatches() {
-        Log.d("TestingBatchLogic", "Fetching batches in activity")
         batchViewModel.batchesFromCloud.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
-                    batchAdapter.updateBatchList(result.data)
-                    toggleFabVisibility(result.data.size < 3)
-                    hideProgressDialog()
+                    if (result.data.isNotEmpty()) {
+                        batchAdapter.updateBatchList(result.data)
+                        toggleFabVisibility(result.data.size < 3)
+                        binding.rvBatches.visibility = View.VISIBLE
+                        binding.tvBatchNotExistMessage.visibility = View.GONE
+                        // this line is creating that UI onResume error
+                        if(!isBatchSelectionIntent) {
+                        binding.btnToolbarEditBatch.visibility = View.VISIBLE
+                        }
+                        hideProgressDialog()
+                    }
+                    else {
+                        showBatchNotExistMessage("Batches do not exist yet")
+                        hideProgressDialog()
+                        toggleFabVisibility(true)
+                    }
                 }
                 is Result.Failure -> {
                     val errorMessage = result.exception.message ?: "An unknown error occurred"
-                    Toast.makeText(this, "Loading data failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                    showBatchNotExistMessage(errorMessage)
                     hideProgressDialog()
                 }
                 is Result.Loading -> showProgressDialog("Loading Batches, please wait...", this)
@@ -121,15 +138,15 @@ class BatchActivity : AppCompatActivity(), OnAction {
         }
     }
 
-    private fun toggleEditMode(isEditMode: Boolean) {
+    private fun toggleEditMode(enable: Boolean) {
         batchAdapter.toggleEditMode()
-        binding.btnToolbarEditBatch.visibility = if (isEditMode) View.GONE else View.VISIBLE
-        binding.btnToolbarCancelEditBatch.visibility = if (isEditMode) View.VISIBLE else View.GONE
+        showToolbarActionBasedOnMode(enable)
     }
 
     override fun onResume() {
         super.onResume()
         batchViewModel.fetchAllBatches()
+//        showToolbarActionBasedOnMode(isEditMode)
     }
 
     override fun onDeleted(batch: Batch) {
@@ -156,4 +173,17 @@ class BatchActivity : AppCompatActivity(), OnAction {
         binding.btnToolbarEditBatch.visibility = View.GONE
         binding.btnToolbarCancelEditBatch.visibility = View.GONE
     }
+
+    private fun showBatchNotExistMessage(message : String) {
+        binding.rvBatches.visibility = View.GONE
+        binding.tvBatchNotExistMessage.visibility = View.VISIBLE
+        binding.tvBatchNotExistMessage.text = message
+        hideEditOptions()
+    }
+
+    private fun showToolbarActionBasedOnMode(enable : Boolean) {
+        binding.btnToolbarEditBatch.visibility = if (enable) View.GONE else View.VISIBLE
+        binding.btnToolbarCancelEditBatch.visibility = if (enable) View.VISIBLE else View.GONE
+    }
+
 }
