@@ -67,11 +67,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <ProgressBar
+                android:id="@+id/progressbarTotalRegisteredTeachers"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"/>
+
             <TextView
+                android:id="@+id/tvTotalRegisteredTeachers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="48"
-                android:textSize="28sp"
+                android:text=""
+                android:textSize="24sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/tvBatchName"
                 app:layout_constraintStart_toStartOf="@+id/tvBatchName"
                 app:layout_constraintTop_toBottomOf="@+id/tvBatchName" />
@@ -235,8 +244,6 @@
 
         </LinearLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

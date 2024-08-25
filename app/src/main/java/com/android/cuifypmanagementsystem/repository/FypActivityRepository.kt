@@ -12,9 +12,9 @@ class FypActivityRepository @Inject constructor(
     private val firestore: FirebaseFirestore) {
 
 
-    suspend fun fetchFypActivityData() : Result<List<FypActivityRecord>> {
+    suspend fun fetchFypActivityData(activityStatus : Boolean) : Result<List<FypActivityRecord>> {
         return try{
-            val snapshot = firestore.collection("Activities")
+            val snapshot = firestore.collection("Activities").whereEqualTo("status", activityStatus)
                 .get().await()
             val fypActivities = snapshot.documents.map {doc ->
                 val fypActivity = doc.toObject(FypActivityRecord::class.java)!!

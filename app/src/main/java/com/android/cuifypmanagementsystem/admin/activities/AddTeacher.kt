@@ -40,10 +40,6 @@ class AddTeacher : AppCompatActivity() {
             insets
         }
 
-//        val teacherRepository = (application as BaseApplication).teacherRepository
-//        val teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
-
-
         // Edit Teacher Data
         if(intent.action == INTENT_ACTION_EDIT_TEACHER)
         {
@@ -128,7 +124,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name,email, depart, 0, 0, null)
+            Teacher(null, name,email, depart, 0, 0, null, System.currentTimeMillis())
         } else {
             null
         }

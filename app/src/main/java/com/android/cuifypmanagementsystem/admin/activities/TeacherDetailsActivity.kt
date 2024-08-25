@@ -1,22 +1,25 @@
 package com.android.cuifypmanagementsystem.admin.activities
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityTeacherDetailsBinding
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
+import com.android.cuifypmanagementsystem.utils.DateTime.longToDate
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @AndroidEntryPoint
 class TeacherDetailsActivity : AppCompatActivity() {
@@ -32,6 +35,11 @@ class TeacherDetailsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupWindowInsets()
+        window.statusBarColor = Color.parseColor("#576AE0")
+
+        binding.toolbalTeacherDetails.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         handleIntentData()
         observeFypActivityInfoResult()
@@ -45,37 +53,20 @@ class TeacherDetailsActivity : AppCompatActivity() {
         }
     }
 
-//    private fun initializeViewModel() {
-//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-//        fypActivityViewModel = ViewModelProvider(
-//            this,
-//            FypActivityViewModelFactory(fypActivityRepository)
-//        )[FypActivityViewModel::class.java]
-//
-////        val batchRepository = (application as BaseApplication).batchRepository
-////        batchViewModel = ViewModelProvider(
-////            this,
-////            BatchViewModelFactory(batchRepository)
-////        )[BatchViewModel::class.java]
-//
-//
-//    }
-
     private fun handleIntentData() {
         val name = intent.getStringExtra("name")
         val department = intent.getStringExtra("department")
         val isSupervisor = intent.getIntExtra("isSupervisor", 0)
+        val registrationTimestamp = intent.getLongExtra("registrationTimestamp", 0)
         val isFypHeadOrSecretory = intent.getIntExtra("isFypHeadOrSecretory", 0)
         val activityRole = intent.getStringExtra("activityRole")
         val activityId = intent.getStringExtra("activityId")
-
-        Log.d("TeacherDetailsActivity", "Activity ID: $activityId")
 
         activityId?.let {
             fypActivityViewModel.getActivityInfo(it)
         }
 
-        updateUI(name, department, isSupervisor, isFypHeadOrSecretory, activityRole)
+        updateUI(name, department, isSupervisor, isFypHeadOrSecretory, activityRole, registrationTimestamp)
     }
 
     private fun observeFypActivityInfoResult() {
@@ -85,8 +76,7 @@ class TeacherDetailsActivity : AppCompatActivity() {
                 batchViewModel.getBatchById(fypActivityInfo!!.batchId!!)
                 observeBatchInfoResult()
 
-            } ?:
-            Log.d("TeacherDetailsActivity", "FYP Activity Info: $fypActivityInfo")
+            } ?: showToast("Failed to get activity details")
         }
     }
 
@@ -94,11 +84,8 @@ class TeacherDetailsActivity : AppCompatActivity() {
         batchViewModel.batchById.observe(this){ batch ->
             batch?.let{
                 batchInfo = batch
-            }
-
+            } ?: showToast("Failed to get batch details")
             updateFypActivityInfoUI()
-
-
         }
     }
 
@@ -107,10 +94,14 @@ class TeacherDetailsActivity : AppCompatActivity() {
         department: String?,
         isSupervisor: Int,
         isFypHeadOrSecretary: Int,
-        activityRole: String?
+        activityRole: String?,
+        registrationTimestamp: Long
     ) {
+        // converting timestamp into date
+
         binding.tvTeacherName.text = name
         binding.tvDepartment.text = department
+        binding.tvRegistrationDate.text = longToDate(registrationTimestamp)
 
         val hasRole = when {
             isFypHeadOrSecretary == 1 -> {
@@ -130,13 +121,13 @@ class TeacherDetailsActivity : AppCompatActivity() {
         }
     }
 
-
     private fun updateFypActivityInfoUI() {
         binding.tvFypActivityName.text = batchInfo!!.name
         binding.tvFypActivityDescription.text = fypActivityInfo!!.batchId
     }
 
-//    private fun updateSupervisorInfoUI(){
-//
-//    }
+    private fun showToast(message : String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

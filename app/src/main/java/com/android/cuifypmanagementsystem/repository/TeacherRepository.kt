@@ -9,6 +9,7 @@ import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.TEACHER_COLLECTION
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.android.cuifypmanagementsystem.utils.Result
@@ -65,7 +66,7 @@ class TeacherRepository @Inject constructor(
                 "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
             )
-            firestore.collection("teachers").document(uid)
+            firestore.collection(TEACHER_COLLECTION).document(uid)
                 .set(teacherData, SetOptions.merge()).await()
 
             teacher.firestoreId = uid
@@ -80,7 +81,7 @@ class TeacherRepository @Inject constructor(
     suspend fun getAllTeachersFromCloud(): Result<List<Teacher>> {
         return try {
 //            if (isInternetAvailable(applicationContext)) {
-                val snapshot = firestore.collection("teachers").get().await()
+                val snapshot = firestore.collection(TEACHER_COLLECTION).get().await()
                 val teachersList = snapshot.documents.map { document ->
                     document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
                 }
@@ -97,7 +98,7 @@ class TeacherRepository @Inject constructor(
     suspend fun getNotFypHeadSecretaries(): Result<List<Teacher>> {
         return try {
             if (isInternetAvailable(applicationContext)) {
-                val snapshot = firestore.collection("teachers")
+                val snapshot = firestore.collection(TEACHER_COLLECTION)
                     .whereEqualTo("fypHeadOrSecretory", 0)
                     .get()
                     .await()
@@ -117,7 +118,7 @@ class TeacherRepository @Inject constructor(
         return try {
             val batch = firestore.batch()
 
-            val headDocRef = firestore.collection("teachers").document(fypHeadId)
+            val headDocRef = firestore.collection(TEACHER_COLLECTION).document(fypHeadId)
             val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
 
             batch.update(headDocRef, mapOf(
@@ -145,8 +146,8 @@ class TeacherRepository @Inject constructor(
         return try {
             val batch = firestore.batch()
 
-            val currentTeacherDocRef = firestore.collection("teachers").document(currentRoleHolderId)
-            val newTeacherDocRef = firestore.collection("teachers").document(newRoleHolderId)
+            val currentTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(currentRoleHolderId)
+            val newTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(newRoleHolderId)
 
             batch.update(currentTeacherDocRef, mapOf(
                 "fypHeadOrSecretory" to 0,
@@ -172,8 +173,8 @@ class TeacherRepository @Inject constructor(
         return try {
             val batch = firestore.batch()
 
-            val currentTeacherDocRef = firestore.collection("teachers").document(currentTeacherId)
-            val newTeacherDocRef = firestore.collection("teachers").document(newTeacherId)
+            val currentTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(currentTeacherId)
+            val newTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(newTeacherId)
 
             batch.update(newTeacherDocRef, mapOf(
                 "fypHeadOrSecretory" to 0,
@@ -195,8 +196,8 @@ class TeacherRepository @Inject constructor(
 
     suspend fun getHeadSecretoryById(fypHeadId: String, fypSecretoryId: String): Pair<Teacher?, Teacher?> {
         return try {
-            val headTask = firestore.collection("teachers").document(fypHeadId).get()
-            val secretaryTask = firestore.collection("teachers").document(fypSecretoryId).get()
+            val headTask = firestore.collection(TEACHER_COLLECTION).document(fypHeadId).get()
+            val secretaryTask = firestore.collection(TEACHER_COLLECTION).document(fypSecretoryId).get()
 
             val headSnapshot = headTask.await()
             val secretarySnapshot = secretaryTask.await()
@@ -212,7 +213,7 @@ class TeacherRepository @Inject constructor(
 
     suspend fun deleteTeacherRecord(uid: String): Result<Void?> {
         return try {
-            firestore.collection("teachers").document(uid).delete().await()
+            firestore.collection(TEACHER_COLLECTION).document(uid).delete().await()
             deleteTeacherRecordById(uid)
             Result.Success(null)
         } catch (e: Exception) {
@@ -225,8 +226,8 @@ class TeacherRepository @Inject constructor(
         return try {
             val batch = firestore.batch()
 
-        val headDocRef = firestore.collection("teachers").document(fypHeadId)
-        val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
+        val headDocRef = firestore.collection(TEACHER_COLLECTION).document(fypHeadId)
+        val secretoryDocRef = firestore.collection(TEACHER_COLLECTION).document(fypSecretoryId)
 
         batch.update(
             headDocRef, mapOf(
@@ -248,6 +249,11 @@ class TeacherRepository @Inject constructor(
         Result.Failure(e)
     }
     }
+
+    suspend fun getTotalRegisteredTeacherCount() : Long {
+       return firestore.collection(TEACHER_COLLECTION).get().await().size().toLong()
+    }
+
 
     // ---------------- Room Database Operations ----------------
 
@@ -277,8 +283,4 @@ class TeacherRepository @Inject constructor(
     private suspend fun refreshTeachersFromRoom() {
         _teachers.postValue(getAllFromRoom())
     }
-
-
-
-
 }

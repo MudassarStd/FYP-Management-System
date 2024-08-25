@@ -111,6 +111,10 @@ class TeacherViewModel @Inject constructor(
         }
     }
 
+    suspend fun getTotalRegisteredTeacherCount() : Long {
+        return teacherRepository.getTotalRegisteredTeacherCount()
+    }
+
 
 
 
@@ -142,8 +146,6 @@ class TeacherViewModel @Inject constructor(
             teacherRepository.deleteTeacherRecord(uid)
         }
     }
-
-
 
 
 }

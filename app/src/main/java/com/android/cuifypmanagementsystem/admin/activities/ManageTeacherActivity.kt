@@ -62,7 +62,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
 
     private val teacherViewModel : TeacherViewModel by viewModels()
     private val fypActivityViewModel: FypActivityViewModel by viewModels()
-    private lateinit var selectionViewModel: GlobalSharedViewModel
+    private lateinit var globalSharedViewModel: GlobalSharedViewModel
 
     // changes
     private  var headSelectionIntent : Boolean = false
@@ -87,17 +87,16 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
             insets
         }
 
+        binding.toolbarManageTeachers.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
         // selection VM for persisting selected values (head & secretory)
-        selectionViewModel = (application as BaseApplication).getGlobalSharedViewModel()
+        globalSharedViewModel = (application as BaseApplication).getGlobalSharedViewModel()
         // changes
 
         teacherAdapter.setOnTeacherEventInterface(this)
 
-//        val teacherRepository = (application as BaseApplication).teacherRepository
-//        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
-
-//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
         checkIntentAction()
 
@@ -215,11 +214,11 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         actionChangeRole_NewTeacherId = teacher.firestoreId
 
         if (headSelectionIntent){
-            selectionViewModel.setSelectedHead(teacher)
+            globalSharedViewModel.setSelectedHead(teacher)
             finish()
         }
         else if(secretorySelectionIntent){
-            selectionViewModel.setSelectedSecretory(teacher)
+            globalSharedViewModel.setSelectedSecretory(teacher)
             finish()
         }
         else if(changeHeadIntent){
@@ -233,6 +232,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
                 putExtra("name", teacher.name)
                 putExtra("department", teacher.department)
                 putExtra("isSupervisor", teacher.supervisor)
+                putExtra("registrationTimestamp", teacher.registrationTimeStamp)
                 putExtra("isFypHeadOrSecretory", teacher.fypHeadOrSecretory)
                 putExtra("activityRole", teacher.fypActivityRole?.activityRole)
                 putExtra("activityId", teacher.fypActivityRole?.activityId)
@@ -259,7 +259,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     }
 
     private fun changeScreenTitle(title : String){
-        binding.tvManageTeachersTitle.text = title
+        binding.toolbarManageTeachers.title = title
     }
 
     private fun showDialog(role : String, newTeacher : Teacher) {

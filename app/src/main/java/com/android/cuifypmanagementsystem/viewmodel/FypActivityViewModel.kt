@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.android.cuifypmanagementsystem.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
@@ -32,10 +33,15 @@ class FypActivityViewModel @Inject constructor(
     private val _activityClosureState = MutableLiveData<Result<Void?>>()
     val activityClosureState : LiveData<Result<Void?>> get() = _activityClosureState
 
+
+
     init {
+    }
+
+    fun fetchFypActivityData (activityStatus : Boolean) {
         _fypActivitiesFetch.value = Result.Loading
         viewModelScope.launch {
-            _fypActivitiesFetch.value = fypActivityRepository.fetchFypActivityData()
+            _fypActivitiesFetch.value = fypActivityRepository.fetchFypActivityData(activityStatus)
         }
     }
 
@@ -75,4 +81,6 @@ class FypActivityViewModel @Inject constructor(
             _activityClosureState.value = fypActivityRepository.closeActivity(activityId)
         }
     }
+
+
 }

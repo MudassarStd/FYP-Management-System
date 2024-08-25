@@ -7,164 +7,91 @@
     android:layout_height="match_parent"
     tools:context=".admin.activities.ManageTeacherActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarManageTeachers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:navigationIconTint="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Teachers List"
+        app:titleTextColor="@color/white" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/white"
         android:scrollbars="vertical"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@id/toolbarManageTeachers">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/teacher_main_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp">
-
-            <TextView
-                android:id="@+id/tvManageTeachersTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Manage Teachers"
-                android:textAllCaps="true"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/teacher_main_layout"
-                app:layout_constraintStart_toStartOf="@+id/teacher_main_layout"
-                app:layout_constraintTop_toTopOf="@+id/teacher_main_layout" />
 
             <LinearLayout
                 android:id="@+id/TVteacherlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="3"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="@id/teacher_main_layout"
                 app:layout_constraintStart_toStartOf="@id/teacher_main_layout"
-                app:layout_constraintTop_toBottomOf="@id/tvManageTeachersTitle">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/svManageTeachers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="2.80"
                     android:background="@drawable/bg_round_white_allsides"
-                    app:iconifiedByDefault="false"
                     android:gravity="center_vertical"
                     android:text="Teachers List"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:iconifiedByDefault="false" />
 
                 <ImageButton
                     android:id="@+id/ivBtnFilterTeachers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
                     android:layout_weight=".20"
                     android:background="?android:attr/selectableItemBackground"
+                    android:padding="3dp"
                     android:src="@drawable/ic_filter" />
             </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/hr"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/black"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/TVteacherlist"-->
-<!--                app:layout_constraintStart_toStartOf="@id/TVteacherlist"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist" />-->
-
-
-<!--            <TableLayout-->
-<!--                android:id="@+id/tableLayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/hr">-->
-
-<!--                &lt;!&ndash; Table Row for Column Headings &ndash;&gt;-->
-<!--                <TableRow>-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="ID"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:textStyle="bold" />-->
-
-
-<!--                    <View-->
-<!--                        android:layout_width="1dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@android:color/darker_gray"/>-->
-
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:gravity="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:text="Name"-->
-<!--                        android:textStyle="bold" />-->
-
-
-<!--                    <View-->
-<!--                        android:layout_width="1dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@android:color/darker_gray"/>-->
-
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:gravity="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:text="Department"-->
-<!--                        android:textStyle="bold" />-->
-
-
-<!--                    <View-->
-<!--                        android:layout_width="1dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@android:color/darker_gray"/>-->
-
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="Action"-->
-<!--                        android:textStyle="bold" />-->
-
-
-<!--                    <View-->
-<!--                        android:layout_width="1dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@android:color/darker_gray"/>-->
-<!--                </TableRow>-->
-<!--            </TableLayout>-->
+            <!-- Uncomment and adjust if needed -->
+            <!--
+            <View
+                android:id="@+id/hr"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="@id/TVteacherlist"
+                app:layout_constraintStart_toStartOf="@id/TVteacherlist"
+                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist" />
+            -->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvManageTeachers"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist"
-                tools:listitem="@layout/rv_item_select_teacher" />
-
+                app:layout_constraintTop_toBottomOf="@+id/TVteacherlist" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/fabAddTeacher"
@@ -177,7 +104,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

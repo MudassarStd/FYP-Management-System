@@ -7,26 +7,42 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.adapters.FypActivityAdapter
+import com.android.cuifypmanagementsystem.adapters.OnActivityAction
 import com.android.cuifypmanagementsystem.admin.activities.StartFypActivity
 import com.android.cuifypmanagementsystem.databinding.FragmentCurrentFypActivitiesBinding
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class CurrentFypActivitiesFragment : Fragment() {
+@AndroidEntryPoint
+class CurrentFypActivitiesFragment : Fragment() ,  OnActivityAction {
 
-    private lateinit var fypActivityViewModel: FypActivityViewModel
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+//    private lateinit var globalSharedViewModel: GlobalSharedViewModel
     private val activityAdapter: FypActivityAdapter by lazy {
         FypActivityAdapter(requireContext(), emptyList())
     }
 
+    private var activityUpdateTrigger : Boolean = false
+
     private var _binding: FragmentCurrentFypActivitiesBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityAdapter.setOnActivityActionListener(this)
+//        globalSharedViewModel = (requireActivity().application as BaseApplication).getGlobalSharedViewModel()
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +62,15 @@ class CurrentFypActivitiesFragment : Fragment() {
             startActivity(Intent(requireContext(), StartFypActivity::class.java))
         }
 
-        fypActivityViewModel = ViewModelProvider(requireActivity())[FypActivityViewModel::class.java]
+        fypActivityViewModel.fetchFypActivityData(true)
 
         fypActivityViewModel.fypActivitiesFetch.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Success -> {
                     hideProgressDialog()
-                    val currentActivities = result.data.filter {
-                        it.status
-                    }
-                    if (currentActivities.isNotEmpty()) {
-                        toggleFab(currentActivities.size < 3)
-                        activityAdapter.updateActivitiesData(currentActivities)
+                    if (result.data.isNotEmpty()) {
+                        toggleFab(result.data.size < 3)
+                        activityAdapter.updateActivitiesData(result.data)
                         toggleList(true)
                     } else {
                         toggleFab(true)
@@ -70,9 +83,17 @@ class CurrentFypActivitiesFragment : Fragment() {
                     // Handle failure
                 }
                 is Result.Loading -> {
-                    showProgressDialog("laoding data", requireContext())
+                    showProgressDialog("loading data...", requireContext())
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (activityUpdateTrigger) {
+            fypActivityViewModel.fetchFypActivityData(true)
+            activityUpdateTrigger = false
         }
     }
 
@@ -88,5 +109,10 @@ class CurrentFypActivitiesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onFypActivitySelected() {
+        activityUpdateTrigger = true
+//        globalSharedViewModel.informActivityUpdate(true)
     }
 }

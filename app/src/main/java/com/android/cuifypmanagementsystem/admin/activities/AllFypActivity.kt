@@ -52,23 +52,23 @@ class AllFypActivity : AppCompatActivity() {
             insets
         }
 
-//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
-
         val pagerAdapter = FypActivityPagerAdapter(this)
         binding.viewPagerAllFypActivity.adapter = pagerAdapter
 
         // Linking tabLayout with viewPager
-        TabLayoutMediator(binding.tabLayoutAllFypActivity, binding.viewPagerAllFypActivity) {tab, pos ->
-            tab.text = when(pos) {
+        TabLayoutMediator(
+            binding.tabLayoutAllFypActivity,
+            binding.viewPagerAllFypActivity
+        ) { tab, pos ->
+            tab.text = when (pos) {
                 0 -> "Active"
                 1 -> "Closed"
                 else -> ""
             }
-        } .attach()
+        }.attach()
 
 
-
+    }
 
 //        fetchActivities()
 //
@@ -118,4 +118,3 @@ class AllFypActivity : AppCompatActivity() {
 //        recyclerview.adapter = activityAdapter
 //        recyclerview.layoutManager = LinearLayoutManager(this)
 //    }
-}

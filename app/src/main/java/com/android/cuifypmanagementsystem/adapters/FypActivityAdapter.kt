@@ -11,25 +11,42 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.admin.activities.FypDetailsActivity
+import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
+import com.android.cuifypmanagementsystem.utils.DateTime.longToDate
+
+
+interface OnActivityAction {
+    fun onFypActivitySelected()
+}
+
 
 class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
+
+    private lateinit var onActivityActionListener: OnActivityAction
+
+    // **Update: Method name clarified**
+    fun setOnActivityActionListener(listener: OnActivityAction) {
+        onActivityActionListener = listener
+    }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ActivityViewHolder {
        val view=LayoutInflater.from(context).inflate(R.layout.rv_item_activity,parent,false)
-        return ActivityViewHolder(view)
+        return ActivityViewHolder(view, onActivityActionListener)
     }
 
 
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity=activitiesData[position]
+        longToDate(activity.registrationTimeStamp)
         holder.fypheadname.text=activity.fypHeadId
         holder.fypsecname.text=activity.fypSecId
-        holder.startedDate.text= activity.registrationTimeStamp.toString()
+        holder.startedDate.text= longToDate(activity.registrationTimeStamp)
         holder.year.text=activity.batchId
         holder.status.text = if (activity.status) {
             "On going"
@@ -49,7 +66,7 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         notifyDataSetChanged()
     }
 
-    inner class ActivityViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class ActivityViewHolder(itemView: View, private val listener : OnActivityAction):RecyclerView.ViewHolder(itemView){
         val fypheadname=itemView.findViewById<TextView>(R.id.TVfypheadName)
         val fypsecname=itemView.findViewById<TextView>(R.id.TVfypSecName)
         val startedDate=itemView.findViewById<TextView>(R.id.TV_startedDate)
@@ -65,9 +82,10 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
                     }
                     putExtra("fypActivityRecord", activitiesData[adapterPosition])
                 }
+
+                listener.onFypActivitySelected()
                 context.startActivity(intent)
             }
         }
-
     }
 }

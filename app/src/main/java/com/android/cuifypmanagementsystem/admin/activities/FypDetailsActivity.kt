@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem.admin.activities
 
+import CustomDialogHelper.showActionConfirmationDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -57,11 +58,6 @@ class FypDetailsActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.parseColor("#576AE0")
 
-
-
-
-//        initializeViewModels()
-
         val intentAction = intent.action
         if (intentAction == ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY) {
             hideAllEditOptions()
@@ -109,12 +105,6 @@ class FypDetailsActivity : AppCompatActivity() {
         binding.btnCloseFypActivity.setOnClickListener { closeActivity() }
     }
 
-
-
-
-//    private fun fetchDetails() {
-//
-//    }
 
     private fun observeResults() {
         batchViewModel.batchById.observe(this) { batch ->
@@ -178,24 +168,10 @@ class FypDetailsActivity : AppCompatActivity() {
         }
     }
 
-//    private fun initializeViewModels() {
-
-//        val teacherRepository = (application as BaseApplication).teacherRepository
-//        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
-
-//        val batchRepository = (application as BaseApplication).batchRepository
-//        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
-
-//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
-
-//    }
-
 
     private fun showEditOptions() {
         binding.btnEditFypActivityDetails.visibility = View.GONE
         binding.btnCancelEditingFypActivityDetails.visibility = View.VISIBLE
-
         binding.btnFypDetailsChangeHead.visibility = View.VISIBLE
         binding.btnFypDetailsChangeSecretory.visibility = View.VISIBLE
     }
@@ -203,7 +179,6 @@ class FypDetailsActivity : AppCompatActivity() {
     private fun hideEditOptions() {
         binding.btnEditFypActivityDetails.visibility = View.VISIBLE
         binding.btnCancelEditingFypActivityDetails.visibility = View.GONE
-
         binding.btnFypDetailsChangeHead.visibility = View.GONE
         binding.btnFypDetailsChangeSecretory.visibility = View.GONE
     }
@@ -211,7 +186,6 @@ class FypDetailsActivity : AppCompatActivity() {
     private fun hideAllEditOptions() {
         binding.btnEditFypActivityDetails.visibility = View.GONE
         binding.btnCancelEditingFypActivityDetails.visibility = View.GONE
-
         binding.btnCloseFypActivity.visibility = View.GONE
         binding.btnDeleteFypActivity.visibility = View.GONE
     }
@@ -219,15 +193,15 @@ class FypDetailsActivity : AppCompatActivity() {
 
 
     private fun closeActivity() {
-
-        fypActivityRecord?.firestoreId?.let { fypActivityViewModel.closeActivity(it) }
-        fypActivityRecord?.let {
-            teacherViewModel.freeHeadSecretoryOnActivityClosure(it.fypHeadId!!, it.fypSecId!!)
-            batchViewModel.updateBatchOnActivityClosure(it.batchId!!)
-        }
-
-        observeActivityClosureResults()
-
+        showActionConfirmationDialog(this,
+            "Are you to close this activity? \nNote: This action is critical and cannot be undone.", onProceed = {
+                fypActivityRecord?.firestoreId?.let { fypActivityViewModel.closeActivity(it) }
+                fypActivityRecord?.let {
+                    teacherViewModel.freeHeadSecretoryOnActivityClosure(it.fypHeadId!!, it.fypSecId!!)
+                    batchViewModel.updateBatchOnActivityClosure(it.batchId!!)
+                }
+                observeActivityClosureResults()
+            })
     }
 
     private fun observeActivityClosureResults() {

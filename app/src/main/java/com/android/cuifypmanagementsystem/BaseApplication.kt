@@ -10,7 +10,7 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class BaseApplication  : Application() {
 
-    private val globalSharedViewModel: GlobalSharedViewModel by lazy {
+    private val _globalSharedViewModel: GlobalSharedViewModel by lazy {
         ViewModelProvider.AndroidViewModelFactory.getInstance(this).create(GlobalSharedViewModel::class.java)
     }
 
@@ -20,12 +20,11 @@ class BaseApplication  : Application() {
     }
 
     private fun initialize() {
-
         // initializing shared prefs
         UserAuthSharedPreferenceHelper.initialize(applicationContext)
     }
 
     fun getGlobalSharedViewModel(): GlobalSharedViewModel {
-        return globalSharedViewModel
+        return _globalSharedViewModel
     }
 }

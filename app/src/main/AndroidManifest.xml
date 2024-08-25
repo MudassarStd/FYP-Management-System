@@ -15,12 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".teacher.MainTeacherActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main_teacher" />
         <activity
             android:name=".admin.activities.TeacherActivity"
             android:exported="false" />
-
         <activity
             android:name=".admin.activities.FypDetailsActivity"
             android:exported="false" />
@@ -35,9 +36,6 @@
             android:exported="false" />
         <activity
             android:name=".admin.activities.TeacherDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.activities.DisplayTeacherActivity"
             android:exported="false" />
         <activity
             android:name=".admin.activities.AllFypActivity"
