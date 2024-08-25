@@ -8,11 +8,11 @@ import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class BatchRepository(private val firestore : FirebaseFirestore,
-    private val roomDatabase: MainDatabase) {
+class BatchRepository @Inject constructor(private val firestore : FirebaseFirestore) {
 
-    private val batchDao = roomDatabase.batchDao()
+//    private val batchDao = roomDatabase.batchDao()
 
 
     suspend fun addBatch(batch : Batch) : Result<Void?>{
@@ -168,20 +168,20 @@ class BatchRepository(private val firestore : FirebaseFirestore,
 
     // ---------------------- Room operations ----------------------
 
-    suspend fun insert(batch : Batch) = batchDao.insert(batch)
-    
-//    suspend fun update(batch : Batch) = batchDao.update(batch)
-
-    suspend fun delete(batch : Batch) = batchDao.delete(batch)
-    
-    suspend fun getAllBatches(): List<Batch> {
-        return batchDao.getAllBatches()
-    }
-
-    suspend fun getBatchById(id : Int) : Batch
-    {
-        return batchDao.getBatchById(id)
-    }
+//    suspend fun insert(batch : Batch) = batchDao.insert(batch)
+//
+////    suspend fun update(batch : Batch) = batchDao.update(batch)
+//
+//    suspend fun delete(batch : Batch) = batchDao.delete(batch)
+//
+//    suspend fun getAllBatches(): List<Batch> {
+//        return batchDao.getAllBatches()
+//    }
+//
+//    suspend fun getBatchById(id : Int) : Batch
+//    {
+//        return batchDao.getBatchById(id)
+//    }
 
 
 

@@ -13,10 +13,17 @@ import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewModel() {
+
+@HiltViewModel
+class TeacherViewModel @Inject constructor(
+    private val teacherRepository: TeacherRepository)
+    : ViewModel() {
 
     val teachers : LiveData<List<Teacher>> get() = teacherRepository.teachers
 

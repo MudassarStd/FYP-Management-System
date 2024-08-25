@@ -14,19 +14,22 @@ import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAdminDashboardBinding
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
 
 import android.view.MenuInflater
+import androidx.activity.viewModels
 import androidx.appcompat.widget.PopupMenu
 import com.android.cuifypmanagementsystem.ChangePasswordActivity
 import com.android.cuifypmanagementsystem.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AdminDashboardActivity : AppCompatActivity() {
     private val binding : ActivityAdminDashboardBinding by lazy {
         ActivityAdminDashboardBinding.inflate(layoutInflater)
     }
 
-    private lateinit var userAuthViewModel: UserAuthViewModel
+    private val userAuthViewModel: UserAuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +43,8 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         window.statusBarColor = Color.parseColor("#576AE0")
 
-        val userAuthRepository = (application as BaseApplication).userAuthRepository
-        userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
+//        val userAuthRepository = (application as BaseApplication).userAuthRepository
+//        userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
 
 
         binding.section3.setOnClickListener {

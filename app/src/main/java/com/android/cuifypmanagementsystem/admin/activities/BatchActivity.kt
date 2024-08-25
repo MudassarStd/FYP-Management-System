@@ -4,14 +4,12 @@ import CustomDialogHelper.showActionConfirmationDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
@@ -24,14 +22,16 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
-import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
+import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class BatchActivity : AppCompatActivity(), OnAction {
 
     private lateinit var binding: ActivityBatchBinding
-    private lateinit var batchViewModel: BatchViewModel
-    private lateinit var selectionViewModel: H_S_SelectionViewModel
+    private val batchViewModel: BatchViewModel by viewModels()
+    private lateinit var selectionViewModel: GlobalSharedViewModel
     private var isBatchSelectionIntent: Boolean = false
     private var isBackFromEditing : Boolean = false
 
@@ -74,9 +74,7 @@ class BatchActivity : AppCompatActivity(), OnAction {
 
     private fun initializeViewModels() {
         val application = application as BaseApplication
-        selectionViewModel = application.getH_S_SelectionViewModel()
-        val batchRepository = application.batchRepository
-        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
+        selectionViewModel = application.getGlobalSharedViewModel()
         batchAdapter.setOnActionListener(this)
     }
 

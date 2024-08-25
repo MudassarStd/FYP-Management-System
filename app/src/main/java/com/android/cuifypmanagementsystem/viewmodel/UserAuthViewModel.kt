@@ -8,13 +8,18 @@ import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
 import com.android.cuifypmanagementsystem.repository.UserAuthRepository
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthSharedPreferenceHelper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserAuthViewModel(private val userAuthRepository: UserAuthRepository) : ViewModel() {
+
+@HiltViewModel
+class UserAuthViewModel @Inject constructor(
+    private val userAuthRepository: UserAuthRepository)
+    : ViewModel() {
 
     private val _userAuthState = MutableLiveData<Result<LoggedInUserData>>()
     val userAuthState : LiveData<Result<LoggedInUserData>> get() = _userAuthState
-
 
     private val _passwordResetEmailState = MutableLiveData<Result<Void?>>()
     val passwordResetEmailState : LiveData<Result<Void?>> get() = _passwordResetEmailState

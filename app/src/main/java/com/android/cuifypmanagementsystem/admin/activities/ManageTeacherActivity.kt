@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -34,13 +35,14 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
-import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
+import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
     private val binding : ActivityManageTeacherBinding by lazy {
         ActivityManageTeacherBinding.inflate(layoutInflater)
@@ -58,9 +60,9 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         ViewModelProvider(this)[DepartmentViewModel::class.java]
     }
 
-    private lateinit var teacherViewModel : TeacherViewModel
-    private lateinit var  fypActivityViewModel : FypActivityViewModel
-    private lateinit var selectionViewModel: H_S_SelectionViewModel
+    private val teacherViewModel : TeacherViewModel by viewModels()
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+    private lateinit var selectionViewModel: GlobalSharedViewModel
 
     // changes
     private  var headSelectionIntent : Boolean = false
@@ -86,16 +88,16 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         }
 
         // selection VM for persisting selected values (head & secretory)
-        selectionViewModel = (application as BaseApplication).getH_S_SelectionViewModel()
+        selectionViewModel = (application as BaseApplication).getGlobalSharedViewModel()
         // changes
 
         teacherAdapter.setOnTeacherEventInterface(this)
 
-        val teacherRepository = (application as BaseApplication).teacherRepository
-        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+//        val teacherRepository = (application as BaseApplication).teacherRepository
+//        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
-        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
+//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
         checkIntentAction()
 

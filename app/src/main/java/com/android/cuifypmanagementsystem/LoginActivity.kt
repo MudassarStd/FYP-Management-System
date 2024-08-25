@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,14 +16,16 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDial
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private val binding : ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    private lateinit var userAuthViewModel: UserAuthViewModel
+    private val userAuthViewModel: UserAuthViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val userAuthRepository = (application as BaseApplication).userAuthRepository
-        userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
+//        val userAuthRepository = (application as BaseApplication).userAuthRepository
+//        userAuthViewModel = ViewModelProvider(this, UserAuthViewModelFactory(userAuthRepository))[UserAuthViewModel::class.java]
 
         binding.btnLogin.setOnClickListener {
             val loginCredentials = getLoginCredentials()
@@ -84,6 +87,4 @@ class LoginActivity : AppCompatActivity() {
 
         return LoginCredentials(email, password).takeIf { email.isNotEmpty() && password.isNotEmpty() }
     }
-
-
 }

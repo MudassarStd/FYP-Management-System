@@ -92,4 +92,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.52")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
+    // Add these two dependencies for viewModels() delegate
+    implementation("androidx.fragment:fragment-ktx:1.8.2")
+    implementation("androidx.activity:activity-ktx:1.9.1")
+
 }

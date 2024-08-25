@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,12 +20,16 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AddTeacher : AppCompatActivity() {
     private val binding : ActivityAddTeacherBinding by lazy {
         ActivityAddTeacherBinding.inflate(layoutInflater)
     }
+    private val teacherViewModel : TeacherViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,8 +40,8 @@ class AddTeacher : AppCompatActivity() {
             insets
         }
 
-        val teacherRepository = (application as BaseApplication).teacherRepository
-        val teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+//        val teacherRepository = (application as BaseApplication).teacherRepository
+//        val teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
 
         // Edit Teacher Data

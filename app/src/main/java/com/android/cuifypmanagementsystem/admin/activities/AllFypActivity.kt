@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,14 +23,17 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AllFypActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAllFypBinding
-    private lateinit var fypActivityViewModel: FypActivityViewModel
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+
     private val activityAdapter: FypActivityAdapter by lazy {
         FypActivityAdapter(this, emptyList())
     }
@@ -48,8 +52,8 @@ class AllFypActivity : AppCompatActivity() {
             insets
         }
 
-        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
+//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
         val pagerAdapter = FypActivityPagerAdapter(this)
         binding.viewPagerAllFypActivity.adapter = pagerAdapter

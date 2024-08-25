@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,20 +26,20 @@ import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FO
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FypDetailsActivity : AppCompatActivity() {
     private val binding : ActivityFypDetailsBinding by lazy {
         ActivityFypDetailsBinding.inflate(layoutInflater)
     }
 
-    private lateinit var teacherViewModel : TeacherViewModel
-    private lateinit var batchViewModel : BatchViewModel
-    private lateinit var fypActivityViewModel: FypActivityViewModel
+    private val teacherViewModel : TeacherViewModel by viewModels()
+    private val batchViewModel : BatchViewModel by viewModels()
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+
 
     private  var fypActivityRecord : FypActivityRecord? = null
     private  var fypHead : Teacher? = null
@@ -59,7 +60,7 @@ class FypDetailsActivity : AppCompatActivity() {
 
 
 
-        initializeViewModels()
+//        initializeViewModels()
 
         val intentAction = intent.action
         if (intentAction == ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY) {
@@ -177,18 +178,18 @@ class FypDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeViewModels() {
+//    private fun initializeViewModels() {
 
-        val teacherRepository = (application as BaseApplication).teacherRepository
-        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+//        val teacherRepository = (application as BaseApplication).teacherRepository
+//        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
 
-        val batchRepository = (application as BaseApplication).batchRepository
-        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
+//        val batchRepository = (application as BaseApplication).batchRepository
+//        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
 
-        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
+//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+//        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
 
-    }
+//    }
 
 
     private fun showEditOptions() {

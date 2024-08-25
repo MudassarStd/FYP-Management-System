@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -25,13 +26,14 @@ import com.android.cuifypmanagementsystem.utils.RegistrationUtils.getSemesterNum
 import com.android.cuifypmanagementsystem.utils.RegistrationUtils.validateRegistrationBatch
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
 class AddEditBatchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddEditBatchBinding
-    private lateinit var batchViewModel: BatchViewModel
+    private  val batchViewModel: BatchViewModel by viewModels()
     private var isEditing: Boolean = false
     private lateinit var editingBatchData: Batch
 
@@ -69,8 +71,10 @@ class AddEditBatchActivity : AppCompatActivity() {
     }
 
     private fun initializeViewModel() {
-        val batchRepository = (application as BaseApplication).batchRepository
-        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository)).get(BatchViewModel::class.java)
+//        val batchRepository = (application as BaseApplication).batchRepository
+//        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository)).get(BatchViewModel::class.java)
+
+
     }
 
     private fun handleIntent() {

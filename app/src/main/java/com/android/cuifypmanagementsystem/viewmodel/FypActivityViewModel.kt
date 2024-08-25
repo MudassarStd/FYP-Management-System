@@ -7,10 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.android.cuifypmanagementsystem.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.utils.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FypActivityViewModel(private val fypActivityRepository: FypActivityRepository) : ViewModel(){
+@HiltViewModel
+class FypActivityViewModel @Inject constructor(
+    private val fypActivityRepository: FypActivityRepository)
+    : ViewModel(){
 
     private val _fypActivitiesFetch = MutableLiveData<Result<List<FypActivityRecord>>>()
     val fypActivitiesFetch : LiveData<Result<List<FypActivityRecord>>> get() = _fypActivitiesFetch
@@ -21,10 +26,8 @@ class FypActivityViewModel(private val fypActivityRepository: FypActivityReposit
     private val _fypActivityInfo = MutableLiveData<FypActivityRecord>()
     val fypActivityInfo : LiveData<FypActivityRecord> get() = _fypActivityInfo
 
-
     private val _updateFypRoleResult = MutableLiveData<Result<Void?>>()
     val updateFypRoleResult : LiveData<Result<Void?>> get() = _updateFypRoleResult
-
 
     private val _activityClosureState = MutableLiveData<Result<Void?>>()
     val activityClosureState : LiveData<Result<Void?>> get() = _activityClosureState

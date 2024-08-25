@@ -6,9 +6,10 @@ import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FypActivityRepository(private val firestore: FirebaseFirestore,
-                            private val roomDatabase: MainDatabase) {
+class FypActivityRepository @Inject constructor(
+    private val firestore: FirebaseFirestore) {
 
 
     suspend fun fetchFypActivityData() : Result<List<FypActivityRecord>> {

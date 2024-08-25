@@ -15,12 +15,15 @@ import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TeacherRepository(
-    private val applicationContext: Context,
+
+class TeacherRepository @Inject constructor(
+    @ApplicationContext private val applicationContext: Context,
     private val database: MainDatabase,
     private val firestore: FirebaseFirestore,
     private val firebaseAuth: FirebaseAuth

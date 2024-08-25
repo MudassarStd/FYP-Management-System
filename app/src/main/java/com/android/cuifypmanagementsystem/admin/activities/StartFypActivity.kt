@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityStartFypActivityyBinding
@@ -22,21 +22,21 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
-import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
+import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StartFypActivity : AppCompatActivity() {
     private val binding: ActivityStartFypActivityyBinding by lazy {
         ActivityStartFypActivityyBinding.inflate(layoutInflater)
     }
-    private lateinit var selectionViewModel : H_S_SelectionViewModel
-    private lateinit var fypActivityViewModel : FypActivityViewModel
-    private lateinit var batchViewModel: BatchViewModel
-    private lateinit var teacherViewModel : TeacherViewModel
+    private lateinit var globalSharedViewModel: GlobalSharedViewModel
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+    private val batchViewModel: BatchViewModel by viewModels()
+    private val teacherViewModel : TeacherViewModel by viewModels()
+
 
 
     private var fypHeadId : String? = null
@@ -55,19 +55,8 @@ class StartFypActivity : AppCompatActivity() {
             insets
         }
 
-        val teacherRepository = (application as BaseApplication).teacherRepository
-        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
-
-
         // Initialize ViewModel with factory
-        selectionViewModel = (application as BaseApplication).getH_S_SelectionViewModel()
-
-        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
-
-        val batchRepository = (application as BaseApplication).batchRepository
-        batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
-
+        globalSharedViewModel = (application as BaseApplication).getGlobalSharedViewModel()
 
 
         setFieldSelectionObservers()
@@ -75,7 +64,6 @@ class StartFypActivity : AppCompatActivity() {
 
 
         // starting activity
-
         binding.btnStartActivity.setOnClickListener {
             val fypActivityRecord = getFypActivityRecord()
             if (fypHeadId != fypSecretoryId)
@@ -95,7 +83,7 @@ class StartFypActivity : AppCompatActivity() {
 
 
     private fun setFieldSelectionObservers(){
-        selectionViewModel.selectedHead.observe(this){
+        globalSharedViewModel.selectedHead.observe(this){
             it?.let{
                 binding.etFypHead.setText(it.name)
                 fypHeadId = it.firestoreId
@@ -103,14 +91,14 @@ class StartFypActivity : AppCompatActivity() {
 
         }
 
-        selectionViewModel.selectedSecretory.observe(this){
+        globalSharedViewModel.selectedSecretory.observe(this){
             it?.let{
                 binding.etFypSecretory.setText(it.name)
                 fypSecretoryId = it.firestoreId
             }
         }
 
-        selectionViewModel.selectedBatch.observe(this){
+        globalSharedViewModel.selectedBatch.observe(this){
             it?.let {
                 binding.etFypActivityBatch.setText(it.name)
                 batchId = it.firestoreId
@@ -174,9 +162,9 @@ class StartFypActivity : AppCompatActivity() {
     }
 
     private fun resetFields() {
-        selectionViewModel.setSelectedHead(null)
-        selectionViewModel.setSelectedSecretory(null)
-        selectionViewModel.setSelectedBatch(null)
+        globalSharedViewModel.setSelectedHead(null)
+        globalSharedViewModel.setSelectedSecretory(null)
+        globalSharedViewModel.setSelectedBatch(null)
     }
 
     private fun getFypActivityRecord() : FypActivityRecord?{

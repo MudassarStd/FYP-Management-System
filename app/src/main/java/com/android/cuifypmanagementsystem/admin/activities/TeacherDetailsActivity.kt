@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,15 +15,15 @@ import com.android.cuifypmanagementsystem.databinding.ActivityTeacherDetailsBind
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TeacherDetailsActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityTeacherDetailsBinding.inflate(layoutInflater) }
-    private lateinit var fypActivityViewModel: FypActivityViewModel
-    private lateinit var batchViewModel: BatchViewModel
+    private val fypActivityViewModel: FypActivityViewModel by viewModels()
+    private val batchViewModel: BatchViewModel by viewModels()
     private var fypActivityInfo: FypActivityRecord? = null
     private var batchInfo: Batch? = null
 
@@ -32,7 +33,6 @@ class TeacherDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupWindowInsets()
 
-        initializeViewModel()
         handleIntentData()
         observeFypActivityInfoResult()
     }
@@ -45,21 +45,21 @@ class TeacherDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeViewModel() {
-        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
-        fypActivityViewModel = ViewModelProvider(
-            this,
-            FypActivityViewModelFactory(fypActivityRepository)
-        )[FypActivityViewModel::class.java]
-
-        val batchRepository = (application as BaseApplication).batchRepository
-        batchViewModel = ViewModelProvider(
-            this,
-            BatchViewModelFactory(batchRepository)
-        )[BatchViewModel::class.java]
-
-
-    }
+//    private fun initializeViewModel() {
+//        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+//        fypActivityViewModel = ViewModelProvider(
+//            this,
+//            FypActivityViewModelFactory(fypActivityRepository)
+//        )[FypActivityViewModel::class.java]
+//
+////        val batchRepository = (application as BaseApplication).batchRepository
+////        batchViewModel = ViewModelProvider(
+////            this,
+////            BatchViewModelFactory(batchRepository)
+////        )[BatchViewModel::class.java]
+//
+//
+//    }
 
     private fun handleIntentData() {
         val name = intent.getStringExtra("name")

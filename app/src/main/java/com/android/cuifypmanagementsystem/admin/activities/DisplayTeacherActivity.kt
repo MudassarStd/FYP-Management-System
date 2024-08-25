@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.BaseApplication
@@ -19,16 +19,18 @@ import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.H_S_SelectionViewModel
+import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class DisplayTeacherActivity : AppCompatActivity(),
     selectTeachersforFYPheadSEC.OnTeacherTestListItemListener {
     private lateinit var binding: ActivityDisplayTeacherBinding
     private lateinit var teacherRecyclerView: RecyclerView
-    private lateinit var teacherViewModel : TeacherViewModel
-    private lateinit var selectionViewModel: H_S_SelectionViewModel
+    private val teacherViewModel : TeacherViewModel by viewModels()
+    private lateinit var selectionViewModel: GlobalSharedViewModel
     private val selectTeacherAdapter: selectTeachersforFYPheadSEC by lazy {
         selectTeachersforFYPheadSEC(this, emptyList())
     }
@@ -46,10 +48,7 @@ class DisplayTeacherActivity : AppCompatActivity(),
         }
 
         // selection VM for persisting selected values (head & secretory)
-        selectionViewModel = (application as BaseApplication).getH_S_SelectionViewModel()
-
-        val teacherRepository = (application as BaseApplication).teacherRepository
-        teacherViewModel = ViewModelProvider(this, TeacherViewModelFactory(teacherRepository))[TeacherViewModel::class.java]
+        selectionViewModel = (application as BaseApplication).getGlobalSharedViewModel()
 
         // invoke interface
         selectTeacherAdapter.setOnTeacherTestListItemListener(this)
