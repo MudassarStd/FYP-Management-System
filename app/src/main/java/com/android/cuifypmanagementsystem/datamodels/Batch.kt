@@ -11,11 +11,11 @@ data class Batch(
     val semester : Int?,
     val registeredStudents : Int,
     val registeredGroups : Int,
-    val fypActivityStatus : Boolean
+    val fypActivityStatus : Boolean?
 ) : Serializable{
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0
-    constructor() :this(null, "",null,0,0,false)
+    constructor() :this(null, "",null,0,0,null)
 }
 
 

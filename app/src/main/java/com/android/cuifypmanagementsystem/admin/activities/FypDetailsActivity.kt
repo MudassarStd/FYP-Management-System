@@ -3,13 +3,16 @@ package com.android.cuifypmanagementsystem.admin.activities
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityFypDetailsBinding
@@ -18,8 +21,13 @@ import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_HEAD
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_SECRETORY
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
+import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.BatchViewModelFactory
+import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModelFactory
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModelFactory
 
@@ -30,6 +38,7 @@ class FypDetailsActivity : AppCompatActivity() {
 
     private lateinit var teacherViewModel : TeacherViewModel
     private lateinit var batchViewModel : BatchViewModel
+    private lateinit var fypActivityViewModel: FypActivityViewModel
 
     private  var fypActivityRecord : FypActivityRecord? = null
     private  var fypHead : Teacher? = null
@@ -47,11 +56,21 @@ class FypDetailsActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.parseColor("#576AE0")
 
+
+
+
         initializeViewModels()
+
+        val intentAction = intent.action
+        if (intentAction == ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY) {
+            hideAllEditOptions()
+        }
 
 
         fypActivityRecord = intent.getSerializableExtra("fypActivityRecord") as? FypActivityRecord
         fypActivityRecord?.let { record ->
+
+            Log.d("CheckingFypDetailsBug", "Record in details${fypActivityRecord}")
             // Use 'record' as a local, immutable reference
             val fypHeadId = record.fypHeadId.toString()
             val fypSecretoryId = record.fypSecId.toString()
@@ -60,6 +79,8 @@ class FypDetailsActivity : AppCompatActivity() {
             // Fetching data
             batchViewModel.getBatchById(batchId)
             teacherViewModel.getHeadSecretoryById(fypHeadId, fypSecretoryId)
+
+            Log.d("CheckingFypDetailsBug", "after calling viewmodel")
 
             // Observing data results
             observeResults()
@@ -83,7 +104,10 @@ class FypDetailsActivity : AppCompatActivity() {
         binding.btnCancelEditingFypActivityDetails.setOnClickListener {
             hideEditOptions()
         }
+
+        binding.btnCloseFypActivity.setOnClickListener { closeActivity() }
     }
+
 
 
 
@@ -95,14 +119,18 @@ class FypDetailsActivity : AppCompatActivity() {
         batchViewModel.batchById.observe(this) { batch ->
             batch?.let {
                 this.batch = batch
+                Log.d("CheckingFypDetailsBug", "Batch Observer: ${this.batch}")
+
                 checkAndUpdateUI()
-            }
+            } ?: Log.d("CheckingFypDetailsBug", "Batch is Null $batch")
+
         }
 
         teacherViewModel.fypHeadSecretaryById.observe(this){result ->
             result?.let{
                 fypHead = result.first
                 fypSecretory = result.second
+                Log.d("CheckingFypDetailsBug", "head sec Observer: ${fypHead} ${fypSecretory}")
                 checkAndUpdateUI()
             }
         }
@@ -157,6 +185,9 @@ class FypDetailsActivity : AppCompatActivity() {
         val batchRepository = (application as BaseApplication).batchRepository
         batchViewModel = ViewModelProvider(this, BatchViewModelFactory(batchRepository))[BatchViewModel::class.java]
 
+        val fypActivityRepository = (application as BaseApplication).fypActivityRepository
+        fypActivityViewModel = ViewModelProvider(this, FypActivityViewModelFactory(fypActivityRepository))[FypActivityViewModel::class.java]
+
     }
 
 
@@ -174,6 +205,78 @@ class FypDetailsActivity : AppCompatActivity() {
 
         binding.btnFypDetailsChangeHead.visibility = View.GONE
         binding.btnFypDetailsChangeSecretory.visibility = View.GONE
+    }
+
+    private fun hideAllEditOptions() {
+        binding.btnEditFypActivityDetails.visibility = View.GONE
+        binding.btnCancelEditingFypActivityDetails.visibility = View.GONE
+
+        binding.btnCloseFypActivity.visibility = View.GONE
+        binding.btnDeleteFypActivity.visibility = View.GONE
+    }
+
+
+
+    private fun closeActivity() {
+
+        fypActivityRecord?.firestoreId?.let { fypActivityViewModel.closeActivity(it) }
+        fypActivityRecord?.let {
+            teacherViewModel.freeHeadSecretoryOnActivityClosure(it.fypHeadId!!, it.fypSecId!!)
+            batchViewModel.updateBatchOnActivityClosure(it.batchId!!)
+        }
+
+        observeActivityClosureResults()
+
+    }
+
+    private fun observeActivityClosureResults() {
+        val combinedResults = MediatorLiveData<Triple<Result<Void?>?, Result<Void?>?, Result<Void?>?>>().apply {
+
+            var activityResult: Result<Void?>? = null
+            var headSecretoryResult: Result<Void?>? = null
+            var batchResult: Result<Void?>? = null
+
+
+            showProgressDialog("Closing activity...",this@FypDetailsActivity)
+
+            addSource(fypActivityViewModel.activityClosureState) { result ->
+                activityResult = result
+                value = Triple(activityResult, headSecretoryResult, batchResult)
+            }
+
+            addSource(teacherViewModel.freeHeadSecretoryOnActivityClosureState) { result ->
+                headSecretoryResult = result
+                value = Triple(activityResult, headSecretoryResult, batchResult)
+            }
+
+            addSource(batchViewModel.batchUpdate) { result ->
+                batchResult = result
+                value = Triple(activityResult, headSecretoryResult, batchResult)
+            }
+        }
+
+        combinedResults.observe(this) { (activityResult, headSecretoryResult, batchResult) ->
+            if (activityResult != null && headSecretoryResult != null && batchResult != null) {
+                when {
+                    activityResult is Result.Success &&
+                            headSecretoryResult is Result.Success &&
+                            batchResult is Result.Success -> {
+                                hideProgressDialog()
+                                Toast.makeText(this, "Successfully closed activity", Toast.LENGTH_SHORT).show()
+                    }
+
+                    activityResult is Result.Failure &&
+                            headSecretoryResult is Result.Failure &&
+                            batchResult is Result.Failure -> {
+                        hideProgressDialog()
+                        Toast.makeText(this, "Fatal error, failed to close activity", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(this, "Unknown error occurred", Toast.LENGTH_SHORT).show()
+                    }                    }
+                    }
+
+                }
     }
 
 }

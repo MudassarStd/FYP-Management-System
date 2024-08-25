@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.admin.activities.FypDetailsActivity
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
+import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
 
 class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
 
@@ -33,7 +34,7 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         holder.status.text = if (activity.status) {
             "On going"
         } else {
-            "Paused"
+            "Closed"
         }
         Log.d("fsdlfjsaoifhsadofhisd", "isActive; ${activity.status}")
 
@@ -58,8 +59,12 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
         init {
             itemView.setOnClickListener {
                 Toast.makeText(context, "Activity details", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, FypDetailsActivity::class.java )
-                intent.putExtra("fypActivityRecord", activitiesData[adapterPosition])
+                val intent = Intent(context, FypDetailsActivity::class.java ).apply {
+                    if(!activitiesData[adapterPosition].status) {
+                        action = ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
+                    }
+                    putExtra("fypActivityRecord", activitiesData[adapterPosition])
+                }
                 context.startActivity(intent)
             }
         }

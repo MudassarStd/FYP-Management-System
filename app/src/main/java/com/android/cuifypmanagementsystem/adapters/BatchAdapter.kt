@@ -86,7 +86,7 @@ class BatchAdapter(
             semester.text = "${batch.semester}th"
             registeredStudents.text = batch.registeredStudents.toString()
             registeredGroups.text = batch.registeredGroups.toString()
-            activityStatus.text = if (batch.fypActivityStatus) "Ongoing" else "Available"
+            activityStatus.text = if (batch.fypActivityStatus!!) "Ongoing" else "Available"
 
             tvAlreadySelectedBatchUneditable.visibility = if (isEditMode && batch.fypActivityStatus) View.VISIBLE else View.GONE
             btnEditBatch.visibility = if (isEditMode && !batch.fypActivityStatus) View.VISIBLE else View.GONE

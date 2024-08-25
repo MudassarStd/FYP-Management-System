@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.admin.activities
 import CustomDialogHelper.showActionSuccessDialog
 import CustomDialogHelper.showReversibleActionFailedDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
@@ -77,6 +78,7 @@ class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = Color.parseColor("#576AE0")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

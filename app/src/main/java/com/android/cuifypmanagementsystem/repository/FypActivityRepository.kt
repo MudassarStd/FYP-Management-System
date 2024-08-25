@@ -140,5 +140,20 @@ class FypActivityRepository(private val firestore: FirebaseFirestore,
         }
     }
 
+    suspend fun closeActivity(activityId : String) : Result<Void?>{
+        return try {
+
+            val doc = firestore.collection("Activities").document(activityId)
+
+            doc.update("status", false).await()
+
+            Result.Success(null)
+
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+
+    }
+
 
 }

@@ -33,10 +33,13 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     val teacherRoleUpdateStatusForActivity : LiveData<Result<Void?>> get() = _teacherRoleUpdateStatusForActivity
 
     private val _fypHeadSecretaryById = MutableLiveData<Pair<Teacher?, Teacher?>>()
-    val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> = _fypHeadSecretaryById
+    val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> get() = _fypHeadSecretaryById
 
     private val _updateFypRoleResultForTeachers = MutableLiveData<Result<Void?>>()
-    val updateFypRoleResultForTeachers: LiveData<Result<Void?>> = _updateFypRoleResultForTeachers
+    val updateFypRoleResultForTeachers: LiveData<Result<Void?>>  get() = _updateFypRoleResultForTeachers
+
+    private val _freeHeadSecretoryOnActivityClosureState = MutableLiveData<Result<Void?>>()
+    val freeHeadSecretoryOnActivityClosureState: LiveData<Result<Void?>>  get() = _freeHeadSecretoryOnActivityClosureState
 
 
     init {
@@ -94,6 +97,14 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
             _fypHeadSecretaryById.postValue(teacherRepository.getHeadSecretoryById(fypHeadId, fypSecretoryId))
         }
     }
+
+    fun freeHeadSecretoryOnActivityClosure(fypHeadId : String, fypSecretoryId: String) {
+        viewModelScope.launch {
+            _freeHeadSecretoryOnActivityClosureState.value = teacherRepository.freeHeadSecretoryOnActivityClosure(fypHeadId, fypSecretoryId)
+        }
+    }
+
+
 
 
 

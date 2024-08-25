@@ -218,6 +218,34 @@ class TeacherRepository(
         }
     }
 
+    suspend fun freeHeadSecretoryOnActivityClosure(fypHeadId: String, fypSecretoryId: String): Result<Void?> {
+        return try {
+            val batch = firestore.batch()
+
+        val headDocRef = firestore.collection("teachers").document(fypHeadId)
+        val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
+
+        batch.update(
+            headDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            )
+        )
+        batch.update(
+            secretoryDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            )
+        )
+
+        batch.commit().await()
+        Result.Success(null)
+    }
+     catch (e: Exception) {
+        Result.Failure(e)
+    }
+    }
+
     // ---------------- Room Database Operations ----------------
 
     private suspend fun addTeacherLocally(teacher: Teacher) {
@@ -246,6 +274,8 @@ class TeacherRepository(
     private suspend fun refreshTeachersFromRoom() {
         _teachers.postValue(getAllFromRoom())
     }
+
+
 
 
 }

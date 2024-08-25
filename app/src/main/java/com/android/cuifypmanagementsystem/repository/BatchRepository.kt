@@ -41,6 +41,25 @@ class BatchRepository(private val firestore : FirebaseFirestore,
         }
     }
 
+
+    suspend fun updateBatchOnActivityClosure(batchId: String) : Result<Void?> {
+
+        return try {
+                // Get a reference to the document with the matching ID
+            val docRef = firestore.collection("batches").document(batchId)
+
+            // Update the batch data in the document
+            docRef.update("fypActivityStatus", null).await()
+            Result.Success(null)
+
+        }
+            catch (e: Exception) {
+                Result.Failure(e)
+        }
+    }
+
+
+
     suspend fun deleteBatch(batchId: String): Result<Void?> {
         return try {
             // Get a reference to the document with the matching ID
@@ -59,10 +78,13 @@ class BatchRepository(private val firestore : FirebaseFirestore,
 
 
 
-    suspend fun fetchAllBatches() : Result<List<Batch>> {
+    suspend fun fetchAllActiveAndAvailableBatches(): Result<List<Batch>> {
+        return try {
+            // Adjust the query to filter batches where fypActivityStatus is not null
+            val query = firestore.collection("batches")
+                .whereNotEqualTo("fypActivityStatus", null)
 
-         return try {
-            val snapshot = firestore.collection("batches").get().await()
+            val snapshot = query.get().await()
 
             val batchList = snapshot.documents.map { doc ->
                 val batch = doc.toObject(Batch::class.java)!!
@@ -70,18 +92,16 @@ class BatchRepository(private val firestore : FirebaseFirestore,
                 batch
             }
 
-             Log.d("TestingBatchLogic", "Inside fetchBatch list: ${batchList}")
+            Log.d("TestingBatchLogic", "Filtered batch list: $batchList")
             Result.Success(batchList)
-
-        }
-        catch (e : Exception){
-            Log.d("TestingBatchLogic", "exception : ${e.message}")
+        } catch (e: Exception) {
+            Log.d("TestingBatchLogic", "Exception: ${e.message}")
             Result.Failure(e)
-
         }
     }
 
-      suspend fun fetchAvailableBatchesForActivity() : Result<List<Batch>> {
+
+    suspend fun fetchAvailableBatchesForActivity() : Result<List<Batch>> {
 
          return try {
             val snapshot = firestore.collection("batches").whereEqualTo("fypActivityStatus" , false).get().await()
