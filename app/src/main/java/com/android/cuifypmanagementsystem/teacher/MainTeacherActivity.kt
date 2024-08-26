@@ -1,13 +1,11 @@
 package com.android.cuifypmanagementsystem.teacher
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
+import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityMainTeacherBinding
+import com.android.cuifypmanagementsystem.teacher.adapter.TeacherViewPagerAdapter
 
 class MainTeacherActivity : AppCompatActivity() {
 
@@ -19,17 +17,29 @@ class MainTeacherActivity : AppCompatActivity() {
         binding = ActivityMainTeacherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        val viewPager = binding.teacherViewPager
+        val bsv = binding.teacherBSV
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main_teacher)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        // Set up ViewPager with the adapter
+        viewPager.adapter = TeacherViewPagerAdapter(this)
+
+        // Handle BottomNavigationView item clicks
+        bsv.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_dashboard -> viewPager.currentItem = 0
+                R.id.navigation_teacher_groups -> viewPager.currentItem = 1
+                R.id.navigation_notifications -> viewPager.currentItem = 2
+                R.id.navigation_teacher_profile -> viewPager.currentItem = 3
+            }
+            true
+        }
+
+        // Sync ViewPager with BottomNavigationView
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                bsv.menu.getItem(position).isChecked = true
+            }
+        })
     }
 }

@@ -1,10 +1,10 @@
-package com.android.cuifypmanagementsystem.teacher.ui.home
+package com.android.cuifypmanagementsystem.teacher.ui.groups
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class TeacherGroupsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

@@ -16,9 +16,8 @@
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
         <activity
-            android:name=".teacher.MainTeacherActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main_teacher" />
+            android:name=".SplashActivity"
+            android:exported="false"/>
         <activity
             android:name=".admin.activities.TeacherActivity"
             android:exported="false" />
@@ -57,16 +56,13 @@
             android:name=".admin.activities.ManageTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.activities.BatchDetailsActivity"
-            android:exported="false" />
-        <activity
             android:name=".admin.activities.AddEditBatchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".teacher.MainTeacherActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

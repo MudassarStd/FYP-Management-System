@@ -10,9 +10,12 @@
         <item>Dr Asim</item>
         <item>Dr Tariq Shehzad</item>
     </string-array>
+
+
     <string name="title_activity_main_teacher">MainTeacherActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_teacher_profile">Profile</string>
 
 </resources>
