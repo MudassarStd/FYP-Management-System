@@ -16,8 +16,8 @@ object EmailSender {
 
     private const val TAG = "EmailSender" // Tag for log messages
 
-    private const val senderEmail = "Sender@gmail.com"
-    private const val senderPassword = "password"
+    private const val senderEmail = "mudassarstd@gmail.com"
+    private const val senderPassword = "kxmu onnn shxa blef"
     private const val host = "smtp.gmail.com"
 
     private val properties = Properties().apply {

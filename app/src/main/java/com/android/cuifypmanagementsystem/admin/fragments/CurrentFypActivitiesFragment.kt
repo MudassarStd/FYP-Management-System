@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class CurrentFypActivitiesFragment : Fragment() ,  OnActivityAction {
 
     private val fypActivityViewModel: FypActivityViewModel by viewModels()
-//    private lateinit var globalSharedViewModel: GlobalSharedViewModel
     private val activityAdapter: FypActivityAdapter by lazy {
         FypActivityAdapter(requireContext(), emptyList())
     }
@@ -62,7 +61,7 @@ class CurrentFypActivitiesFragment : Fragment() ,  OnActivityAction {
             startActivity(Intent(requireContext(), StartFypActivity::class.java))
         }
 
-        fypActivityViewModel.fetchFypActivityData(true)
+        fypActivityViewModel.fetchFypActivityDataWithCustomUIModel(true)
 
         fypActivityViewModel.fypActivitiesFetch.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -92,7 +91,7 @@ class CurrentFypActivitiesFragment : Fragment() ,  OnActivityAction {
     override fun onResume() {
         super.onResume()
         if (activityUpdateTrigger) {
-            fypActivityViewModel.fetchFypActivityData(true)
+            fypActivityViewModel.fetchFypActivityDataWithCustomUIModel(true)
             activityUpdateTrigger = false
         }
     }

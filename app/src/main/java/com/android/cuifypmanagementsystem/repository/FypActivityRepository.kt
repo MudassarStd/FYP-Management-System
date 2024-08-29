@@ -3,6 +3,7 @@ package com.android.cuifypmanagementsystem.repository
 import android.util.Log
 import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.FYP_ACTIVITY_COLLECTION
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -14,7 +15,7 @@ class FypActivityRepository @Inject constructor(
 
     suspend fun fetchFypActivityData(activityStatus : Boolean) : Result<List<FypActivityRecord>> {
         return try{
-            val snapshot = firestore.collection("Activities").whereEqualTo("status", activityStatus)
+            val snapshot = firestore.collection(FYP_ACTIVITY_COLLECTION).whereEqualTo("status", activityStatus)
                 .get().await()
             val fypActivities = snapshot.documents.map {doc ->
                 val fypActivity = doc.toObject(FypActivityRecord::class.java)!!
@@ -33,7 +34,7 @@ class FypActivityRepository @Inject constructor(
     suspend fun startFypActivity(fypActivityRecord: FypActivityRecord) : Result<String>{
 
         return try{
-            val activityDocRef = firestore.collection("Activities")
+            val activityDocRef = firestore.collection(FYP_ACTIVITY_COLLECTION)
                 .add(fypActivityRecord)
                 .await()
 
@@ -49,7 +50,7 @@ class FypActivityRepository @Inject constructor(
     suspend fun deleteFypActivity(activityId: String) {
         try {
             // Get a reference to the Firestore collection
-            val activityDoc = firestore.collection("Activities").document(activityId)
+            val activityDoc = firestore.collection(FYP_ACTIVITY_COLLECTION).document(activityId)
 
             // Perform the delete operation
             activityDoc.delete().await()
@@ -66,7 +67,7 @@ class FypActivityRepository @Inject constructor(
 
     suspend fun getActivityInfo(activityId: String): FypActivityRecord? {
         return try {
-            val docSnapshot = firestore.collection("Activities").document(activityId).get().await()
+            val docSnapshot = firestore.collection(FYP_ACTIVITY_COLLECTION).document(activityId).get().await()
 
             if (docSnapshot.exists()) {
                 val activity = docSnapshot.toObject(FypActivityRecord::class.java)
@@ -88,7 +89,7 @@ class FypActivityRepository @Inject constructor(
 
         return try {
             // Get the document reference for the activity
-            val docRef = firestore.collection("Activities").document(activityId)
+            val docRef = firestore.collection(FYP_ACTIVITY_COLLECTION).document(activityId)
 
             // Create a map to hold the updates based on the role
             val roleUpdate = when (role) {
@@ -117,7 +118,7 @@ class FypActivityRepository @Inject constructor(
 
         return try {
             // Get the document reference for the activity
-            val docRef = firestore.collection("Activities").document(activityId)
+            val docRef = firestore.collection(FYP_ACTIVITY_COLLECTION).document(activityId)
 
             // Create a map to hold the updates based on the role
             val roleUpdate = when (role) {
@@ -144,7 +145,7 @@ class FypActivityRepository @Inject constructor(
     suspend fun closeActivity(activityId : String) : Result<Void?>{
         return try {
 
-            val doc = firestore.collection("Activities").document(activityId)
+            val doc = firestore.collection(FYP_ACTIVITY_COLLECTION).document(activityId)
 
             doc.update("status", false).await()
 

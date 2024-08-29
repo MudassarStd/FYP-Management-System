@@ -13,6 +13,7 @@ import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.admin.activities.FypDetailsActivity
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
+import com.android.cuifypmanagementsystem.datamodels.FypActivityRecordUiModel
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
 import com.android.cuifypmanagementsystem.utils.DateTime.longToDate
 
@@ -22,7 +23,7 @@ interface OnActivityAction {
 }
 
 
-class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecord>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
+class FypActivityAdapter(private val context : Context, private var activitiesData : List<FypActivityRecordUiModel>) : RecyclerView.Adapter<FypActivityAdapter.ActivityViewHolder>() {
 
     private lateinit var onActivityActionListener: OnActivityAction
 
@@ -43,24 +44,22 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
 
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity=activitiesData[position]
-        longToDate(activity.registrationTimeStamp)
-        holder.fypheadname.text=activity.fypHeadId
-        holder.fypsecname.text=activity.fypSecId
-        holder.startedDate.text= longToDate(activity.registrationTimeStamp)
-        holder.year.text=activity.batchId
-        holder.status.text = if (activity.status) {
+        longToDate(activity.fypActivityRecord!!.registrationTimeStamp)
+        holder.fypheadname.text=activity.fypHeadName
+        holder.fypsecname.text=activity.fypSecretoryName
+        holder.startedDate.text= longToDate(activity.fypActivityRecord!!.registrationTimeStamp)
+        holder.year.text=activity.batchName
+        holder.status.text = if (activity.fypActivityRecord!!.status) {
             "On going"
         } else {
             "Closed"
         }
-        Log.d("fsdlfjsaoifhsadofhisd", "isActive; ${activity.status}")
-
     }
 
     override fun getItemCount(): Int = activitiesData.size
 
 
-    fun updateActivitiesData(activitiesData: List<FypActivityRecord>)
+    fun updateActivitiesData(activitiesData: List<FypActivityRecordUiModel>)
     {
         this.activitiesData = activitiesData
         notifyDataSetChanged()
@@ -77,10 +76,10 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
             itemView.setOnClickListener {
                 Toast.makeText(context, "Activity details", Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, FypDetailsActivity::class.java ).apply {
-                    if(!activitiesData[adapterPosition].status) {
+                    if(!activitiesData[adapterPosition].fypActivityRecord!!.status) {
                         action = ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
                     }
-                    putExtra("fypActivityRecord", activitiesData[adapterPosition])
+                    putExtra("fypActivityRecord", activitiesData[adapterPosition].fypActivityRecord)
                 }
 
                 listener.onFypActivitySelected()

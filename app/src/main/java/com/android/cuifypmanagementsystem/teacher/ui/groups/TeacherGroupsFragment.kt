@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.FragmentTeacherGroupsBinding
+import com.android.cuifypmanagementsystem.teacher.adapter.TeacherGroupsAdapter
+import com.google.android.material.tabs.TabLayoutMediator
+
 
 class TeacherGroupsFragment : Fragment() {
 
@@ -27,11 +30,20 @@ class TeacherGroupsFragment : Fragment() {
 
         _binding = FragmentTeacherGroupsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val tabLayout = binding.tabLayoutTeacherGroups
+        val viewPager = binding.viewPagerTeacherGroups
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val pagerAdapter = TeacherGroupsAdapter(this)
+        viewPager.adapter = pagerAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Current"
+                1 -> tab.text = "Requests"
+            }
+        }.attach()
+
+
         return root
     }
 

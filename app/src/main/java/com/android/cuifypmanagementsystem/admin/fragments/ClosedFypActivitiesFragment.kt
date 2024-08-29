@@ -55,7 +55,7 @@ class ClosedFypActivitiesFragment : Fragment() , OnActivityAction{
         binding.rvClosedFypActivities.adapter = activityAdapter
         binding.rvClosedFypActivities.layoutManager = LinearLayoutManager(requireContext())
 
-        fypActivityViewModel.fetchFypActivityData(false)
+        fypActivityViewModel.fetchFypActivityDataWithCustomUIModel(false)
 
         fypActivityViewModel.fypActivitiesFetch.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -77,7 +77,7 @@ class ClosedFypActivitiesFragment : Fragment() , OnActivityAction{
                     // Handle failure
                 }
                 is Result.Loading -> {
-                    showProgressDialog("laoding data", requireContext())
+                    showProgressDialog("loading data...", requireContext())
                 }
             }
         }
@@ -88,16 +88,9 @@ class ClosedFypActivitiesFragment : Fragment() , OnActivityAction{
     override fun onResume() {
         super.onResume()
         if (activityUpdateTrigger) {
-            fypActivityViewModel.fetchFypActivityData(false)
+            fypActivityViewModel.fetchFypActivityDataWithCustomUIModel(false)
             activityUpdateTrigger = false
         }
-
-        // if activity updated in current frag
-//        globalSharedViewModel.activityUpdateTriggered.observe(this) {status->
-//            if(status) {
-//              fypActivityViewModel.fetchFypActivityData(false)
-//            }
-//        }
     }
 
     private fun toggleList(hasItem : Boolean) {

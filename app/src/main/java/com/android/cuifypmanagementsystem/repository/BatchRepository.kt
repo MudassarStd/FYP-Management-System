@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.room.MainDatabase
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.BATCH_COLLECTION
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,7 +18,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
 
     suspend fun addBatch(batch : Batch) : Result<Void?>{
         return try {
-            firestore.collection("batches").add(batch).await()
+            firestore.collection(BATCH_COLLECTION).add(batch).await()
             Result.Success(null)
         }
         catch(e : Exception){
@@ -29,7 +30,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
 
         return try {
                 // Get a reference to the document with the matching ID
-            val documentRef = firestore.collection("batches").document(batch.firestoreId!!)
+            val documentRef = firestore.collection(BATCH_COLLECTION).document(batch.firestoreId!!)
 
             // Update the batch data in the document
             documentRef.set(batch).await()
@@ -46,7 +47,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
 
         return try {
                 // Get a reference to the document with the matching ID
-            val docRef = firestore.collection("batches").document(batchId)
+            val docRef = firestore.collection(BATCH_COLLECTION).document(batchId)
 
             // Update the batch data in the document
             docRef.update("fypActivityStatus", null).await()
@@ -64,7 +65,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
         return try {
             // Get a reference to the document with the matching ID
             val documentRef =
-                FirebaseFirestore.getInstance().collection("batches").document(batchId)
+                FirebaseFirestore.getInstance().collection(BATCH_COLLECTION).document(batchId)
 
             // Delete the batch document
             documentRef.delete().await()
@@ -81,7 +82,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
     suspend fun fetchAllActiveAndAvailableBatches(): Result<List<Batch>> {
         return try {
             // Adjust the query to filter batches where fypActivityStatus is not null
-            val query = firestore.collection("batches")
+            val query = firestore.collection(BATCH_COLLECTION)
                 .whereNotEqualTo("fypActivityStatus", null)
 
             val snapshot = query.get().await()
@@ -104,7 +105,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
     suspend fun fetchAvailableBatchesForActivity() : Result<List<Batch>> {
 
          return try {
-            val snapshot = firestore.collection("batches").whereEqualTo("fypActivityStatus" , false).get().await()
+            val snapshot = firestore.collection(BATCH_COLLECTION).whereEqualTo("fypActivityStatus" , false).get().await()
 
             val batchList = snapshot.documents.map { doc ->
                 val batch = doc.toObject(Batch::class.java)!!
@@ -126,7 +127,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
     suspend fun updateBatchActivityStatus(batchId : String, status : Boolean)  {
 
          try {
-                val batchDocRef = firestore.collection("batches").document(batchId)
+                val batchDocRef = firestore.collection(BATCH_COLLECTION).document(batchId)
                 val batchStatusUpdate = hashMapOf(
                     "fypActivityStatus" to status as Any
                 )
@@ -141,7 +142,7 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
 
     suspend fun getBatchById(batchId : String) : Batch? {
         return try {
-            val docSnapshot = firestore.collection("batches").document(batchId).get().await()
+            val docSnapshot = firestore.collection(BATCH_COLLECTION).document(batchId).get().await()
             if (docSnapshot.exists()){
                 val batchDoc = docSnapshot.toObject(Batch::class.java)
                 batchDoc
@@ -156,14 +157,20 @@ class BatchRepository @Inject constructor(private val firestore : FirebaseFirest
         }
     }
 
-
-
-
-
-
-
-
-
+    suspend fun getBatchNameById(batchId: String?): String?{
+        if (batchId == null) return null
+        return try {
+            val doc = firestore.collection(BATCH_COLLECTION).document(batchId).get().await()
+            if (doc.exists()) {
+                doc.getString("name")
+            } else {
+                null
+            }
+        }
+        catch (e : Exception) {
+            null
+        }
+    }
 
 
     // ---------------------- Room operations ----------------------

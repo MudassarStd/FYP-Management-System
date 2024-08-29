@@ -2,6 +2,8 @@ package com.android.cuifypmanagementsystem.teacher
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityMainTeacherBinding
@@ -17,8 +19,14 @@ class MainTeacherActivity : AppCompatActivity() {
         binding = ActivityMainTeacherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewPager = binding.teacherViewPager
-        val bsv = binding.teacherBSV
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        val viewPager = binding.teacherMainViewPager
+        val bsv = binding.teacherMainBSV
 
         // Set up ViewPager with the adapter
         viewPager.adapter = TeacherViewPagerAdapter(this)
@@ -41,5 +49,6 @@ class MainTeacherActivity : AppCompatActivity() {
                 bsv.menu.getItem(position).isChecked = true
             }
         })
+
     }
 }

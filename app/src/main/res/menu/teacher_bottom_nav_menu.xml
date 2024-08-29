@@ -8,7 +8,7 @@
     <item
         android:id="@+id/navigation_teacher_groups"
         android:icon="@drawable/ic_people"
-        android:title="@string/title_home" />
+        android:title="@string/title_teacher_groups" />
 
     <item
         android:id="@+id/navigation_notifications"
@@ -19,5 +19,4 @@
         android:id="@+id/navigation_teacher_profile"
         android:icon="@drawable/ic_person"
         android:title="@string/title_teacher_profile" />
-
 </menu>

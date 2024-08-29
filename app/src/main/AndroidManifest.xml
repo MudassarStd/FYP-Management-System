@@ -15,9 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
+
         <activity
-            android:name=".SplashActivity"
-            android:exported="false"/>
+            android:name=".teacher.TeacherGroupDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".admin.activities.TeacherActivity"
             android:exported="false" />
@@ -42,7 +46,7 @@
         <activity
             android:name=".admin.activities.StartFypActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".admin.activities.AddTeacher"
             android:exported="false" />
@@ -50,7 +54,7 @@
             android:name=".admin.activities.BatchActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".teacher.MainTeacherActivity"
             android:exported="false" />
         <activity
             android:name=".admin.activities.ManageTeacherActivity"
@@ -62,7 +66,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".teacher.MainTeacherActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
