@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".teacher.CurrentGroupsFragment">
+    tools:context=".teacher.ui.groups.current.CurrentGroupsFragment">
     <TextView
         android:id="@+id/TV_path"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.teacher
+package com.android.cuifypmanagementsystem.teacher.ui.groups.requests
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:id="@+id/main"
-    tools:context=".teacher.TeacherGroupDetailsActivity">
+    tools:context=".teacher.activities.TeacherGroupDetailsActivity">
     <TextView
         android:id="@+id/TV_path"
         android:layout_width="match_parent"

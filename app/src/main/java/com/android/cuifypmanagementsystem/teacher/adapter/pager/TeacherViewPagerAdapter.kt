@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.teacher.adapter
+package com.android.cuifypmanagementsystem.teacher.adapter.pager
 
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter

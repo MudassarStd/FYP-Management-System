@@ -15,9 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
-
         <activity
-            android:name=".teacher.TeacherGroupDetailsActivity"
+            android:name=".teacher.activities.DisplayFypIdeasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.activities.ShareFypIdeaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CUIFYPManagementSystem" />
+        <activity
+            android:name=".teacher.activities.TeacherGroupDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -54,7 +60,7 @@
             android:name=".admin.activities.BatchActivity"
             android:exported="false" />
         <activity
-            android:name=".teacher.MainTeacherActivity"
+            android:name=".teacher.activities.MainTeacherActivity"
             android:exported="false" />
         <activity
             android:name=".admin.activities.ManageTeacherActivity"

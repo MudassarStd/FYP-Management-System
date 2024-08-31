@@ -5,4 +5,5 @@ object FirebaseCollections {
     const val FYP_ACTIVITY_COLLECTION = "Activities"
     const val BATCH_COLLECTION = "batches"
     const val USER_ROLES_COLLECTION = "userRoles"
+    const val FYP_IDEAS_COLLECTION = "fypIdeas"
 }

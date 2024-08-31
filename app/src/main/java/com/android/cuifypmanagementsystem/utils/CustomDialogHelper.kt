@@ -69,7 +69,6 @@ object CustomDialogHelper {
                 // Handle positive button click
 
                 dialog.dismiss()
-                context.startActivity(Intent(context, AdminDashboardActivity::class.java))
             }
             .setCancelable(true) // Set to false if you don't want to allow dismissing by clicking outside
 

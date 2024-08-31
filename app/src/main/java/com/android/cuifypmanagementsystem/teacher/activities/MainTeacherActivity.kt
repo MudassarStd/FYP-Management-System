@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.teacher
+package com.android.cuifypmanagementsystem.teacher.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +7,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityMainTeacherBinding
-import com.android.cuifypmanagementsystem.teacher.adapter.TeacherViewPagerAdapter
+import com.android.cuifypmanagementsystem.teacher.adapter.pager.TeacherViewPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainTeacherActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainTeacherBinding

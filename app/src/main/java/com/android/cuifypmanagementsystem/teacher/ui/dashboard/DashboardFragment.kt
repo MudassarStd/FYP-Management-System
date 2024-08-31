@@ -1,13 +1,15 @@
 package com.android.cuifypmanagementsystem.teacher.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.FragmentDashboardBinding
+import com.android.cuifypmanagementsystem.teacher.activities.DisplayFypIdeasActivity
+import com.android.cuifypmanagementsystem.teacher.activities.ShareFypIdeaActivity
 
 class DashboardFragment : Fragment() {
 
@@ -27,12 +29,20 @@ class DashboardFragment : Fragment() {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-//        val textView: TextView = binding.textDashboard
-//        dashboardViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.boxShareFypIdea.setOnClickListener {
+            startActivity(Intent(requireContext(), ShareFypIdeaActivity::class.java))
+        }
+
+        binding.boxViewFypIdeas.setOnClickListener {
+            startActivity(Intent(requireContext(), DisplayFypIdeasActivity::class.java))
+        }
+
     }
 
     override fun onDestroyView() {

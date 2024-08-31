@@ -3,9 +3,8 @@ package com.android.cuifypmanagementsystem.utils
 import android.content.Context
 import android.content.Intent
 import com.android.cuifypmanagementsystem.admin.activities.AdminDashboardActivity
-import com.android.cuifypmanagementsystem.admin.activities.ManageTeacherActivity
 import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
-import com.android.cuifypmanagementsystem.teacher.MainTeacherActivity
+import com.android.cuifypmanagementsystem.teacher.activities.MainTeacherActivity
 
 object UserAuthNavigationManager {
 

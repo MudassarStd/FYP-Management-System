@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.teacher
+package com.android.cuifypmanagementsystem.teacher.activities
 
 import android.os.Bundle
 import android.view.View
