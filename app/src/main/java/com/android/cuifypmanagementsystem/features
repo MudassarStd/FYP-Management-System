@@ -1,9 +1,8 @@
+Major changes
 
------------- Today's Tasks -------------
-- How to update batch Info in fpy activity cards and details (tick)
-- Setup flow for teacher panel
+batch active = true
+batch available = false
+batch closed = null
 
-
------------------------ Change FYP roles ----------------
-- Observe results for rollback operations
-- Test all use cases
+activity active = true
+activity closed = false

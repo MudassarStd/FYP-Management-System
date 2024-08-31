@@ -7,8 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.EmailAuthProvider
+import javax.inject.Inject
 
-class UserAuthRepository(
+class UserAuthRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val firebaseAuth: FirebaseAuth
 ) {

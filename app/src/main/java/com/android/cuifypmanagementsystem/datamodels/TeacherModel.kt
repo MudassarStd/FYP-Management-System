@@ -20,10 +20,10 @@ data class Teacher(
     val supervisor: Int ,
     val fypHeadOrSecretory: Int,
     @Embedded val fypActivityRole: FypActivityRole? = null,
-    val registrationTimeStamp: Timestamp = Timestamp.now()
+    val registrationTimeStamp: Long
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
-    constructor() : this(null, "", "", "", 0, 0, null, Timestamp.now())
+    constructor() : this(null, "", "", "", 0, 0, null, 0L)
 }

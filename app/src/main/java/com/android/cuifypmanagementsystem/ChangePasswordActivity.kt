@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,14 +15,17 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDial
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ChangePasswordActivity : AppCompatActivity() {
     private val binding : ActivityChangePasswordBinding by lazy {
         ActivityChangePasswordBinding.inflate(layoutInflater)
     }
 
-    private lateinit var userAuthViewModel: UserAuthViewModel
+    private val userAuthViewModel: UserAuthViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +38,11 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
 
         // Initialize ViewModel
-        val userAuthRepository = (application as BaseApplication).userAuthRepository
-        userAuthViewModel = ViewModelProvider(
-            this,
-            UserAuthViewModelFactory(userAuthRepository)
-        )[UserAuthViewModel::class.java]
+//        val userAuthRepository = (application as BaseApplication).userAuthRepository
+//        userAuthViewModel = ViewModelProvider(
+//            this,
+//            UserAuthViewModelFactory(userAuthRepository)
+//        )[UserAuthViewModel::class.java]
 
 
 

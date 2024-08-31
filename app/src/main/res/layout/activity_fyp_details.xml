@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".admin.FypDetailsActivity">
+    tools:context=".admin.activities.FypDetailsActivity">
 
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -464,7 +464,7 @@
             android:id="@+id/btnCloseFypActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="20dp"
             android:text="Close"
             android:layout_weight=".5"
             app:cornerRadius="10dp" />
@@ -474,7 +474,7 @@
             android:id="@+id/btnDeleteFypActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="20dp"
             android:backgroundTint="@color/red"
             android:text="Delete"
             android:layout_weight=".5"

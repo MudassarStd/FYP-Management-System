@@ -11,20 +11,23 @@ import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import android.graphics.Color
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import com.android.cuifypmanagementsystem.databinding.ActivityForgetPasswordBinding
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ForgetPasswordActivity : AppCompatActivity() {
 
     private val binding: ActivityForgetPasswordBinding by lazy {
         ActivityForgetPasswordBinding.inflate(layoutInflater)
     }
+    private val userAuthViewModel: UserAuthViewModel by viewModels()
 
-    private lateinit var userAuthViewModel: UserAuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +38,11 @@ class ForgetPasswordActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#6173E3")
 
         // Initialize ViewModel
-        val userAuthRepository = (application as BaseApplication).userAuthRepository
-        userAuthViewModel = ViewModelProvider(
-            this,
-            UserAuthViewModelFactory(userAuthRepository)
-        )[UserAuthViewModel::class.java]
+//        val userAuthRepository = (application as BaseApplication).userAuthRepository
+//        userAuthViewModel = ViewModelProvider(
+//            this,
+//            UserAuthViewModelFactory(userAuthRepository)
+//        )[UserAuthViewModel::class.java]
 
         // Set up button click listener for password reset
         binding.btnResetPassword.setOnClickListener {

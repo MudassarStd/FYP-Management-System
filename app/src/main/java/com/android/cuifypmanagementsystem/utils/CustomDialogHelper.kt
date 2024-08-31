@@ -5,8 +5,7 @@ import android.view.View
 import android.widget.Button
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.admin.AdminDashboardActivity
-import com.google.android.material.textview.MaterialTextView
+import com.android.cuifypmanagementsystem.admin.activities.AdminDashboardActivity
 
 object CustomDialogHelper {
 
@@ -70,7 +69,6 @@ object CustomDialogHelper {
                 // Handle positive button click
 
                 dialog.dismiss()
-                context.startActivity(Intent(context, AdminDashboardActivity::class.java))
             }
             .setCancelable(true) // Set to false if you don't want to allow dismissing by clicking outside
 

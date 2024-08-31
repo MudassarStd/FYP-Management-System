@@ -9,18 +9,23 @@ import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
 import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.TEACHER_COLLECTION
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.USER_ROLES_COLLECTION
 import com.android.cuifypmanagementsystem.utils.NetworkUtils.isInternetAvailable
 import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TeacherRepository(
-    private val applicationContext: Context,
+
+class TeacherRepository @Inject constructor(
+    @ApplicationContext private val applicationContext: Context,
     private val database: MainDatabase,
     private val firestore: FirebaseFirestore,
     private val firebaseAuth: FirebaseAuth
@@ -62,22 +67,39 @@ class TeacherRepository(
                 "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
             )
-            firestore.collection("teachers").document(uid)
+            firestore.collection(TEACHER_COLLECTION).document(uid)
                 .set(teacherData, SetOptions.merge()).await()
 
             teacher.firestoreId = uid
 //            addTeacherLocally(teacher)
 
-            Result.Success(null)
+            // setting teacher role
+            if(setTeacherRole(uid)) {
+                Result.Success(null)
+            } else {
+                Result.Failure(Exception("Failed to update user roles"))
+            }
+
         } catch (e: Exception) {
             Result.Failure(e)
+        }
+    }
+
+    private suspend fun setTeacherRole(teacherId : String) : Boolean {
+        return try {
+            val roleData = mapOf("role" to "teacher")
+            firestore.collection(USER_ROLES_COLLECTION).document(teacherId).set(roleData).await()
+
+            true
+        } catch (e : Exception) {
+            false
         }
     }
 
     suspend fun getAllTeachersFromCloud(): Result<List<Teacher>> {
         return try {
 //            if (isInternetAvailable(applicationContext)) {
-                val snapshot = firestore.collection("teachers").get().await()
+                val snapshot = firestore.collection(TEACHER_COLLECTION).get().await()
                 val teachersList = snapshot.documents.map { document ->
                     document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
                 }
@@ -94,7 +116,7 @@ class TeacherRepository(
     suspend fun getNotFypHeadSecretaries(): Result<List<Teacher>> {
         return try {
             if (isInternetAvailable(applicationContext)) {
-                val snapshot = firestore.collection("teachers")
+                val snapshot = firestore.collection(TEACHER_COLLECTION)
                     .whereEqualTo("fypHeadOrSecretory", 0)
                     .get()
                     .await()
@@ -114,7 +136,7 @@ class TeacherRepository(
         return try {
             val batch = firestore.batch()
 
-            val headDocRef = firestore.collection("teachers").document(fypHeadId)
+            val headDocRef = firestore.collection(TEACHER_COLLECTION).document(fypHeadId)
             val secretoryDocRef = firestore.collection("teachers").document(fypSecretoryId)
 
             batch.update(headDocRef, mapOf(
@@ -142,8 +164,8 @@ class TeacherRepository(
         return try {
             val batch = firestore.batch()
 
-            val currentTeacherDocRef = firestore.collection("teachers").document(currentRoleHolderId)
-            val newTeacherDocRef = firestore.collection("teachers").document(newRoleHolderId)
+            val currentTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(currentRoleHolderId)
+            val newTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(newRoleHolderId)
 
             batch.update(currentTeacherDocRef, mapOf(
                 "fypHeadOrSecretory" to 0,
@@ -169,8 +191,8 @@ class TeacherRepository(
         return try {
             val batch = firestore.batch()
 
-            val currentTeacherDocRef = firestore.collection("teachers").document(currentTeacherId)
-            val newTeacherDocRef = firestore.collection("teachers").document(newTeacherId)
+            val currentTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(currentTeacherId)
+            val newTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(newTeacherId)
 
             batch.update(newTeacherDocRef, mapOf(
                 "fypHeadOrSecretory" to 0,
@@ -192,8 +214,8 @@ class TeacherRepository(
 
     suspend fun getHeadSecretoryById(fypHeadId: String, fypSecretoryId: String): Pair<Teacher?, Teacher?> {
         return try {
-            val headTask = firestore.collection("teachers").document(fypHeadId).get()
-            val secretaryTask = firestore.collection("teachers").document(fypSecretoryId).get()
+            val headTask = firestore.collection(TEACHER_COLLECTION).document(fypHeadId).get()
+            val secretaryTask = firestore.collection(TEACHER_COLLECTION).document(fypSecretoryId).get()
 
             val headSnapshot = headTask.await()
             val secretarySnapshot = secretaryTask.await()
@@ -209,7 +231,7 @@ class TeacherRepository(
 
     suspend fun deleteTeacherRecord(uid: String): Result<Void?> {
         return try {
-            firestore.collection("teachers").document(uid).delete().await()
+            firestore.collection(TEACHER_COLLECTION).document(uid).delete().await()
             deleteTeacherRecordById(uid)
             Result.Success(null)
         } catch (e: Exception) {
@@ -217,6 +239,54 @@ class TeacherRepository(
             Result.Failure(e)
         }
     }
+
+    suspend fun freeHeadSecretoryOnActivityClosure(fypHeadId: String, fypSecretoryId: String): Result<Void?> {
+        return try {
+            val batch = firestore.batch()
+
+        val headDocRef = firestore.collection(TEACHER_COLLECTION).document(fypHeadId)
+        val secretoryDocRef = firestore.collection(TEACHER_COLLECTION).document(fypSecretoryId)
+
+        batch.update(
+            headDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            )
+        )
+        batch.update(
+            secretoryDocRef, mapOf(
+                "fypHeadOrSecretory" to 0,
+                "fypActivityRole" to null
+            )
+        )
+
+        batch.commit().await()
+        Result.Success(null)
+    }
+     catch (e: Exception) {
+        Result.Failure(e)
+    }
+    }
+
+    suspend fun getTeacherNameById(fypHeadId: String?): String? {
+        if (fypHeadId == null) return null
+        return try {
+            val doc = firestore.collection("teachers").document(fypHeadId).get().await()
+            if (doc.exists()) {
+                doc.getString("name")
+            } else {
+                null
+            }
+        }
+        catch (e : Exception) {
+            null
+        }
+    }
+
+    suspend fun getTotalRegisteredTeacherCount() : Long {
+       return firestore.collection(TEACHER_COLLECTION).get().await().size().toLong()
+    }
+
 
     // ---------------- Room Database Operations ----------------
 

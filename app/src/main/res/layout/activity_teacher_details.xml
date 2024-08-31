@@ -4,24 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:id="@+id/main"
     android:fillViewport="true"
-    tools:context=".TeacherDetailsActivity">
+    tools:context=".admin.activities.TeacherDetailsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="12dp"
         android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbalTeacherDetails"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Teacher Details"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="22sp"/>
+            android:layout_height="50dp"
+            android:background="?attr/colorPrimary"
+            android:titleTextColor="@android:color/white"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_arrow"
+            app:navigationIconTint="@color/white"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Teacher Details"
+            app:titleTextColor="@color/white" />
 
         <!-- Profile Section -->
 
@@ -31,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:paddingBottom="12dp">
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/profile_image"
@@ -70,23 +76,49 @@
 
 
             <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Registration Date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDepartment" />
+
+            <TextView
                 android:id="@+id/tvRegistrationDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:text="Registration"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Roles"
+            android:layout_marginStart="16dp"
             android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:paddingBottom="8dp" />
+            android:layout_marginTop="30dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"/>
+
 
         <TextView
             android:id="@+id/tvNoRoleAssigned"
@@ -101,37 +133,77 @@
             android:paddingBottom="8dp" />
 
         <!-- FYP Head Section -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llFypHeadSecretorySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_bg_light"
             android:orientation="vertical"
             android:padding="8dp"
-            android:visibility="gone"
-            android:background="@drawable/rounded_bg_light">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvTitleSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
                 android:text="FYP Head"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                android:paddingBottom="4dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Batch"
+                android:layout_marginStart="4dp"
+                android:textSize="12sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleSection" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Activity Started"
+                android:textSize="12sp"
+                android:layout_marginStart="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <TextView
                 android:id="@+id/tvFypActivityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loading.."
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                android:textSize="12sp"
+                android:layout_marginEnd="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
 
             <TextView
                 android:id="@+id/tvFypActivityDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loading.."
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
-        </LinearLayout>
+                android:layout_marginEnd="4dp"
+                android:textSize="12sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView9" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Secretary Section -->
 <!--        <LinearLayout-->
@@ -174,6 +246,7 @@
             android:orientation="vertical"
             android:padding="8dp"
             android:visibility="gone"
+            android:layout_marginHorizontal="16dp"
             android:background="@drawable/rounded_bg_light"
             android:layout_marginTop="8dp">
 
@@ -200,13 +273,6 @@
         </LinearLayout>
 
         <!-- Additional Info Section (Expandable) -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Additional Information"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -218,17 +284,24 @@
             <!-- Additional information content goes here -->
         </LinearLayout>
 
+
         <TextView
-            android:id="@+id/expand_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View More"
-            android:textColor="?attr/colorPrimary"
-            android:paddingTop="8dp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:text="Action"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
-            <Button
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"/>
+
+
+        <Button
                 android:id="@+id/schedule_meeting_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,5 +311,6 @@
                 android:backgroundTint="@color/red"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp" />
+
     </LinearLayout>
 </ScrollView>

@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".admin.BatchActivity">
+    tools:context=".admin.activities.BatchActivity">
 
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarFypActivityDetails"
+        android:id="@+id/toolbarBatchActivity"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="?attr/colorPrimary"
@@ -23,25 +23,25 @@
         app:navigationIconTint="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Current Batches"
-        app:titleTextColor="@color/white" >
+        app:titleTextColor="@color/white">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <!-- Logout Button -->
             <ImageButton
                 android:id="@+id/btnToolbarCancelEditBatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Logout button"
+                android:padding="8dp"
                 android:src="@drawable/ic_cancel"
                 android:visibility="gone"
-                android:contentDescription="Logout button"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp"
                 app:tint="@color/white" />
 
             <!-- Menu Button (Three-Dot Menu) -->
@@ -49,10 +49,11 @@
                 android:id="@+id/btnToolbarEditBatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit"
-                android:contentDescription="Edit Fyp activity details"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="Edit Fyp activity details"
                 android:padding="8dp"
+                android:src="@drawable/ic_edit"
+                android:visibility="gone"
                 app:tint="@color/white" />
         </LinearLayout>
 
@@ -69,8 +70,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/rv_item_batch"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarBatchActivity"
+        tools:listitem="@layout/rv_item_batch" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddBatch"
@@ -78,14 +79,27 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:contentDescription="Add New Batch"
         android:text="Batch"
         android:visibility="gone"
-        android:contentDescription="Add New Batch"
         app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
+    <TextView
+        android:id="@+id/tvBatchNotExistMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:text="message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

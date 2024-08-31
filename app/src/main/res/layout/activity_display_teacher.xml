@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".admin.DisplayTeacherActivity">
+    tools:context=".admin.activities.DisplayTeacherActivity">
 
     <TextView
         android:id="@+id/textView"

@@ -13,10 +13,17 @@ import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewModel() {
+
+@HiltViewModel
+class TeacherViewModel @Inject constructor(
+    private val teacherRepository: TeacherRepository)
+    : ViewModel() {
 
     val teachers : LiveData<List<Teacher>> get() = teacherRepository.teachers
 
@@ -33,10 +40,13 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
     val teacherRoleUpdateStatusForActivity : LiveData<Result<Void?>> get() = _teacherRoleUpdateStatusForActivity
 
     private val _fypHeadSecretaryById = MutableLiveData<Pair<Teacher?, Teacher?>>()
-    val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> = _fypHeadSecretaryById
+    val fypHeadSecretaryById: LiveData<Pair<Teacher?, Teacher?>> get() = _fypHeadSecretaryById
 
     private val _updateFypRoleResultForTeachers = MutableLiveData<Result<Void?>>()
-    val updateFypRoleResultForTeachers: LiveData<Result<Void?>> = _updateFypRoleResultForTeachers
+    val updateFypRoleResultForTeachers: LiveData<Result<Void?>>  get() = _updateFypRoleResultForTeachers
+
+    private val _freeHeadSecretoryOnActivityClosureState = MutableLiveData<Result<Void?>>()
+    val freeHeadSecretoryOnActivityClosureState: LiveData<Result<Void?>>  get() = _freeHeadSecretoryOnActivityClosureState
 
 
     init {
@@ -95,6 +105,18 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
         }
     }
 
+    fun freeHeadSecretoryOnActivityClosure(fypHeadId : String, fypSecretoryId: String) {
+        viewModelScope.launch {
+            _freeHeadSecretoryOnActivityClosureState.value = teacherRepository.freeHeadSecretoryOnActivityClosure(fypHeadId, fypSecretoryId)
+        }
+    }
+
+    suspend fun getTotalRegisteredTeacherCount() : Long {
+        return teacherRepository.getTotalRegisteredTeacherCount()
+    }
+
+
+
 
 
 
@@ -124,8 +146,6 @@ class TeacherViewModel(private val teacherRepository: TeacherRepository) : ViewM
             teacherRepository.deleteTeacherRecord(uid)
         }
     }
-
-
 
 
 }

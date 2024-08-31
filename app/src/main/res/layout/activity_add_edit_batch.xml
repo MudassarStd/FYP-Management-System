@@ -6,56 +6,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".admin.AddEditBatchActivity">
+    tools:context=".admin.activities.AddEditBatchActivity">
 
-    <TextView
-        android:id="@+id/tvBatchUpdationTitle"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAddEditBatchActivity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:text="Manage Batches" />
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:navigationIconTint="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Add/Edit Batch"
+        app:titleTextColor="@color/white" >
+
+        <ImageButton
+            android:id="@+id/btnDeleteToolbarEditBatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Logout button"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_del" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:layout_marginHorizontal="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etBatch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:maxLength="4"
             android:hint="BATCH " />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="false"
         android:layout_marginHorizontal="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSemester"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
             android:hint="Semester" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:id="@+id/tvNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        android:text="Note: Semester number will be automatically calculated based on a valid batch name."
+        android:textSize="11sp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnUpdateBatch"
