@@ -1,19 +1,14 @@
-package com.android.cuifypmanagementsystem.viewmodel
+package com.android.cuifypmanagementsystem.admin.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
-import com.android.cuifypmanagementsystem.repository.TeacherRepository
+import com.android.cuifypmanagementsystem.admin.repository.AdminTeacherRepository
 import com.android.cuifypmanagementsystem.datamodels.Teacher
-import com.android.cuifypmanagementsystem.utils.Constants.GLOBAL_TESTING_TAG
-import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
-import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TeacherViewModel @Inject constructor(
-    private val teacherRepository: TeacherRepository)
+    private val teacherRepository: AdminTeacherRepository
+)
     : ViewModel() {
 
     val teachers : LiveData<List<Teacher>> get() = teacherRepository.teachers

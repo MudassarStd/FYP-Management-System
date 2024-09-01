@@ -8,23 +8,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.cuifypmanagementsystem.BaseApplication
-import com.android.cuifypmanagementsystem.adapters.FypActivityAdapter
-import com.android.cuifypmanagementsystem.adapters.OnActivityAction
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.FypActivityAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.OnActivityAction
 import com.android.cuifypmanagementsystem.admin.activities.StartFypActivity
 import com.android.cuifypmanagementsystem.databinding.FragmentCurrentFypActivitiesBinding
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CurrentFypActivitiesFragment : Fragment() ,  OnActivityAction {
+class CurrentFypActivitiesFragment : Fragment() , OnActivityAction {
 
     private val fypActivityViewModel: FypActivityViewModel by viewModels()
     private val activityAdapter: FypActivityAdapter by lazy {

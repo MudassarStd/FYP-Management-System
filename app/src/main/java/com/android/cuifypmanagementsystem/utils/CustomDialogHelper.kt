@@ -115,10 +115,18 @@ object CustomDialogHelper {
 
                 dialog.dismiss()
             }
-
             .show()
     }
 
+    fun showAlertDialog(context: Context, messageStr: String) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Alert") // Set the title of the dialog
+            .setMessage(messageStr) // Set the message
+            .setPositiveButton("Fine") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 }
 
 

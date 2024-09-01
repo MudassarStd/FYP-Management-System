@@ -26,8 +26,8 @@ class UserAuthRepository @Inject constructor(
                 is Result.Success -> Result.Success(LoggedInUserData(userId, roleResult.data))
                 is Result.Failure -> Result.Failure(roleResult.exception)
                 else -> Result.Failure(IllegalStateException("Unknown error while fetching role"))
-
             }
+
         } catch (e: Exception) {
             // Handle login failures
             Result.Failure(e)

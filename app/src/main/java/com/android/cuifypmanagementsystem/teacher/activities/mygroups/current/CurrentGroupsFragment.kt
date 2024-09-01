@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.teacher.ui.groups.current
+package com.android.cuifypmanagementsystem.teacher.activities.mygroups.current
 
 import android.content.Intent
 import android.os.Bundle

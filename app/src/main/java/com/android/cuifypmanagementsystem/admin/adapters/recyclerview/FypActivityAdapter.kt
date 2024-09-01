@@ -1,8 +1,7 @@
-package com.android.cuifypmanagementsystem.adapters
+package com.android.cuifypmanagementsystem.admin.adapters.recyclerview
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.admin.activities.FypDetailsActivity
-import com.android.cuifypmanagementsystem.datamodels.Batch
-import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecordUiModel
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
 import com.android.cuifypmanagementsystem.utils.DateTime.longToDate

@@ -14,12 +14,9 @@ import com.android.cuifypmanagementsystem.databinding.ActivityTeacherDetailsBind
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.utils.DateTime.longToDate
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class TeacherDetailsActivity : AppCompatActivity() {

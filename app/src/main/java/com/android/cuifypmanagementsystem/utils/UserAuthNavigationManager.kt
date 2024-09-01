@@ -15,7 +15,7 @@ object UserAuthNavigationManager {
 //            "student" -> Intent(context, StudentActivity::class.java)
             else -> throw IllegalArgumentException("Unknown role: ${user.role}")
         }
-        intent.putExtra("UserId", user.userId)
+        intent.putExtra("userId", user.userId)
         context.startActivity(intent)
     }
 }

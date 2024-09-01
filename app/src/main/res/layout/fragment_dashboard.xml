@@ -249,7 +249,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:columnCount="3"
-                    android:rowCount="1"
+                    android:rowCount="2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TV_path">
@@ -270,6 +270,11 @@
                         android:text="Take Student Group"
                         style="@style/TeacherDashboardTextViewBoxStyle"
                         app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        android:text="My Groups"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        app:drawableTopCompat="@drawable/ic_group" />
 
                 </GridLayout>
 
@@ -329,7 +334,7 @@
 <!--                        android:src="@drawable/ic_people" />-->
 
                     <TextView
-                        android:text="Evaluation"
+                        android:text="Evaluation \n "
                         style="@style/TeacherDashboardTextViewBoxStyle"
                         app:drawableTopCompat="@drawable/ic_group_add" />
 

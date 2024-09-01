@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.viewmodels
+package com.android.cuifypmanagementsystem.admin.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

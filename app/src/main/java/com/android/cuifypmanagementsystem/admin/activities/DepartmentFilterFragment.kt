@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.cuifypmanagementsystem.adapters.DepartFilterAdapter
-import com.android.cuifypmanagementsystem.adapters.OnDepartSelected
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.DepartFilterAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.OnDepartSelected
 import com.android.cuifypmanagementsystem.databinding.FragmentDepartmentFilterBinding
-import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.DepartmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DepartmentFilterFragment : BottomSheetDialogFragment(), OnDepartSelected {

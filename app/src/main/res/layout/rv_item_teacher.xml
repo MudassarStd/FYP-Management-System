@@ -71,7 +71,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="Delete"
                 android:padding="8dp"
-                android:src="@drawable/delete_icon" />
+                android:src="@drawable/ic_del" />
         </TableRow>
     </TableLayout>
 

@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddEditBatchBinding
 import com.android.cuifypmanagementsystem.datamodels.Batch
@@ -25,7 +23,7 @@ import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDial
 import com.android.cuifypmanagementsystem.utils.RegistrationUtils.getSemesterNumber
 import com.android.cuifypmanagementsystem.utils.RegistrationUtils.validateRegistrationBatch
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

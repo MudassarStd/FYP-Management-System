@@ -12,9 +12,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityTeacherBinding
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 

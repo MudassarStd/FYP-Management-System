@@ -27,11 +27,13 @@ class UserAuthViewModel @Inject constructor(
     private val _passwordChangeResult = MutableLiveData<Result<Void?>>()
     val passwordChangeResult: LiveData<Result<Void?>> get() = _passwordChangeResult
 
+    private var rememberMeOnLogin : Boolean = false
+
     fun userLogin(email : String, password : String){
         _userAuthState.value = Result.Loading
         viewModelScope.launch {
             _userAuthState.value = userAuthRepository.userLogin(email, password).also{result ->
-                if (result is Result.Success){
+                if (result is Result.Success && rememberMeOnLogin){
                     UserAuthSharedPreferenceHelper.saveUserAuthData(result.data)
                 }
             }
@@ -61,9 +63,9 @@ class UserAuthViewModel @Inject constructor(
         }
     }
 
-//    fun resetUserAuthState(){
-//        _userAuthState.value =
-//    }
+    fun setRememberMeState(flag : Boolean) {
+        rememberMeOnLogin = flag
+    }
 }
 
 

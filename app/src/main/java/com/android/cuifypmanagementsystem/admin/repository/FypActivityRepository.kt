@@ -1,7 +1,6 @@
-package com.android.cuifypmanagementsystem.repository
+package com.android.cuifypmanagementsystem.admin.repository
 
 import android.util.Log
-import com.android.cuifypmanagementsystem.room.MainDatabase
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.utils.FirebaseCollections.FYP_ACTIVITY_COLLECTION
 import com.android.cuifypmanagementsystem.utils.Result

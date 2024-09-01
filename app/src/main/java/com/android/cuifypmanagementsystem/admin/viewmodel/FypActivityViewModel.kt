@@ -1,15 +1,14 @@
-package com.android.cuifypmanagementsystem.viewmodel
+package com.android.cuifypmanagementsystem.admin.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.android.cuifypmanagementsystem.repository.FypActivityRepository
+import com.android.cuifypmanagementsystem.admin.repository.FypActivityRepository
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRecordUiModel
-import com.android.cuifypmanagementsystem.repository.BatchRepository
-import com.android.cuifypmanagementsystem.repository.TeacherRepository
+import com.android.cuifypmanagementsystem.admin.repository.BatchRepository
+import com.android.cuifypmanagementsystem.admin.repository.AdminTeacherRepository
 import com.android.cuifypmanagementsystem.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FypActivityViewModel @Inject constructor(
     private val fypActivityRepository: FypActivityRepository,
-    private val teacherRepository: TeacherRepository,
-    private val batchRepository: BatchRepository)
+    private val teacherRepository: AdminTeacherRepository,
+    private val batchRepository: BatchRepository
+)
     : ViewModel(){
 
     private val _fypActivitiesFetch = MutableLiveData<Result<List<FypActivityRecordUiModel>>>()

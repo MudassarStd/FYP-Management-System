@@ -29,6 +29,7 @@ object AppModule {
         return FirebaseFirestore.getInstance()
     }
 
+
     @Provides
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context : Context) : MainDatabase {

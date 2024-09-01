@@ -1,30 +1,18 @@
 package com.android.cuifypmanagementsystem.admin.activities
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.adapters.FypActivityAdapter
-import com.android.cuifypmanagementsystem.adapters.pagers.FypActivityPagerAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.FypActivityAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.pagers.FypActivityPagerAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityAllFypBinding
-import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
-import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
-import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 

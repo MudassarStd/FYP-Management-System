@@ -1,6 +1,7 @@
 package com.android.cuifypmanagementsystem
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -31,10 +32,14 @@ class ChangePasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = Color.parseColor("#576AE0")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        binding.toolbarChangePassword.setNavigationOnClickListener {
+            onBackPressed()
         }
 
         // Initialize ViewModel
@@ -48,6 +53,10 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         binding.btnChangePassword.setOnClickListener {
             handleChangePassword()
+        }
+
+        binding.cbShowPasswords.setOnCheckedChangeListener { _, isChecked ->
+            togglePasswordVisibility(isChecked)
         }
 
     }
@@ -90,11 +99,27 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
     }
 
+    private fun togglePasswordVisibility(isVisible: Boolean) {
+        val passwordInputType = if (isVisible) {
+            // Show password
+            android.text.InputType.TYPE_CLASS_TEXT
+        } else {
+            // Hide password
+            android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+
+        binding.etOldPasswordForChange.inputType = passwordInputType
+        binding.etNewPasswordForChange.inputType = passwordInputType
+        binding.etConfirmNewPasswordForChange.inputType = passwordInputType
+
+        // Move the cursor to the end of the text
+        binding.etOldPasswordForChange.setSelection(binding.etOldPasswordForChange.text?.length ?: 0)
+        binding.etNewPasswordForChange.setSelection(binding.etNewPasswordForChange.text?.length ?: 0)
+        binding.etConfirmNewPasswordForChange.setSelection(binding.etConfirmNewPasswordForChange.text?.length ?: 0)
+    }
+
     private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.etConfirmNewPasswordForChange.windowToken, 0)
     }
-
-
-
 }

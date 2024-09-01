@@ -13,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityFypDetailsBinding
 import com.android.cuifypmanagementsystem.datamodels.Batch
@@ -26,9 +24,9 @@ import com.android.cuifypmanagementsystem.utils.Constants.ACTION_CHANGE_FYP_SECR
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_OPEN_DETAILS_FOR_CLOSED_ACTIVITY
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

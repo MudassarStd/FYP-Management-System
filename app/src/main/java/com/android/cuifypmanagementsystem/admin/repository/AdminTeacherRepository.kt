@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.repository
+package com.android.cuifypmanagementsystem.admin.repository
 
 import EmailSender.sendRegistrationEmail
 import android.content.Context
@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class TeacherRepository @Inject constructor(
+class AdminTeacherRepository @Inject constructor(
     @ApplicationContext private val applicationContext: Context,
     private val database: MainDatabase,
     private val firestore: FirebaseFirestore,
@@ -60,6 +60,7 @@ class TeacherRepository @Inject constructor(
         return try {
             val teacherData = mapOf(
                 "name" to teacher.name,
+                "profileImage" to teacher.profileImage,
                 "email" to teacher.email,
                 "department" to teacher.department,
                 "supervisor" to teacher.supervisor,

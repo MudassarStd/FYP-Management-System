@@ -44,9 +44,13 @@ class DisplayFypIdeasActivity : AppCompatActivity() {
         binding.rvDisplayFypIdeas.adapter = adapter
         binding.rvDisplayFypIdeas.layoutManager = LinearLayoutManager(this)
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         generalViewModel.fetchFypIdeas()
         observeResults()
-
     }
 
     private fun observeResults() {

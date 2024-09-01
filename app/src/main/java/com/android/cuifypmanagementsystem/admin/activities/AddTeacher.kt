@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem.admin.activities
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,8 +10,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAddTeacherBinding
 import com.android.cuifypmanagementsystem.datamodels.Teacher
@@ -19,7 +18,7 @@ import com.android.cuifypmanagementsystem.utils.Constants.INTENT_ACTION_EDIT_TEA
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,6 +33,7 @@ class AddTeacher : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = Color.parseColor("#576AE0")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -124,7 +124,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name,email, depart, 0, 0, null, System.currentTimeMillis())
+            Teacher(null, name, null, email, depart, 0, 0, null, System.currentTimeMillis())
         } else {
             null
         }

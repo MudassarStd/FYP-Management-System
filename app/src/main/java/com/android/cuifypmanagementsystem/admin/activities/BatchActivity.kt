@@ -13,15 +13,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.adapters.BatchAdapter
-import com.android.cuifypmanagementsystem.adapters.OnAction
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.BatchAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.OnAction
 import com.android.cuifypmanagementsystem.databinding.ActivityBatchBinding
 import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_ACTIVITY_BATCH
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
 import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

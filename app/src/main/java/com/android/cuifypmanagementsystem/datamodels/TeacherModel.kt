@@ -15,6 +15,7 @@ data class FypActivityRole(
 data class Teacher(
     var firestoreId: String? = null,
     val name: String,
+    val profileImage : String?,
     val email: String,
     val department: String,
     val supervisor: Int ,
@@ -25,5 +26,5 @@ data class Teacher(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
-    constructor() : this(null, "", "", "", 0, 0, null, 0L)
+    constructor() : this(null, "", null ,"", "", 0, 0, null, 0L)
 }

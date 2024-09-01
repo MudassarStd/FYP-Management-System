@@ -16,6 +16,7 @@ class GlobalSharedViewModel() : ViewModel() {
     private val _activityUpdateTriggered = MutableLiveData<Boolean>()
     val activityUpdateTriggered : LiveData<Boolean> get() = _activityUpdateTriggered
 
+    private var teacher : Teacher? = null
 
     // Existing LiveData and methods
     val selectedHead = MutableLiveData<Teacher?>()
@@ -34,6 +35,16 @@ class GlobalSharedViewModel() : ViewModel() {
         selectedBatch.value = batch
     }
 
+
+    // ------------- Persisting User data --------------
+
+    fun setTeacher(teacher: Teacher?) {
+        this.teacher = teacher
+    }
+
+    fun getTeacher() : Teacher? {
+        return teacher
+    }
 
     // ------------- AllFypActivity Fragments communication -------------------
     fun informActivityUpdate(status : Boolean) {

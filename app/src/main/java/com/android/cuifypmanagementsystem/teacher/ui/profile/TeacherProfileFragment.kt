@@ -39,16 +39,6 @@ class TeacherProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvChangePassword.setOnClickListener {
-            startActivity(Intent(requireContext(), ChangePasswordActivity::class.java))
-        }
-
-        binding.btnLogoutTeacherProfile.setOnClickListener {
-            userAuthViewModel.userLogout()
-            startActivity(Intent(requireContext(), LoginActivity::class.java))
-            requireActivity().finish()
-        }
-
     }
 
     override fun onDestroyView() {

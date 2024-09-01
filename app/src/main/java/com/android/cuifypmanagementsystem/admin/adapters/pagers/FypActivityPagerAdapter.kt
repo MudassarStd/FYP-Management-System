@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.adapters.pagers
+package com.android.cuifypmanagementsystem.admin.adapters.pagers
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

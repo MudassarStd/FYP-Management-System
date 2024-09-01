@@ -21,10 +21,10 @@ import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECR
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.BatchViewModel
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
 import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

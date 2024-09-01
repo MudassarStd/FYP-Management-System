@@ -29,20 +29,6 @@ class TeacherGroupsFragment : Fragment() {
 
         _binding = FragmentTeacherGroupsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val tabLayout = binding.tabLayoutTeacherGroups
-        val viewPager = binding.viewPagerTeacherGroups
-
-        val pagerAdapter = TeacherGroupsAdapter(this)
-        viewPager.adapter = pagerAdapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Current"
-                1 -> tab.text = "Requests"
-            }
-        }.attach()
-
-
         return root
     }
 

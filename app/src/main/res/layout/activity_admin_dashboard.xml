@@ -85,7 +85,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_edit_doc"
+                android:src="@drawable/ic_books"
                 app:tint="@color/primaryColor2" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_home"
+                android:src="@drawable/ic_edit_doc"
                 app:tint="@color/primaryColor2" />
 
             <TextView

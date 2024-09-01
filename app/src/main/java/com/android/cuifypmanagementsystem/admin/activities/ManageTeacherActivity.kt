@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
-import com.android.cuifypmanagementsystem.adapters.OnTeacherEvents
-import com.android.cuifypmanagementsystem.adapters.TeacherAdapter
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.OnTeacherEvents
+import com.android.cuifypmanagementsystem.admin.adapters.recyclerview.TeacherAdapter
 import com.android.cuifypmanagementsystem.databinding.ActivityManageTeacherBinding
 import com.android.cuifypmanagementsystem.datamodels.FypActivityRole
 import com.android.cuifypmanagementsystem.datamodels.Teacher
@@ -34,16 +34,16 @@ import com.android.cuifypmanagementsystem.utils.Constants.ACTION_SELECT_FYP_SECR
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.FypActivityViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.FypActivityViewModel
 import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
-import com.android.cuifypmanagementsystem.viewmodel.TeacherViewModel
-import com.android.cuifypmanagementsystem.viewmodels.DepartmentViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.admin.viewmodel.DepartmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents  {
+class ManageTeacherActivity : AppCompatActivity() , OnTeacherEvents {
     private val binding : ActivityManageTeacherBinding by lazy {
         ActivityManageTeacherBinding.inflate(layoutInflater)
     }

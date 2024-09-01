@@ -1,16 +1,12 @@
-package com.android.cuifypmanagementsystem.viewmodel
+package com.android.cuifypmanagementsystem.admin.viewmodel
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.android.cuifypmanagementsystem.datamodels.Batch
-import com.android.cuifypmanagementsystem.datamodels.FypActivityRecord
-import com.android.cuifypmanagementsystem.repository.BatchRepository
+import com.android.cuifypmanagementsystem.admin.repository.BatchRepository
 import com.android.cuifypmanagementsystem.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

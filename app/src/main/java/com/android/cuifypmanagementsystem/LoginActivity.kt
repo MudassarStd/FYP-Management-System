@@ -1,6 +1,7 @@
 package com.android.cuifypmanagementsystem
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = Color.parseColor("#576AE0")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -46,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
             loginCredentials?.let {
                 userAuthViewModel.userLogin(loginCredentials.email, loginCredentials.password)
+                userAuthViewModel.setRememberMeState(binding.cbRememberMeLogin.isChecked)
                 observeUserLoginState()
 //                LoadingProgress.showProgressDialog("Logging in, please wait", this)
 

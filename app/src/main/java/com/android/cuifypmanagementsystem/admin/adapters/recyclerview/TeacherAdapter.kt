@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.adapters
+package com.android.cuifypmanagementsystem.admin.adapters.recyclerview
 
 import android.content.Context
 import android.util.Log
