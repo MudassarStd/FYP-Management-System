@@ -1,9 +1,11 @@
 package com.android.cuifypmanagementsystem.admin.activities
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -52,6 +54,7 @@ class AddTeacher : AppCompatActivity() {
             val teacher = getTeacherData()
             teacher?.let {
                 // insertion into room
+                hideKeyboard()
                 teacherViewModel.registerTeacher(teacher)
 
                 // ---------------------- observing teacher registration results ----------------------
@@ -112,15 +115,14 @@ class AddTeacher : AppCompatActivity() {
         binding.etTeacherDepart.setText("")
         binding.etTeacherName.setText("")
         binding.etTeacherEmail.setText("")
-        binding.etTeacherRole.setText("")
         binding.etTeacherEmail.clearFocus()
+        binding.etTeacherDepart.clearFocus()
     }
 
     private fun getTeacherData(): Teacher? {
         val name = binding.etTeacherName.text.toString()
         val email = binding.etTeacherEmail.text.toString()
         val depart = binding.etTeacherDepart.text.toString()
-        val role = binding.etTeacherRole.text.toString()
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
@@ -130,40 +132,8 @@ class AddTeacher : AppCompatActivity() {
         }
     }
 
-
-
-    // MailerSend API implementation
-//    fun sendEmail() {
-//        val service = RetrofitClient.instance.create(MailerSendService::class.java)
-//
-//        val email = MailerSendEmail(
-//            to = listOf(Recipient("mudassarstd@gmail.com", "Recipient Name")),
-//            from = Sender("mudassarstd@gmail.com", "Your Name"),
-//            subject = "Email Subject",
-//            text = "This is the text content",
-//            html = "<p>This is the HTML content</p>"
-//        )
-//
-//        service.sendEmail(email).enqueue(object : Callback<MailerSendResponse> {
-//            override fun onResponse(call: Call<MailerSendResponse>, response: Response<MailerSendResponse>) {
-//                if (response.isSuccessful) {
-//                    Log.d("TESTINGMAILINGSERVICE", "Email sent successfully, message ID: ${response.body()?.messageId}")
-//                } else {
-//                    println()
-//                    Log.d("TESTINGMAILINGSERVICE", "Failed to send email: ${response.errorBody()?.string()}")
-//
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<MailerSendResponse>, t: Throwable) {
-//                t.printStackTrace()
-//                println("Failed to send email: ${t.message}")
-//                Log.d("TESTINGMAILINGSERVICE", "Failed to send email: ${t.message}")
-//
-//            }
-//        })
-//    }
-
-
-
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.etTeacherDepart.windowToken, 0)
+    }
 }

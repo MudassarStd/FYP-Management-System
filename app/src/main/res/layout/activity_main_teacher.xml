@@ -31,6 +31,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
+    <TextView
+        android:id="@+id/tvScreenDataFetchError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data could not be loaded"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenDataFetchError" />
+
+
     <ScrollView
         android:id="@+id/svTeacherDashboard"
         android:layout_width="match_parent"
@@ -55,7 +81,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_launcher_background"/>
+                android:src="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/tvTeacherName"
@@ -82,9 +108,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Recent Announcement"
                     android:gravity="center"
                     android:letterSpacing="0.1"
+                    android:text="Recent Announcement"
                     android:textColor="@color/seaBlueColor"
                     android:textStyle="bold" />
 
@@ -251,8 +277,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Quick Actions"
-                    style="@style/TeacherDashboardHeadersStyle" />
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Quick Actions" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
@@ -312,15 +338,15 @@
                 android:id="@+id/fypRolesSection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_marginHorizontal="2dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvFypRolesHeader"
-                    android:text="FYP Roles"
+                    style="@style/TeacherDashboardHeadersStyle"
                     android:drawableEnd="@drawable/ic_question_mark"
-                    style="@style/TeacherDashboardHeadersStyle" />
+                    android:text="FYP Roles" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
@@ -374,8 +400,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Panel Roles"
-                    style="@style/TeacherDashboardHeadersStyle" />
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Panel Roles" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
@@ -422,14 +448,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Profile Management"
-                    style="@style/TeacherDashboardHeadersStyle" />
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Profile Management" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/darker_gray" />
 
                 <GridLayout
                     android:layout_width="match_parent"

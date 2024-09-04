@@ -30,13 +30,17 @@ class ShareFypIdeaActivity : AppCompatActivity() {
     private var linkCount = 1
     private var showAuthorIdentity = false
 
+    private var teacherName : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         window.statusBarColor = Color.parseColor("#576AE0")
 
+
         setupWindowInsets()
         setupToolbar()
+        collectTeacherName()
         setupListeners()
     }
 
@@ -50,6 +54,10 @@ class ShareFypIdeaActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.toolbarShareFypIdea.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+    }
+
+    private fun collectTeacherName() {
+        teacherName = intent.getStringExtra("teacherName")
     }
 
     private fun setupListeners() {
@@ -84,7 +92,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
     }
 
     private fun resetFields() {
-        binding.etFypIdeaTitle.text.clear()
+        binding.etFypIdeaTitle.text!!.clear()
         binding.etFypIdeaDescription.text.clear()
         binding.linksContainer.removeAllViews()
         linkCount = 1
@@ -107,7 +115,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
                 description = description,
                 links = links,
                 ideaTaken = false,
-                author = if (showAuthorIdentity) "authorName" else "faculty",
+                author = if (showAuthorIdentity) teacherName else "Faculty",
                 dateTime = System.currentTimeMillis()
             )
         }

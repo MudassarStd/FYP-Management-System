@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".teacher.activities.ShareFypIdeaActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -23,25 +24,12 @@
         app:titleTextColor="@color/white" />
 
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Also Include Tech Categories"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarShareFypIdea" />
-
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="110dp"
+        android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"> <!-- Margin to account for toolbar height -->
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarShareFypIdea"> <!-- Margin to account for toolbar height -->
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,27 +40,32 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5">
 
-            <EditText
-                android:id="@+id/etFypIdeaTitle"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="70dp"
-                android:background="@drawable/rounded_corners_white_background"
-                android:elevation="2dp"
-                android:focusedByDefault="false"
-                android:hint="Title"
-                android:paddingStart="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/toolbarShareFypIdea" />
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFypIdeaTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:textColorHint="@color/gray_color" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <EditText
                 android:id="@+id/etFypIdeaDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_corners_white_background"
                 android:backgroundTint="@color/white"
                 android:elevation="2dp"
@@ -85,31 +78,43 @@
                 android:paddingStart="20dp"
                 android:scrollbars="vertical"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/etFypIdeaTitle"
-                app:layout_constraintStart_toStartOf="@+id/etFypIdeaTitle"
-                app:layout_constraintTop_toBottomOf="@+id/etFypIdeaTitle" />
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+            <EditText
+                android:id="@+id/etFypIdeaCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:hint="Category"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etFypIdeaDescription" />
 
             <Button
                 android:id="@+id/choosefile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
-                android:backgroundTint="@color/seaBlueColor"
-                android:drawableLeft="@drawable/ic_attactment"
-                android:text="Choose File *"
+                android:layout_marginTop="16dp"
+                android:text="Choose File"
                 android:textColor="@color/white"
                 app:cornerRadius="5dp"
                 app:layout_constraintStart_toStartOf="@+id/etFypIdeaDescription"
-                app:layout_constraintTop_toBottomOf="@+id/etFypIdeaDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/etFypIdeaCategory" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Optional"
-                android:textStyle="italic"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/choosefile"
                 app:layout_constraintStart_toEndOf="@+id/choosefile"
                 app:layout_constraintTop_toTopOf="@+id/choosefile" />
@@ -129,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/primaryColor"
-                android:text="Add Another Link"
+                android:text="Add Link"
                 android:textColor="@color/white"
                 app:cornerRadius="5dp"
                 app:layout_constraintStart_toStartOf="@+id/linksContainer"
@@ -140,7 +145,7 @@
                 android:id="@+id/cbHideIdentity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="Stay Anonymous"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/btnAddLink"
@@ -151,17 +156,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="120dp"
-                android:background="@drawable/rounded_corners_white_background"
-                android:backgroundTint="@color/primaryColor"
+                android:layout_marginBottom="12dp"
                 android:text="Publish idea"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
                 app:cornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/choosefile"
-                app:layout_constraintHorizontal_bias="0.019"
-                app:layout_constraintStart_toStartOf="@+id/choosefile"
-                app:layout_constraintTop_toBottomOf="@+id/cbHideIdentity" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

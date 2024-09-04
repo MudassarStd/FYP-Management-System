@@ -41,12 +41,12 @@ class FypActivityAdapter(private val context : Context, private var activitiesDa
 
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity=activitiesData[position]
-        longToDate(activity.fypActivityRecord!!.registrationTimeStamp)
+        val date = longToDate(activity.fypActivityRecord!!.registrationTimeStamp)
         holder.fypheadname.text=activity.fypHeadName
         holder.fypsecname.text=activity.fypSecretoryName
-        holder.startedDate.text= longToDate(activity.fypActivityRecord!!.registrationTimeStamp)
+        holder.startedDate.text= date
         holder.year.text=activity.batchName
-        holder.status.text = if (activity.fypActivityRecord!!.status) {
+        holder.status.text = if (activity.fypActivityRecord.status) {
             "On going"
         } else {
             "Closed"

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuifypmanagementsystem.databinding.RvItemFypIdeaBinding
 import com.android.cuifypmanagementsystem.datamodels.FypIdea
+import com.android.cuifypmanagementsystem.utils.DateTime.longToDate
 
 
 class DisplayFypIdeasAdapter(private var ideas: List<FypIdea>) :
@@ -35,11 +36,12 @@ class DisplayFypIdeasAdapter(private var ideas: List<FypIdea>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(fypIdea: FypIdea) {
+            val dateTime = longToDate(fypIdea.dateTime)
             binding.tvFypIdeaTitle.text = fypIdea.title ?: "No Title"
             binding.tvFypIdeaDescription.text = fypIdea.description ?: "No Description"
             binding.tvFypIdeaLinks.text = fypIdea.links?.joinToString("\n") ?: "No Links"
             binding.tvFypIdeaAuthor.text = fypIdea.author ?: "Anonymous"
-            binding.tvFypIdeaDateTime.text = fypIdea.dateTime.toString() // Format date as needed
+            binding.tvFypIdeaDateTime.text = dateTime // Format date as needed
         }
     }
 }

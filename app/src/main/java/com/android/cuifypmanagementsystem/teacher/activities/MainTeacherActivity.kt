@@ -52,32 +52,6 @@ class MainTeacherActivity : AppCompatActivity() {
         getTeacherIdFromIntent()
         handleNavigation()
         handleAlerts()
-
-//        val viewPager = binding.teacherMainViewPager
-//        val bsv = binding.teacherMainBSV
-//
-//        // Set up ViewPager with the adapter
-//        viewPager.adapter = TeacherViewPagerAdapter(this)
-//
-//        // Handle BottomNavigationView item clicks
-//        bsv.setOnItemSelectedListener { item ->
-//            when (item.itemId) {
-//                R.id.navigation_dashboard -> viewPager.currentItem = 0
-//                R.id.navigation_teacher_groups -> viewPager.currentItem = 1
-//                R.id.navigation_notifications -> viewPager.currentItem = 2
-//                R.id.navigation_teacher_profile -> viewPager.currentItem = 3
-//            }
-//            true
-//        }
-//
-//        // Sync ViewPager with BottomNavigationView
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                bsv.menu.getItem(position).isChecked = true
-//            }
-//        })
-
     }
 
 
@@ -96,7 +70,10 @@ class MainTeacherActivity : AppCompatActivity() {
 
     private fun handleNavigation() {
         binding.boxShareFypIdea.setOnClickListener {
-            startActivity(Intent(this, ShareFypIdeaActivity::class.java))
+            val intent = Intent(this, ShareFypIdeaActivity::class.java).apply {
+                putExtra("teacherName", teacher!!.name)
+            }
+            startActivity(intent)
         }
 
         binding.boxViewFypIdeas.setOnClickListener {
@@ -152,13 +129,25 @@ class MainTeacherActivity : AppCompatActivity() {
                     updateUI()
                 }
                 is Result.Failure -> {
-                    Toast.makeText(this, "Error: ${result.exception.message}", Toast.LENGTH_SHORT).show()
+                    binding.tvScreenDataFetchError.visibility = View.VISIBLE
+                    binding.btnRetry.visibility = View.VISIBLE
+                    binding.pbTeacherDashboard.visibility = View.GONE
+//                    Toast.makeText(this, "Error: ${result.exception.message}", Toast.LENGTH_SHORT).show()
+
+                    binding.btnRetry.setOnClickListener { retry() }
                 }
                 is Result.Loading -> {
                     // Show a loading indicator if needed
                 }
             }
         }
+    }
+
+    private fun retry() {
+        getTeacherIdFromIntent()
+        binding.pbTeacherDashboard.visibility = View.VISIBLE
+        binding.tvScreenDataFetchError.visibility = View.GONE
+        binding.btnRetry.visibility = View.GONE
     }
 
     private fun updateUI() {

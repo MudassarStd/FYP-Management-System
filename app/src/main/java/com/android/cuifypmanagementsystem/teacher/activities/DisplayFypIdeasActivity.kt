@@ -70,7 +70,6 @@ class DisplayFypIdeasActivity : AppCompatActivity() {
                     showProgressDialog("Fetching Ideas...", this)
                 }
             }
+        }
     }
-
-}
 }

@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.android.cuifypmanagementsystem.MakeAnnouncementActivity
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityTeacherBinding
 import com.android.cuifypmanagementsystem.admin.viewmodel.TeacherViewModel
+import com.android.cuifypmanagementsystem.utils.Constants.ANNOUNCEMENT_RECIPIENT_TEACHER
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -49,6 +51,12 @@ class TeacherActivity : AppCompatActivity() {
             startActivity(Intent(this, AddTeacher::class.java))
         }
 
+        binding.cvMakeAnnouncement.setOnClickListener {
+            val intent = Intent(this, MakeAnnouncementActivity::class.java).apply {
+                action = ANNOUNCEMENT_RECIPIENT_TEACHER
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
