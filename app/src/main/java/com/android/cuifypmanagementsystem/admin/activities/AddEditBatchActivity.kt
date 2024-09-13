@@ -20,8 +20,8 @@ import com.android.cuifypmanagementsystem.datamodels.Batch
 import com.android.cuifypmanagementsystem.utils.Constants.ACTION_EDIT_BATCH
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
-import com.android.cuifypmanagementsystem.utils.RegistrationUtils.getSemesterNumber
-import com.android.cuifypmanagementsystem.utils.RegistrationUtils.validateRegistrationBatch
+import com.android.cuifypmanagementsystem.auth.utils.RegistrationUtils.getSemesterNumber
+import com.android.cuifypmanagementsystem.auth.utils.RegistrationUtils.validateRegistrationBatch
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.admin.viewmodel.BatchViewModel
 import dagger.hilt.android.AndroidEntryPoint

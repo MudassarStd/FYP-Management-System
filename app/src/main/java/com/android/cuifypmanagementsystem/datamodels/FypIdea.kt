@@ -7,8 +7,9 @@ data class FypIdea(
     val links : List<String>?,
     val ideaTaken : Boolean,
     val author : String?,
+    val category : String?,
     val dateTime : Long
 ) {
-    constructor() : this(null, null, null, null,false ,null, 0L)
+    constructor() : this(null, null, null, null,false ,null, null,0L)
 }
 

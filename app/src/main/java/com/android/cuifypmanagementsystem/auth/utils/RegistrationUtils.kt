@@ -1,4 +1,4 @@
-package com.android.cuifypmanagementsystem.utils
+package com.android.cuifypmanagementsystem.auth.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -8,16 +8,11 @@ import java.time.LocalDate
 object RegistrationUtils {
 
     fun validateRegistrationBatch(input: String): Boolean {
-
         val validPrefixes = listOf("fa", "sp")
-
         if (input.length != 4) return false
-
         val prefix = input.substring(0, 2).lowercase()
         val year = input.substring(2)
-
         if (!validPrefixes.contains(prefix)) return false
-
         return year.toIntOrNull() != null
     }
 
@@ -52,6 +47,24 @@ object RegistrationUtils {
 
         // Return the total number of semesters passed
         return semestersPassed
+    }
+
+    fun splitRegistrationNumber(regNumber: String): Pair<String, String>? {
+
+        val parts = regNumber.split("-")
+        return if (parts.size == 2) {
+            Pair(parts[0], parts[1])
+        } else {
+            null
+        }
+    }
+
+    fun getDepartmentName(departmentCode: String): String {
+        return when (departmentCode.lowercase()) {
+            "bcs" -> "Computer Science"
+            "bse" -> "Software Engineering"
+            else -> "Invalid Registration"
+        }
     }
 }
 

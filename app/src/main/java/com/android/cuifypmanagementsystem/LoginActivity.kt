@@ -9,14 +9,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
+import com.android.cuifypmanagementsystem.auth.UserRegistrationActivity
 import com.android.cuifypmanagementsystem.databinding.ActivityLoginBinding
 import com.android.cuifypmanagementsystem.datamodels.LoginCredentials
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -60,6 +60,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding.tvForgetPassword.setOnClickListener {
             startActivity(Intent(this, ForgetPasswordActivity::class.java))
+        }
+
+        binding.btnRegisterUser.setOnClickListener {
+            startActivity(Intent(this, UserRegistrationActivity::class.java))
         }
     }
 

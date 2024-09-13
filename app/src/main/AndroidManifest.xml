@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".auth.UserRegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".MakeAnnouncementActivity"
             android:exported="false" />
         <activity

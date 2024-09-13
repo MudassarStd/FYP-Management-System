@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.android.cuifypmanagementsystem.R
@@ -20,7 +21,9 @@ import com.android.cuifypmanagementsystem.teacher.viewmodel.GeneralViewModel
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class ShareFypIdeaActivity : AppCompatActivity() {
@@ -31,6 +34,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
     private var showAuthorIdentity = false
 
     private var teacherName : String? = null
+    private var category : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +67,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
     private fun setupListeners() {
         binding.btnAddLink.setOnClickListener { addLinkField() }
         binding.btnPublishIdea.setOnClickListener { publishIdea() }
+        binding.etFypIdeaCategory.setOnClickListener { showTechCategory() }
     }
 
     private fun publishIdea() {
@@ -103,6 +108,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
         val title = binding.etFypIdeaTitle.text.toString().trim()
         val description = binding.etFypIdeaDescription.text.toString().trim()
         val links = getLinks()
+        val category = binding.etFypIdeaCategory.text.toString()
         showAuthorIdentity = !binding.cbHideIdentity.isChecked
 
         return if (title.isEmpty() || description.isEmpty()) {
@@ -116,6 +122,7 @@ class ShareFypIdeaActivity : AppCompatActivity() {
                 links = links,
                 ideaTaken = false,
                 author = if (showAuthorIdentity) teacherName else "Faculty",
+                category = category,
                 dateTime = System.currentTimeMillis()
             )
         }
@@ -146,6 +153,20 @@ class ShareFypIdeaActivity : AppCompatActivity() {
 
         binding.linksContainer.addView(linkEditText)
         linkCount++
+    }
+
+    private fun showTechCategory() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Choose Category")
+            .setItems(arrayOf("Artificial Intelligence", "Software Development", "Research Article")) { _, which ->
+                binding.etFypIdeaCategory.setText( when (which) {
+                    0 -> "Artificial Intelligence"
+                    1 -> "Software Development"
+                    2 -> "Research Article"
+                    else -> "Other"
+                })
+            }
+            .show()
     }
 
     private fun showToast(message: String) {

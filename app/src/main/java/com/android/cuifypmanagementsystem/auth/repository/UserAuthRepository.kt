@@ -1,12 +1,19 @@
-package com.android.cuifypmanagementsystem.repository
+package com.android.cuifypmanagementsystem.auth.repository
 
 
+import com.android.cuifypmanagementsystem.auth.model.StudentRegistration
 import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
+import com.android.cuifypmanagementsystem.student.Student
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.STUDENT_COLLECTION
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.USER_ROLES_COLLECTION
+import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.EmailAuthProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAuthRepository @Inject constructor(
@@ -89,5 +96,47 @@ class UserAuthRepository @Inject constructor(
         }
     }
 
+    // =========================== Student Registration ===========================
 
+    suspend fun registerStudent(studentRegistration: StudentRegistration , student: Student) : Result<Unit> {
+        return try {
+            val authResult = firebaseAuth.createUserWithEmailAndPassword(studentRegistration.email, studentRegistration.password).await()
+            val uid = authResult.user?.uid ?: throw Exception("User ID is null")
+
+            val cloudResult = addStudentToCloud(student, uid)
+            if (cloudResult is Result.Success) {
+                Result.Success(Unit)
+            } else {
+                cloudResult
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    private suspend fun addStudentToCloud(student : Student, uid : String) : Result<Unit> {
+        return try {
+            val collectionRef = firestore.collection(STUDENT_COLLECTION)
+            val documentRef = collectionRef.document(uid)
+            documentRef.set(student)
+                .await()
+            if (setStudentRole(uid)) {
+                Result.Success(Unit)
+            } else {
+                Result.Failure(Exception("Failed to update student role"))
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    private suspend fun setStudentRole(studentId : String) : Boolean {
+        return try {
+            val roleData = mapOf("role" to "student")
+            firestore.collection(USER_ROLES_COLLECTION).document(studentId).set(roleData).await()
+            true
+        } catch (e : Exception) {
+            false
+        }
+    }
 }

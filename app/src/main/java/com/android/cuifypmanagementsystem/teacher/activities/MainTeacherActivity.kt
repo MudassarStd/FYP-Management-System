@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,7 +20,7 @@ import com.android.cuifypmanagementsystem.teacher.activities.mygroups.MyGroupsAc
 import com.android.cuifypmanagementsystem.teacher.viewmodel.TeacherViewModel
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.viewmodel.GlobalSharedViewModel
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

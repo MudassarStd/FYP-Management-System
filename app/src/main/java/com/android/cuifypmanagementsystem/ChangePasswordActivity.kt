@@ -10,12 +10,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.android.cuifypmanagementsystem.databinding.ActivityChangePasswordBinding
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

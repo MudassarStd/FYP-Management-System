@@ -9,11 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.android.cuifypmanagementsystem.BaseApplication
 import com.android.cuifypmanagementsystem.R
 import com.android.cuifypmanagementsystem.databinding.ActivityAdminDashboardBinding
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 
 import android.view.MenuInflater
 import androidx.activity.viewModels

@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import android.graphics.Color
 import android.view.inputmethod.InputMethodManager
@@ -16,7 +15,7 @@ import com.android.cuifypmanagementsystem.databinding.ActivityForgetPasswordBind
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.viewmodel.UserAuthViewModel
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
