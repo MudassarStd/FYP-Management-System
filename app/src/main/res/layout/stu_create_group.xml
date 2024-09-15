@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp">
+
+            <TextView
+                android:id="@+id/TV_createGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="30dp"
+                android:text="Create Group"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                 />
+
+            <EditText
+                android:id="@+id/ettitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="52dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:elevation="2dp"
+                android:hint="FYP Title"
+                android:inputType="textEmailAddress"
+                android:paddingStart="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="@+id/TV_createGroup"
+                app:layout_constraintStart_toStartOf="@+id/TV_createGroup"
+                app:layout_constraintTop_toBottomOf="@+id/TV_createGroup" />
+
+            <EditText
+                android:id="@+id/etdisc"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Discription"
+                android:paddingStart="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="@+id/ettitle"
+                app:layout_constraintStart_toStartOf="@+id/ettitle"
+                app:layout_constraintTop_toBottomOf="@+id/ettitle" />
+
+            <EditText
+                android:id="@+id/etGmemOne"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Member 1 Regestration no"
+                android:paddingStart="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="@+id/etdisc"
+                app:layout_constraintStart_toStartOf="@+id/etdisc"
+                app:layout_constraintTop_toBottomOf="@+id/etdisc" />
+
+            <EditText
+                android:id="@+id/etGmemtwo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Member 2 Regestration no"
+                android:paddingStart="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="@+id/etGmemOne"
+                app:layout_constraintStart_toStartOf="@+id/etGmemOne"
+                app:layout_constraintTop_toBottomOf="@+id/etGmemOne" />
+
+            <EditText
+                android:id="@+id/etGmemthree"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Member 3 Regestration no"
+                android:paddingStart="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_color"
+                app:layout_constraintEnd_toEndOf="@+id/etGmemtwo"
+                app:layout_constraintStart_toStartOf="@+id/etGmemtwo"
+                app:layout_constraintTop_toBottomOf="@+id/etGmemtwo" />
+
+            <Button
+                android:id="@+id/btnRegisterUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_corners_white_background"
+                android:text="Create"
+                android:textAllCaps="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etGmemthree" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
