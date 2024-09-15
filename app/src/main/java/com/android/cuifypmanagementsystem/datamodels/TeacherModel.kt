@@ -15,15 +15,16 @@ data class FypActivityRole(
 data class Teacher(
     var firestoreId: String? = null,
     val name: String,
+    val profileImage : String?,
     val email: String,
     val department: String,
     val supervisor: Int ,
     val fypHeadOrSecretory: Int,
     @Embedded val fypActivityRole: FypActivityRole? = null,
-    val registrationTimeStamp: Timestamp = Timestamp.now()
+    val registrationTimeStamp: Long
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
-    constructor() : this(null, "", "", "", 0, 0, null, Timestamp.now())
+    constructor() : this(null, "", null ,"", "", 0, 0, null, 0L)
 }

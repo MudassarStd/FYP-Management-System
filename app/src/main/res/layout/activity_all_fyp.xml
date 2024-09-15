@@ -6,45 +6,54 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AllFypActivity">
+    tools:context=".admin.activities.AllFypActivity">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarFypActivityDetails"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:navigationIconTint="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="FYP Acitivities"
+        app:titleTextColor="@color/white" />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutAllFypActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Activities Details"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarFypActivityDetails" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFypActivity"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerAllFypActivity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutAllFypActivity" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabAddActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:visibility="gone"
-        android:contentDescription="Add New Batch"
-        app:icon="@drawable/ic_add"
-        app:iconTint="@color/primaryColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvFypActivity"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:padding="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

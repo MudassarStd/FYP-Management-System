@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarMainTeacherActivity"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="FYP Management System"
+        app:titleTextColor="@color/white" />
+
+
+    <ProgressBar
+        android:id="@+id/pbTeacherDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/tvScreenDataFetchError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data could not be loaded"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenDataFetchError" />
+
+
+    <ScrollView
+        android:id="@+id/svTeacherDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarMainTeacherActivity">
+
+        <LinearLayout
+            android:id="@+id/RequestedGropDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:orientation="vertical"
+            android:paddingVertical="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/tvTeacherName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:text="Teacher Dashboard"
+                android:textAllCaps="true"
+                android:textColor="@color/seaBlueColor"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:backgroundTint="@color/white"
+                android:elevation="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:text="Recent Announcement"
+                    android:textColor="@color/seaBlueColor"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:text="Activity is started for batch FA21"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <GridLayout
+                android:id="@+id/fypHeadSecDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:rowCount="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TV_path">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/foursideradius"
+                    android:elevation="1dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/studenticon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_people" />
+
+                    <TextView
+                        android:id="@+id/TV_stu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:letterSpacing="0.1"
+                        android:text="Students"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TV_Stu_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:letterSpacing="0.1"
+                        android:text="120"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/foursideradius"
+                    android:elevation="1dp"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/groupsicon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_people" />
+
+                    <TextView
+                        android:id="@+id/TV_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:letterSpacing="0.1"
+                        android:text="Groups"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TV_group_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:letterSpacing="0.1"
+                        android:text="10"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/foursideradius"
+                    android:elevation="1dp"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/is_supervisor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_people" />
+
+                    <TextView
+                        android:id="@+id/TV_super"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:letterSpacing="0.1"
+                        android:text="Batches"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TV_super_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:letterSpacing="0.1"
+                        android:text="120"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </GridLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Quick Actions" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_heading" />
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:rowCount="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_path">
+
+                    <TextView
+                        android:id="@+id/boxShareFypIdea"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Share FYP Idea"
+                        app:drawableTopCompat="@drawable/ic_edit_doc" />
+
+                    <TextView
+                        android:id="@+id/boxViewFypIdeas"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="View FYP Ideas"
+                        app:drawableTopCompat="@drawable/ic_books" />
+
+                    <TextView
+                        android:id="@+id/tvTakeStudentGroups"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Take Student Group"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        android:id="@+id/tvMyGroups"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="My Groups"
+                        app:drawableTopCompat="@drawable/ic_group" />
+
+                    <TextView
+                        android:id="@+id/tvAnnouncements"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Announcements"
+                        app:drawableTopCompat="@drawable/ic_calendar" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/fypRolesSection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvFypRolesHeader"
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:drawableEnd="@drawable/ic_question_mark"
+                    android:text="FYP Roles" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_heading" />
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:rowCount="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_path">
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Evaluation \n "
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Create Panels"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Assign Panels"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        android:id="@+id/tvFypActivityDetails"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="FYP Activity Details"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/panelRolesSection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Panel Roles" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_heading" />
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:rowCount="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_path">
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="My Panel"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Groups"
+                        app:drawableTopCompat="@drawable/ic_group" />
+
+                    <TextView
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Start Evaluation"
+                        app:drawableTopCompat="@drawable/ic_group_add" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TeacherDashboardHeadersStyle"
+                    android:text="Profile Management" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/darker_gray" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:rowCount="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TV_path">
+
+                    <TextView
+                        android:id="@+id/tvMyProfile"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="My Account\n "
+                        app:drawableTopCompat="@drawable/ic_person" />
+
+                    <TextView
+                        android:id="@+id/tvChangePassword"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Change Password"
+                        app:drawableTopCompat="@drawable/ic_password" />
+
+                    <TextView
+                        android:id="@+id/tvLogout"
+                        style="@style/TeacherDashboardTextViewBoxStyle"
+                        android:text="Logout\n "
+                        app:drawableTopCompat="@drawable/ic_logout" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!--    <androidx.viewpager2.widget.ViewPager2-->
+    <!--        android:id="@+id/teacherMainViewPager"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/teacherMainBSV"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
+
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--        android:id="@+id/teacherMainBSV"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="70dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:menu="@menu/teacher_bottom_nav_menu" />-->
+
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_host_fragment_activity_main_teacher"-->
+    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:defaultNavHost="true"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/nav_view"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:navGraph="@navigation/mobile_navigation" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

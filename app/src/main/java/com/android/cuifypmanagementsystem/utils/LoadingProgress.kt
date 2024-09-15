@@ -5,17 +5,25 @@ import android.content.Context
 
 object LoadingProgress {
 
-    private lateinit var progressDialog : ProgressDialog
+    private var progressDialog: ProgressDialog? = null
 
-    fun showProgressDialog(message: String, context : Context): ProgressDialog {
-        progressDialog = ProgressDialog(context)
-        progressDialog.setMessage(message)
-        progressDialog.setCancelable(true) // Prevent dismissal by back button
-        progressDialog.show()
-        return progressDialog
+    fun showProgressDialog(message: String, context: Context) {
+        // Dismiss any existing dialog before creating a new one
+        hideProgressDialog()
+
+        progressDialog = ProgressDialog(context).apply {
+            setMessage(message)
+            setCancelable(false) // Prevent dismissal by back button
+            show()
+        }
     }
 
     fun hideProgressDialog() {
-        progressDialog.dismiss()
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+            progressDialog = null
+        }
     }
 }

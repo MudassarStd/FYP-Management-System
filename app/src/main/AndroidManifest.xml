@@ -16,44 +16,86 @@
         android:theme="@style/Theme.CUIFYPManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".auth.UserRegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MakeAnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.AnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.activities.StudentGroupsActivity"
+            android:exported="false" /> <!-- File Providers configuration -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".teacher.activities.MyProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.activities.mygroups.MyGroupsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.activities.DisplayFypIdeasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.activities.ShareFypIdeaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CUIFYPManagementSystem" />
+        <activity
+            android:name=".teacher.activities.TeacherGroupDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.activities.TeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.activities.FypDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminDashboardActivity"
+            android:name=".admin.activities.AdminDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.TeacherDetailsActivity"
+            android:name=".admin.activities.TeacherDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.DisplayTeacherActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".admin.AllFypActivity"
+            android:name=".admin.activities.AllFypActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.StartFypActivity"
+            android:name=".admin.activities.StartFypActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".admin.AddTeacher"
+            android:name=".admin.activities.AddTeacher"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".admin.activities.BatchActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.BatchActivity"
+            android:name=".teacher.activities.MainTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".admin.activities.ManageTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.ManageTeacherActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.BatchDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.AddEditBatchActivity"
+            android:name=".admin.activities.AddEditBatchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

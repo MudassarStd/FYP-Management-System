@@ -8,9 +8,6 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-
-
-
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
@@ -62,7 +59,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="Edit"
                 android:padding="8dp"
-                android:src="@drawable/edit_icon" />
+                android:src="@drawable/ic_edit" />
 
             <ImageButton
                 android:id="@+id/btnDeleteTeacher"
@@ -71,7 +68,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="Delete"
                 android:padding="8dp"
-                android:src="@drawable/delete_icon" />
+                android:src="@drawable/ic_del" />
         </TableRow>
     </TableLayout>
 

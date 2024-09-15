@@ -11,9 +11,22 @@
         <item>Dr Tariq Shehzad</item>
     </string-array>
 
-    <string name="group_title">FYP managment system</string>
-    <string name="group_description">Our project is solely focus on the betterment of the society and the
-        envirnment around us there is nothing else can be happen to be.
-    </string>
+
+    <string name="title_activity_main_teacher">MainTeacherActivity</string>
+    <string name="title_teacher_groups">Groups</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_teacher_profile">Profile</string>
+
+
+    <string name="group_description">Group description is provided to keep you awake all night</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
 
 </resources>

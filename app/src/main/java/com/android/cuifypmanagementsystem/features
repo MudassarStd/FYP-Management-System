@@ -1,1 +1,8 @@
-1- Can admin update or delete teachers' information after teachers' profiling?
+Major changes
+
+batch active = true
+batch available = false
+batch closed = null
+
+activity active = true
+activity closed = false

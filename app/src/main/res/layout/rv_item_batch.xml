@@ -7,18 +7,6 @@
     android:padding="5dp">
 
 
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginHorizontal="5dp"-->
-<!--        android:layout_marginVertical="1dp"-->
-<!--        app:cardCornerRadius="10dp"-->
-<!--        android:elevation="1dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,12 +40,77 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditFypBatch"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/primaryColor2"
+            android:padding="0dp"
+            android:text="Edit"
+            android:visibility="gone"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBatchName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBatchName" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectFypBatchForActivity"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/primaryColor2"
+            android:padding="0dp"
+            android:visibility="gone"
+            android:text="Select"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBatchName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBatchName" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvAlreadySelectedBatch"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/primaryColor2"
+            android:padding="0dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@color/primaryColor2"
+            android:visibility="gone"
+            android:text="Selected"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBatchName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBatchName" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvAlreadySelectedBatchUneditable"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/primaryColor2"
+            android:padding="0dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@color/primaryColor2"
+            android:visibility="gone"
+            android:text="Uneditable"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBatchName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBatchName" />
+
 
             <TextView
                 android:id="@+id/tvSemesterTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Semester"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -70,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="7th"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -153,13 +207,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
-
-
-
-
-
-<!--    </com.google.android.material.card.MaterialCardView>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
