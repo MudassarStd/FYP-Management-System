@@ -36,8 +36,8 @@ object AppModule {
         return MainDatabase.getDatabase(context)
     }
 
-    @Provides
-    fun provideTeacherDao(database: MainDatabase) : TeacherDao {
-        return database.teacherDao()
-    }
+//    @Provides
+//    fun provideTeacherDao(database: MainDatabase) : TeacherDao {
+//        return database.teacherDao()
+//    }
 }

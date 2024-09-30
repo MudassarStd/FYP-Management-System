@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.android.cuifypmanagementsystem.auth.model.StudentRegistration
 import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
 import com.android.cuifypmanagementsystem.auth.repository.UserAuthRepository
-import com.android.cuifypmanagementsystem.student.Student
+import com.android.cuifypmanagementsystem.student.datamodel.Student
+import com.android.cuifypmanagementsystem.student.repository.RegistrationRepository
 import com.android.cuifypmanagementsystem.utils.Result
 import com.android.cuifypmanagementsystem.utils.UserAuthSharedPreferenceHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserAuthViewModel @Inject constructor(
-    private val userAuthRepository: UserAuthRepository
+    private val userAuthRepository: UserAuthRepository,
+    private val studentRegistrationRepository: RegistrationRepository
 )
     : ViewModel() {
 
@@ -80,7 +82,7 @@ class UserAuthViewModel @Inject constructor(
     fun registerStudent(studentRegistration: StudentRegistration, student: Student) {
         _studentRegistrationState.value = Result.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            _studentRegistrationState.postValue(userAuthRepository.registerStudent(studentRegistration, student))
+            _studentRegistrationState.postValue(studentRegistrationRepository.registerStudent(studentRegistration, student))
         }
     }
 }

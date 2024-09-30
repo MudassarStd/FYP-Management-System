@@ -16,4 +16,8 @@ object ValidationUtils {
         val regNumberPattern = "^(fa|sp)\\d{2}-[a-zA-Z]{3}$"
         return regNumber.matches(Regex(regNumberPattern))
     }
+
+    fun scrapBatchFromRegistrationNumber(regNumber: String) : String {
+        return regNumber.substringBefore("-").uppercase()
+    }
 }

@@ -64,6 +64,8 @@ class AdminTeacherRepository @Inject constructor(
                 "email" to teacher.email,
                 "department" to teacher.department,
                 "supervisor" to teacher.supervisor,
+                "groupRequests" to teacher.groupRequests,
+                "groups" to teacher.groups,
                 "fypHeadOrSecretory" to teacher.fypHeadOrSecretory,
                 "fypActivityRole" to teacher.fypActivityRole,
                 "registrationTimeStamp" to teacher.registrationTimeStamp
@@ -116,7 +118,7 @@ class AdminTeacherRepository @Inject constructor(
 
     suspend fun getNotFypHeadSecretaries(): Result<List<Teacher>> {
         return try {
-            if (isInternetAvailable(applicationContext)) {
+//            if (isInternetAvailable(applicationContext)) {
                 val snapshot = firestore.collection(TEACHER_COLLECTION)
                     .whereEqualTo("fypHeadOrSecretory", 0)
                     .get()
@@ -125,9 +127,9 @@ class AdminTeacherRepository @Inject constructor(
                     document.toObject(Teacher::class.java)?.apply { firestoreId = document.id } ?: throw Exception("Teacher mapping failed")
                 }
                 Result.Success(teachersList)
-            } else {
-                Result.Success(getAllFromRoom().filter { it.fypHeadOrSecretory == 0 })
-            }
+//            } else {
+//                Result.Success(getAllFromRoom().filter { it.fypHeadOrSecretory == 0 })
+//            }
         } catch (e: Exception) {
             Result.Failure(e)
         }
@@ -233,7 +235,7 @@ class AdminTeacherRepository @Inject constructor(
     suspend fun deleteTeacherRecord(uid: String): Result<Void?> {
         return try {
             firestore.collection(TEACHER_COLLECTION).document(uid).delete().await()
-            deleteTeacherRecordById(uid)
+//            deleteTeacherRecordById(uid)
             Result.Success(null)
         } catch (e: Exception) {
             Log.d(GLOBAL_TESTING_TAG, "Deletion Failed: ${e.message}")
@@ -290,33 +292,33 @@ class AdminTeacherRepository @Inject constructor(
 
 
     // ---------------- Room Database Operations ----------------
-
-    private suspend fun addTeacherLocally(teacher: Teacher) {
-        database.teacherDao().addTeacher(teacher)
-        refreshTeachersFromRoom()
-    }
-
-    suspend fun updateTeacher(teacher: Teacher) {
-        database.teacherDao().updateTeacher(teacher)
-        refreshTeachersFromRoom()
-    }
-
-    suspend fun deleteTeacher(teacher: Teacher) {
-        database.teacherDao().deleteTeacher(teacher)
-        refreshTeachersFromRoom()
-    }
-
-    private suspend fun deleteTeacherRecordById(firestoreId: String) {
-        database.teacherDao().deleteTeacherRecordById(firestoreId)
-    }
-
-    private suspend fun getAllFromRoom(): List<Teacher> {
-        return database.teacherDao().getAllTeachers()
-    }
-
-    private suspend fun refreshTeachersFromRoom() {
-        _teachers.postValue(getAllFromRoom())
-    }
+//
+//    private suspend fun addTeacherLocally(teacher: Teacher) {
+//        database.teacherDao().addTeacher(teacher)
+//        refreshTeachersFromRoom()
+//    }
+//
+//    suspend fun updateTeacher(teacher: Teacher) {
+//        database.teacherDao().updateTeacher(teacher)
+//        refreshTeachersFromRoom()
+//    }
+//
+//    suspend fun deleteTeacher(teacher: Teacher) {
+//        database.teacherDao().deleteTeacher(teacher)
+//        refreshTeachersFromRoom()
+//    }
+//
+//    private suspend fun deleteTeacherRecordById(firestoreId: String) {
+//        database.teacherDao().deleteTeacherRecordById(firestoreId)
+//    }
+//
+//    private suspend fun getAllFromRoom(): List<Teacher> {
+//        return database.teacherDao().getAllTeachers()
+//    }
+//
+//    private suspend fun refreshTeachersFromRoom() {
+//        _teachers.postValue(getAllFromRoom())
+//    }
 
 
 }

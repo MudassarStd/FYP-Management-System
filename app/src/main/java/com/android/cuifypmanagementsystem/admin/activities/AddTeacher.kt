@@ -85,7 +85,7 @@ class AddTeacher : AppCompatActivity() {
             val teacher = getTeacherData()
             teacher?.let{
                 Toast.makeText(this, teacher.department, Toast.LENGTH_SHORT).show()
-                teacherViewModel.updateTeacher(teacher)
+//                teacherViewModel.updateTeacher(teacher)
                 clearFields()
                 finish()
             }
@@ -126,7 +126,7 @@ class AddTeacher : AppCompatActivity() {
 
         return if(name.isNotEmpty() && email.isNotEmpty())
         {
-            Teacher(null, name, null, email, depart, 0, 0, null, System.currentTimeMillis())
+            Teacher(null, name, null, email, depart, 0, null, null, 0, null, System.currentTimeMillis())
         } else {
             null
         }

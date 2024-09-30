@@ -8,4 +8,6 @@ object FirebaseCollections {
     const val USER_ROLES_COLLECTION = "userRoles"
     const val FYP_IDEAS_COLLECTION = "fypIdeas"
     const val ANNOUNCEMENT_COLLECTION = "announcements"
+    const val STUDENTS_REGISTRATIONS_COLLECTION = "studentRegistrations"
+    const val STUDENT_GROUPS_COLLECTION = "studentGroups"
 }

@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem.auth
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -19,13 +20,13 @@ import com.android.cuifypmanagementsystem.auth.utils.RegistrationUtils.splitRegi
 import com.android.cuifypmanagementsystem.auth.utils.ValidationUtils.isValidEmail
 import com.android.cuifypmanagementsystem.auth.utils.ValidationUtils.isValidRegistrationNumber
 import com.android.cuifypmanagementsystem.auth.utils.ValidationUtils.isValidRegistrationNumberForDynamicity
+import com.android.cuifypmanagementsystem.auth.utils.ValidationUtils.scrapBatchFromRegistrationNumber
 import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.databinding.ActivityUserRegistrationBinding
-import com.android.cuifypmanagementsystem.student.Student
+import com.android.cuifypmanagementsystem.student.datamodel.Student
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
-import com.android.cuifypmanagementsystem.utils.UserAuthNavigationManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,12 +38,12 @@ class UserRegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = Color.parseColor("#576AE0")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
         setupWatcherForRegistration()
         binding.btnRegisterUser.setOnClickListener {
@@ -69,9 +70,6 @@ class UserRegistrationActivity : AppCompatActivity() {
 
                     binding.etUserRegistrationSemester.setText(semester.toString())
                     binding.etUserRegistrationDepartment.setText(departmentName)
-                } else {
-                    binding.etUserRegistrationSemester.setText("")
-                    binding.etUserRegistrationDepartment.setText("")
                 }
             }
 
@@ -103,6 +101,8 @@ class UserRegistrationActivity : AppCompatActivity() {
             return Pair(null, null)
         }
 
+        val batch = scrapBatchFromRegistrationNumber(regNumber)
+
         val semester = try {
             semesterText.toInt()
         } catch (e: NumberFormatException) {
@@ -115,6 +115,7 @@ class UserRegistrationActivity : AppCompatActivity() {
             name = name,
             email = email,
             registrationNumber = regNumber,
+            batch = batch,
             semester = semester,
             depart = department,
             group = null,
@@ -134,7 +135,7 @@ class UserRegistrationActivity : AppCompatActivity() {
                 }
                 is Result.Failure -> {
                     hideProgressDialog()
-                    Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Registration Failed: ${result.exception.message}", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Loading -> {
                     showProgressDialog("Registering...", this)

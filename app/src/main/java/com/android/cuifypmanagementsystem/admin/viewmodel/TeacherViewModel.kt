@@ -129,12 +129,12 @@ class TeacherViewModel @Inject constructor(
 //        }
 //    }
 
-    fun updateTeacher(teacher: Teacher)
-    {
-        viewModelScope.launch(Dispatchers.IO) {
-            teacherRepository.updateTeacher(teacher)
-        }
-    }
+//    fun updateTeacher(teacher: Teacher)
+//    {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            teacherRepository.updateTeacher(teacher)
+//        }
+//    }
 
     fun deleteTeacherRecord(uid : String)
     {

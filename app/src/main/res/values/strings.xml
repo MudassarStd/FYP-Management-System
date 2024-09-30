@@ -20,6 +20,7 @@
 
 
     <string name="group_description">Group description is provided to keep you awake all night</string>
+    <string name="project_description">Project description is provided to keep you awake all night</string>
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

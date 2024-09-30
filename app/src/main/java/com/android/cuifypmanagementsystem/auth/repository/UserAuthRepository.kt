@@ -3,17 +3,15 @@ package com.android.cuifypmanagementsystem.auth.repository
 
 import com.android.cuifypmanagementsystem.auth.model.StudentRegistration
 import com.android.cuifypmanagementsystem.datamodels.LoggedInUserData
-import com.android.cuifypmanagementsystem.student.Student
+import com.android.cuifypmanagementsystem.student.datamodel.Student
+import com.android.cuifypmanagementsystem.utils.FirebaseCollections.STUDENTS_REGISTRATIONS_COLLECTION
 import com.android.cuifypmanagementsystem.utils.FirebaseCollections.STUDENT_COLLECTION
 import com.android.cuifypmanagementsystem.utils.FirebaseCollections.USER_ROLES_COLLECTION
-import com.android.cuifypmanagementsystem.utils.RandomPasswordGenerator.generateRandomPassword
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.EmailAuthProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAuthRepository @Inject constructor(
@@ -64,7 +62,7 @@ class UserAuthRepository @Inject constructor(
     }
 
 
-    suspend fun userLogout() {
+    fun userLogout() {
         try {
             firebaseAuth.signOut()  // Sign out the current user
             // Optionally, handle post-signout actions here
@@ -98,45 +96,64 @@ class UserAuthRepository @Inject constructor(
 
     // =========================== Student Registration ===========================
 
-    suspend fun registerStudent(studentRegistration: StudentRegistration , student: Student) : Result<Unit> {
-        return try {
-            val authResult = firebaseAuth.createUserWithEmailAndPassword(studentRegistration.email, studentRegistration.password).await()
-            val uid = authResult.user?.uid ?: throw Exception("User ID is null")
+//    suspend fun registerStudent(studentRegistration: StudentRegistration , student: Student) : Result<Unit> {
+//        return try {
+//
+//            if (isAlreadyRegistered(student.registrationNumber)) {
+//                return Result.Failure(Exception("Student already registered"))
+//            }
+//
+//            val authResult = firebaseAuth.createUserWithEmailAndPassword(studentRegistration.email, studentRegistration.password).await()
+//            val uid = authResult.user?.uid ?: throw Exception("User ID is null")
+//
+//            val cloudResult = addStudentToCloud(student, uid)
+//            if (cloudResult is Result.Success) {
+//                val studentRef = mapOf("student" to uid)
+//                firestore.collection(STUDENTS_REGISTRATIONS_COLLECTION).document(student.registrationNumber).set(studentRef).await()
+//                Result.Success(Unit)
+//            } else {
+//                cloudResult
+//            }
+//        } catch (e: Exception) {
+//            Result.Failure(e)
+//        }
+//    }
+//
+//
+//    private suspend fun isAlreadyRegistered(regNumber: String): Boolean {
+//        return try {
+//            val docSnapshot = firestore.collection(STUDENTS_REGISTRATIONS_COLLECTION).document(regNumber).get().await()
+//            docSnapshot.exists()
+//        } catch (e: Exception) {
+//            false
+//        }
+//    }
+//
+//    private suspend fun addStudentToCloud(student : Student, uid : String) : Result<Unit> {
+//        return try {
+//            val collectionRef = firestore.collection(STUDENT_COLLECTION)
+//            val documentRef = collectionRef.document(uid)
+//            documentRef.set(student)
+//                .await()
+//            if (setStudentRole(uid)) {
+//                Result.Success(Unit)
+//            } else {
+//                Result.Failure(Exception("Failed to update student role"))
+//            }
+//        } catch (e: Exception) {
+//            Result.Failure(e)
+//        }
+//    }
+//
+//    private suspend fun setStudentRole(studentId : String) : Boolean {
+//        return try {
+//            val roleData = mapOf("role" to "student")
+//            firestore.collection(USER_ROLES_COLLECTION).document(studentId).set(roleData).await()
+//            true
+//        } catch (e : Exception) {
+//            false
+//        }
+//    }
 
-            val cloudResult = addStudentToCloud(student, uid)
-            if (cloudResult is Result.Success) {
-                Result.Success(Unit)
-            } else {
-                cloudResult
-            }
-        } catch (e: Exception) {
-            Result.Failure(e)
-        }
-    }
 
-    private suspend fun addStudentToCloud(student : Student, uid : String) : Result<Unit> {
-        return try {
-            val collectionRef = firestore.collection(STUDENT_COLLECTION)
-            val documentRef = collectionRef.document(uid)
-            documentRef.set(student)
-                .await()
-            if (setStudentRole(uid)) {
-                Result.Success(Unit)
-            } else {
-                Result.Failure(Exception("Failed to update student role"))
-            }
-        } catch (e: Exception) {
-            Result.Failure(e)
-        }
-    }
-
-    private suspend fun setStudentRole(studentId : String) : Boolean {
-        return try {
-            val roleData = mapOf("role" to "student")
-            firestore.collection(USER_ROLES_COLLECTION).document(studentId).set(roleData).await()
-            true
-        } catch (e : Exception) {
-            false
-        }
-    }
 }
