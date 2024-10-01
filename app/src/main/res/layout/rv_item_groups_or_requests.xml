@@ -113,7 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/TV_heading" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -209,6 +209,18 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="50dp"
                 android:text="View More"
+                android:visibility="gone"
+                android:textSize="10sp"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/btnAddGroupToSupervision"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="50dp"
+                android:text="Approve"
+                android:visibility="gone"
                 android:textSize="10sp"
                 app:cornerRadius="5dp" />
         </LinearLayout>

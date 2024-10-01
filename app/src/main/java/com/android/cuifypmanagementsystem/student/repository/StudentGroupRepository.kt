@@ -1,5 +1,6 @@
 package com.android.cuifypmanagementsystem.student.repository
 
+import android.util.Log
 import com.android.cuifypmanagementsystem.utils.FirebaseCollections.STUDENTS_REGISTRATIONS_COLLECTION
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -138,6 +139,28 @@ class StudentGroupRepository  @Inject constructor(
             Result.Failure(e)
         }
     }
+
+    suspend fun updateSupervisor(teacherId: String, groupId: String): Boolean {
+
+        val groupDocRef = firestore.collection(STUDENT_GROUPS_COLLECTION).document(groupId)
+
+        return try {
+            val document = groupDocRef.get().await()
+            if (!document.exists()) {
+                return false
+            }
+
+            val group = document.toObject(Group::class.java) ?: return false
+            val groupUpdate  = group.copy(supervisor = teacherId)
+
+            groupDocRef.set(groupUpdate).await()
+            true
+        } catch (e: Exception) {
+            Log.e("UpdateSupervisor", "Error updating supervisor for groupId: $groupId", e)
+            false
+        }
+    }
+
 
 
 }

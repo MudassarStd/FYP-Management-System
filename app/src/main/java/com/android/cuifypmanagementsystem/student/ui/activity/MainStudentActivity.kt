@@ -18,7 +18,6 @@ import com.android.cuifypmanagementsystem.utils.Result
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainStudentActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainStudentBinding.inflate(layoutInflater) }
@@ -92,6 +91,7 @@ class MainStudentActivity : AppCompatActivity() {
 
         } else {
             binding.tvSupervisor.text = group.supervisor
+            binding.btnSelectSupervisor.visibility = View.GONE
         }
         group.groupMembers?.let {
             binding.tvStudentName1.text = it[0]

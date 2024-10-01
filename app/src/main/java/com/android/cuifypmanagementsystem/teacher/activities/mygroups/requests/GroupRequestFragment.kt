@@ -11,19 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.databinding.FragmentGroupRequestBinding
 import com.android.cuifypmanagementsystem.teacher.activities.mygroups.MyGroupsViewModel
 import com.android.cuifypmanagementsystem.teacher.adapter.recyclerview.GroupsAndRequestsAdapter
+import com.android.cuifypmanagementsystem.teacher.adapter.recyclerview.callbacks.OnGroupRequestClick
 import com.android.cuifypmanagementsystem.teacher.utils.GroupDataType
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.hideProgressDialog
 import com.android.cuifypmanagementsystem.utils.LoadingProgress.showProgressDialog
 import com.android.cuifypmanagementsystem.utils.Result
 
-class GroupRequestFragment : Fragment() {
+class GroupRequestFragment : Fragment() , OnGroupRequestClick{
 
 
     private var _binding: FragmentGroupRequestBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel : MyGroupsViewModel
-    private val adapter = GroupsAndRequestsAdapter(data = emptyList(), type = GroupDataType.REQUESTS)
+    private val adapter = GroupsAndRequestsAdapter(data = emptyList(), type = GroupDataType.REQUESTS, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +44,25 @@ class GroupRequestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.groups.observe(viewLifecycleOwner) {result ->
+        viewModel.requests.observe(viewLifecycleOwner) {result ->
             when(result) {
                 is Result.Success -> {
-                    adapter.updateData(result.data)
-                    setupRV()
                     hideProgressDialog()
+                    if (result.data.isNotEmpty()) {
+                        adapter.updateData(result.data)
+                        setupRV()
+                        binding.tvNoRequestsFoundMessage.visibility = View.GONE
+                    } else {
+                        adapter.updateData(emptyList())
+                        binding.tvNoRequestsFoundMessage.visibility = View.VISIBLE
+                    }
                 }
+
                 is Result.Failure -> {
                     hideProgressDialog()
-                    Log.e("JKfjksljflsdjkdsf", "Failded : ${result.exception.message}")
+                    Log.e("GroupDataTesting", "Data Requests Fetch Failed: ${result.exception.message}")
                 }
-                is Result.Loading -> {showProgressDialog(context = requireContext(), message = "Loading Requests")}
+                is Result.Loading -> {showProgressDialog(context = requireContext(), message = "Loading Requests...")}
             }
 
         }
@@ -68,5 +76,26 @@ class GroupRequestFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onApproveClick(groupId: String, batch: String?) {
+        viewModel.addGroupToSupervision(groupId, batch!!)
+
+        Log.d("GroupDataTesting", "Clicked")
+
+
+        viewModel.groupAdditionToSupervisionStatus.observe(this) {flag ->
+            if (flag) {
+                viewModel.fetchGroups(GroupDataType.REQUESTS)
+                viewModel.fetchGroups(GroupDataType.GROUPS)
+                Log.d("GroupDataTesting", "Addition Success")
+            } else {
+                Log.d("GroupDataTesting", "Addition Failure")
+            }
+        }
+    }
+
+    override fun onRejectClick(groupId: String) {
+        viewModel.rejectGroupforSupervision(groupId)
     }
 }
