@@ -19,7 +19,7 @@ class StudentGroupViewModel @Inject constructor(
 ) : ViewModel() {
 
     // MutableLiveData to hold the result of the group registration
-    private val _registerGroupResult = MutableLiveData<Result<Unit>>()
+    private val _registerGroupResult = MutableLiveData<Result<Unit>>(Result.Loading)
     val registerGroupResult: LiveData<Result<Unit>> = _registerGroupResult
 
     private val _fetchGroupResult = MutableLiveData<Result<Group?>>()

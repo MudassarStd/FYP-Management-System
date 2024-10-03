@@ -29,7 +29,7 @@ class AvailableSupervisorAdapter(
         val teacher = filteredList[position]
         var requestedAlready = false
         teacher.groupRequests?.forEach {
-            it.requests!!.forEach {
+            it.requests?.forEach {
                 if (it == groupId) {
                     requestedAlready = true
                 }

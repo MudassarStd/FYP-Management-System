@@ -47,7 +47,7 @@ class MyGroupsViewModel @Inject constructor(
 
     fun addGroupToSupervision(groupId: String, batch : String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _groupAdditionToSupervisionStatus.postValue(groupsRepository.addGroupToSupervision(groupId, teacherId, batch))
+            _groupAdditionToSupervisionStatus.postValue(groupsRepository.manageGroupSupervision(groupId = groupId, teacherId =  teacherId, batch =  batch))
             // also pass supervisor Id to Student Group
             studentGroupRepository.updateSupervisor(teacherId = teacherId, groupId = groupId)
         }

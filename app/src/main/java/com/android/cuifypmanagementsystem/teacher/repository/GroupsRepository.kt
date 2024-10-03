@@ -1,9 +1,10 @@
 package com.android.cuifypmanagementsystem.teacher.repository
 
 import android.util.Log
-import com.android.cuifypmanagementsystem.datamodels.Group
+import com.android.cuifypmanagementsystem.datamodels.GroupData
 import com.android.cuifypmanagementsystem.datamodels.GroupRequest
 import com.android.cuifypmanagementsystem.datamodels.Teacher
+import com.android.cuifypmanagementsystem.student.datamodel.Group
 import com.android.cuifypmanagementsystem.student.datamodel.Project
 import com.android.cuifypmanagementsystem.student.datamodel.Student
 import com.android.cuifypmanagementsystem.teacher.datamodel.GroupDisplayModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class GroupsRepository @Inject constructor(
     private val firestore : FirebaseFirestore
 ) {
+
     suspend fun fetchGroups(
         teacherId: String,
         groupDataType: GroupDataType
@@ -125,8 +127,7 @@ class GroupsRepository @Inject constructor(
         }
     }
 
-
-    suspend fun addGroupToSupervision(
+    suspend fun manageGroupSupervision(
         groupId: String,
         teacherId: String,
         batch: String
@@ -135,75 +136,200 @@ class GroupsRepository @Inject constructor(
             return false
         }
 
-        val teacherDocRef = firestore.collection("teachers").document(teacherId)
-
         return try {
-            val document = teacherDocRef.get().await()
-            if (!document.exists()) {
+            // Fetch all teachers outside the transaction
+            val allTeachersSnapshot = firestore.collection("teachers").get().await()
+
+            // Find the current teacher from the fetched snapshot
+            val currentTeacherSnapshot = allTeachersSnapshot.documents.find { it.id == teacherId }
+            if (currentTeacherSnapshot == null) {
+                Log.e("ManageGroupSupervision", "Current teacher not found in the fetched snapshot.")
                 return false
             }
 
-            val teacherFromFirestore = document.toObject(Teacher::class.java)
-                ?: return false
+            val currentTeacher = currentTeacherSnapshot.toObject(Teacher::class.java)
+                ?: throw Exception("Failed to convert current teacher document to Teacher")
 
-            val existingGroupEntry = teacherFromFirestore.groups?.find { it.batch == batch }
+            firestore.runTransaction { transaction ->
 
-            if (existingGroupEntry != null) {
-                existingGroupEntry.groups = existingGroupEntry.groups!!.toMutableList().apply { add(groupId) }
-            } else {
-                val newGroupEntry = Group(batch = batch, groups = listOf(groupId))
-                teacherFromFirestore.groups = (teacherFromFirestore.groups?.toMutableList()
-                    ?: mutableListOf()).apply { add(newGroupEntry) }
-            }
+                // *** Section 1: Add Group to Supervision Logic ***
 
-            teacherDocRef.update("groups", teacherFromFirestore.groups).await()
+                // Fetch the current teacher's document
+                val teacherDocRef = firestore.collection(TEACHER_COLLECTION).document(teacherId)
 
-            removeGroupRequest(groupId, teacherId, batch)
+                // Add groupId to the current teacher's groups for the given batch
+                val existingGroupEntry = currentTeacher.groups?.find { it.batch == batch }
+                if (existingGroupEntry != null) {
+                    existingGroupEntry.groups = existingGroupEntry.groups!!.toMutableList().apply { add(groupId) }
+                } else {
+                    val newGroupEntry = GroupData(batch = batch, groups = listOf(groupId))
+                    currentTeacher.groups = (currentTeacher.groups?.toMutableList()
+                        ?: mutableListOf()).apply { add(newGroupEntry) }
+                }
+
+                // Update the current teacher's group supervision
+                transaction.update(teacherDocRef, "groups", currentTeacher.groups)
+
+                // *** Section 2: Remove Group Request for Current Teacher ***
+
+                // Remove groupId from the current teacher's requests in the specified batch
+                val existingGroupRequest = currentTeacher.groupRequests?.find { it.batch == batch }
+                if (existingGroupRequest != null) {
+                    val updatedRequests = existingGroupRequest.requests?.toMutableList()?.apply {
+                        remove(groupId) // Remove the groupId from the list
+                    }
+                    if (updatedRequests != null) {
+                        existingGroupRequest.requests = updatedRequests
+                    }
+                    // Update the current teacher's groupRequests in the transaction
+                    transaction.update(teacherDocRef, "groupRequests", currentTeacher.groupRequests)
+                }
+
+                // *** Section 3: Remove Group Request for All Other Teachers ***
+
+                // Loop through all other teachers and update their group requests
+                for (teacherSnapshot in allTeachersSnapshot.documents) {
+                    if (teacherSnapshot.id == teacherId) continue // Skip current teacher since we already updated
+
+                    val otherTeacher = teacherSnapshot.toObject(Teacher::class.java)
+                    if (otherTeacher != null) {
+                        // Iterate through the group requests of each teacher
+                        val requestsToUpdate = otherTeacher.groupRequests?.map { requestEntry ->
+                            val updatedGroupRequests = requestEntry.requests?.toMutableList()?.apply {
+                                remove(groupId) // Remove the groupId from the list
+                            }
+                            requestEntry.copy(requests = updatedGroupRequests)
+                        }
+
+                        // Update the other teacher's group requests if there was any change
+                        if (requestsToUpdate != otherTeacher.groupRequests) {
+                            val otherTeacherDocRef = firestore.collection(TEACHER_COLLECTION).document(teacherSnapshot.id)
+                            transaction.update(otherTeacherDocRef, "groupRequests", requestsToUpdate)
+                        }
+                    }
+                }
+
+                // If everything succeeds, return true
+                null
+            }.await()
 
             true
         } catch (e: Exception) {
-            throw e
-            Log.e("AddGroupToSupervision", "Error handling teacherId: $teacherId", e)
+            Log.e("ManageGroupSupervision", "Error managing group supervision for teacherId: $teacherId", e)
             false
         }
     }
 
-    suspend fun removeGroupRequest(groupId: String, teacherId: String, batch: String): Boolean {
-        if (groupId.isEmpty() || teacherId.isEmpty() || batch.isEmpty()) {
-            return false
-        }
 
-        val teacherDocRef = firestore.collection("teachers").document(teacherId)
+//    suspend fun addGroupToSupervision(
+//        groupId: String,
+//        teacherId: String,
+//        batch: String
+//    ): Boolean {
+//        if (groupId.isEmpty() || teacherId.isEmpty() || batch.isEmpty()) {
+//            return false
+//        }
+//
+//        val teacherDocRef = firestore.collection("teachers").document(teacherId)
+//
+//        return try {
+//            val document = teacherDocRef.get().await()
+//            if (!document.exists()) {
+//                return false
+//            }
+//
+//            val teacherFromFirestore = document.toObject(Teacher::class.java)
+//                ?: return false
+//
+//            val existingGroupEntry = teacherFromFirestore.groups?.find { it.batch == batch }
+//
+//            if (existingGroupEntry != null) {
+//                existingGroupEntry.groups = existingGroupEntry.groups!!.toMutableList().apply { add(groupId) }
+//            } else {
+//                val newGroupEntry = GroupData(batch = batch, groups = listOf(groupId))
+//                teacherFromFirestore.groups = (teacherFromFirestore.groups?.toMutableList()
+//                    ?: mutableListOf()).apply { add(newGroupEntry) }
+//            }
+//
+//            teacherDocRef.update("groups", teacherFromFirestore.groups).await()
+//
+//            removeGroupRequest(groupId, teacherId, batch)
+//
+//        } catch (e: Exception) {
+//            throw e
+//            Log.e("AddGroupToSupervision", "Error handling teacherId: $teacherId", e)
+//            false
+//        }
+//    }
 
-        return try {
-            val document = teacherDocRef.get().await()
-            if (!document.exists()) {
-                return false
-            }
 
-            val teacher = document.toObject(Teacher::class.java) ?: return false
-
-            val existingGroupRequest = teacher.groupRequests?.find { it.batch == batch }
-
-            if (existingGroupRequest != null) {
-                val updatedRequests = existingGroupRequest.requests?.toMutableList()?.apply {
-                    remove(groupId)  // Remove the groupId from the list
-                }
-
-                if (updatedRequests != null) {
-                    existingGroupRequest.requests = updatedRequests
-                }
-
-                // Update the teacher's groupRequests
-                teacherDocRef.update("groupRequests", teacher.groupRequests).await()
-            }
-
-            true
-        } catch (e: Exception) {
-            Log.e("RemoveGroupRequest", "Error removing groupId: $groupId from requests", e)
-            false
-        }
-    }
-
+//    suspend fun removeGroupRequest(groupId: String, teacherId: String, batch: String): Boolean {
+//        if (groupId.isEmpty() || teacherId.isEmpty() || batch.isEmpty()) {
+//            return false
+//        }
+//
+//        return try {
+//            // Fetch all teachers outside the transaction
+//            val allTeachersSnapshot = firestore.collection("teachers").get().await()
+//
+//            // Find the current teacher from the fetched snapshot
+//            val currentTeacherSnapshot = allTeachersSnapshot.documents.find { it.id == teacherId }
+//            if (currentTeacherSnapshot == null) {
+//                Log.e("RemoveGroupRequest", "Current teacher not found in the fetched snapshot.")
+//                return false
+//            }
+//
+//            val currentTeacher = currentTeacherSnapshot.toObject(Teacher::class.java)
+//                ?: throw Exception("Failed to convert current teacher document to Teacher")
+//
+//            firestore.runTransaction { transaction ->
+//                // Remove groupId from the current teacher's requests in the specified batch
+//                val existingGroupRequest = currentTeacher.groupRequests?.find { it.batch == batch }
+//                if (existingGroupRequest != null) {
+//                    val updatedRequests = existingGroupRequest.requests?.toMutableList()?.apply {
+//                        remove(groupId) // Remove the groupId from the list
+//                    }
+//
+//                    if (updatedRequests != null) {
+//                        existingGroupRequest.requests = updatedRequests
+//                    }
+//
+//                    // Update the current teacher's groupRequests in the transaction
+//                    val teacherDocRef = firestore.collection("teachers").document(teacherId)
+//                    transaction.update(teacherDocRef, "groupRequests", currentTeacher.groupRequests)
+//                }
+//
+//                // Loop through all other teachers and update their requests
+//                for (teacherSnapshot in allTeachersSnapshot.documents) {
+//                    if (teacherSnapshot.id == teacherId) continue // Skip current teacher since we already updated
+//
+//                    val otherTeacher = teacherSnapshot.toObject(Teacher::class.java)
+//                    if (otherTeacher != null) {
+//                        // Iterate through the group requests of each teacher
+//                        val requestsToUpdate = otherTeacher.groupRequests?.map { requestEntry ->
+//                            val updatedGroupRequests = requestEntry.requests?.toMutableList()?.apply {
+//                                remove(groupId) // Remove the groupId from the list
+//                            }
+//                            requestEntry.copy(requests = updatedGroupRequests)
+//                        }
+//
+//                        // Update if there was any change
+//                        if (requestsToUpdate != otherTeacher.groupRequests) {
+//                            val otherTeacherDocRef = firestore.collection("teachers").document(teacherSnapshot.id)
+//                            transaction.update(otherTeacherDocRef, "groupRequests", requestsToUpdate)
+//                        }
+//                    }
+//                }
+//
+//                // If all succeeds, return true
+//                null
+//            }
+//
+//            true
+//        } catch (e: Exception) {
+//            Log.e("RemoveGroupRequest", "Error removing groupId: $groupId from requests", e)
+//            false
+//        }
+//    }
 
 }

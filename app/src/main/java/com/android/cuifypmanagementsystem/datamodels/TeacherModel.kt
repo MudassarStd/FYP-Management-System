@@ -19,7 +19,7 @@ data class GroupRequest(
     constructor() : this(batch = "", requests = null)
 }
 
-data class Group(
+data class GroupData(
     val batch : String = "",
     var groups : List<String>?
 )
@@ -36,7 +36,7 @@ data class Teacher(
     val department: String,
     val supervisor: Int,
     var groupRequests: List<GroupRequest>? = null,
-    var groups : List<Group>? = null,
+    var groups : List<GroupData>? = null,
     val fypHeadOrSecretory: Int,
     @Embedded val fypActivityRole: FypActivityRole? = null,
     val registrationTimeStamp: Long

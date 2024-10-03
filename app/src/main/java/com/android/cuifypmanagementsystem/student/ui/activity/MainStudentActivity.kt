@@ -10,7 +10,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.android.cuifypmanagementsystem.LoginActivity
 import com.android.cuifypmanagementsystem.R
+import com.android.cuifypmanagementsystem.auth.viewmodel.UserAuthViewModel
 import com.android.cuifypmanagementsystem.databinding.ActivityMainStudentBinding
 import com.android.cuifypmanagementsystem.student.datamodel.Group
 import com.android.cuifypmanagementsystem.student.viewmodel.StudentGroupViewModel
@@ -22,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainStudentActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainStudentBinding.inflate(layoutInflater) }
     private val studentGroupViewModel: StudentGroupViewModel by viewModels()
+    private val userAuthViewModel : UserAuthViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,6 +72,10 @@ class MainStudentActivity : AppCompatActivity() {
                 putExtra("studentId", uid)
             }
             startActivity(intent)
+        }
+        binding.btnLogoutStd.setOnClickListener {
+            userAuthViewModel.userLogout()
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

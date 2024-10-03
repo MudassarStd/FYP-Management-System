@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.cuifypmanagementsystem.databinding.FragmentGroupRequestBinding
@@ -89,13 +90,21 @@ class GroupRequestFragment : Fragment() , OnGroupRequestClick{
                 viewModel.fetchGroups(GroupDataType.REQUESTS)
                 viewModel.fetchGroups(GroupDataType.GROUPS)
                 Log.d("GroupDataTesting", "Addition Success")
+
+                showToast("Group added successfully")
             } else {
                 Log.d("GroupDataTesting", "Addition Failure")
+                showToast("Group could not be added")
             }
         }
     }
 
     override fun onRejectClick(groupId: String) {
         viewModel.rejectGroupforSupervision(groupId)
+    }
+
+
+    private fun showToast(msg : String) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 }
