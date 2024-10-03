@@ -44,6 +44,7 @@ class SelectSupervisorActivity : AppCompatActivity(), OnSupervisorClickListener 
         
         groupId = intent.getStringExtra("groupId")
         groupBatch = intent.getStringExtra("groupBatch")
+
         Toast.makeText(this, "Group Id is $groupId", Toast.LENGTH_SHORT).show()
 
         adapter = AvailableSupervisorAdapter(emptyList(), this, groupId)
@@ -76,10 +77,11 @@ class SelectSupervisorActivity : AppCompatActivity(), OnSupervisorClickListener 
 
     override fun onRequestSupervisorClick(teacher: Teacher)  {
         var requestState = false
-        showActionConfirmationDialog(this, "Once request is sent, it cannot be undone.\nYour group information will displayed to requested supervisors.", onProceed = {
-            supervisorViewModel.requestSupervisor(groupId, groupBatch, teacher.firestoreId)
-
-        })
+        supervisorViewModel.requestSupervisor(groupId, groupBatch, teacher.firestoreId)
+//        showActionConfirmationDialog(this, "Once request is sent, it cannot be undone.\nYour group information will displayed to requested supervisors.", onProceed = {
+//            supervisorViewModel.requestSupervisor(groupId, groupBatch, teacher.firestoreId)
+//
+//        })
     }
 
     fun addToRequestMap(groupId: String?, firestoreId: String?) {

@@ -29,6 +29,7 @@ class RegisterGroupActivity : AppCompatActivity() , GroupMembersAdapter.OnGroupM
     private val registerGroupViewModel: RegisterGroupViewModel by viewModels()
     private val adapter = GroupMembersAdapter(emptyList(), this)
 
+
     private var studentBatch : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,7 @@ class RegisterGroupActivity : AppCompatActivity() , GroupMembersAdapter.OnGroupM
     private fun observeMembersSelection() {
         registerGroupViewModel.groupMembers.observe(this) { members ->
 //            updateMemberUI(members)
+
             if (members.size <= 2) {
                 adapter.updateMembers(members)
             }

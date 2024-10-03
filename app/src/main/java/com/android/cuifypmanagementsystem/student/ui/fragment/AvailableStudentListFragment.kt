@@ -42,7 +42,9 @@ class AvailableStudentListFragment : BottomSheetDialogFragment(), AvailableStude
         registerGroupViewModel.availableStudents.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    Log.d("AvailableStudentListFragmentTest", "Available Students: ${result.data}")
                     val filtered = result.data.filter { it.email != currentEmail}
+                    Log.d("AvailableStudentListFragmentTest", "Filtered Students: $filtered")
                     adapter.updateStudents(filtered)
                     binding.pbAvailableStudents.visibility = View.GONE
                     binding.rvAvailableStudents.visibility = View.VISIBLE

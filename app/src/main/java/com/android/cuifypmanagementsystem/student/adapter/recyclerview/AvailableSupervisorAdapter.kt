@@ -65,13 +65,18 @@ class AvailableSupervisorAdapter(
             binding.tvSupervisorDepartment.text = teacher.department
 
             if (requestedAlready) {
-                binding.btnRequestSupervisor.visibility = ViewGroup.GONE
-                binding.tvRequestedSupervisor.visibility = ViewGroup.VISIBLE
+                disableRequestButton()
             }
 
             binding.btnRequestSupervisor.setOnClickListener {
-                 listener.onRequestSupervisorClick(teacher)
+                disableRequestButton()
+                listener.onRequestSupervisorClick(teacher)
             }
+        }
+
+        private fun disableRequestButton() {
+            binding.btnRequestSupervisor.isEnabled = false
+            binding.btnRequestSupervisor.text = "Requested"
         }
     }
 }

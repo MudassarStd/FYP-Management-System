@@ -1,6 +1,7 @@
 package com.android.cuifypmanagementsystem.student.adapter.recyclerview
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,7 @@ class AvailableStudentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(student: Student, isSelected: Boolean) {
+            Log.d("AvailableStudentListFragmentTest", "Student being bound: $student")
             binding.tvStudentName.text = student.name
             binding.tvStudentRegisterationNumber.text = student.registrationNumber
             binding.btnSelectMember.text = if (isSelected) "Selected" else "Select"
